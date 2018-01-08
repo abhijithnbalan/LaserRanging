@@ -21,6 +21,7 @@ class CaptureFrame
         void capture_image(std::string ,std::string);
         //load_video is used to load VideoCapture data to variable cap
         void capture_video(std::string ,std::string );
+        void reload_image(cv::Mat,std::string);
         //get_image and get_video are used to retrieve data.
         cv::Mat retrieve_image();
         cv::VideoCapture retrieve_video();

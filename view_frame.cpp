@@ -24,7 +24,7 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
                 {
                     return;
                 }
-                if (cv::waitKey(30) >= 0) //Waits for a key press from user to continue.
+                if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
                 {
                     cv::destroyWindow(object.window_name);
                     break;
@@ -36,7 +36,7 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
     else
     {
         cv::imshow(object.window_name, object.retrieve_image());
-        if (cv::waitKey(30) >= 0) //Waits for a key press from user to continue
+        if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue
         {
             cv::destroyWindow(object.window_name);
             return;

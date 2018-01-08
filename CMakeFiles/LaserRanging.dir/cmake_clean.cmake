@@ -4,6 +4,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/LaserRanging.dir/view_frame.cpp.o"
   "CMakeFiles/LaserRanging.dir/timer.cpp.o"
   "CMakeFiles/LaserRanging.dir/image_processing.cpp.o"
+  "CMakeFiles/LaserRanging.dir/algorithm.cpp.o"
+  "CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o"
   "LaserRanging.pdb"
   "LaserRanging"
 )

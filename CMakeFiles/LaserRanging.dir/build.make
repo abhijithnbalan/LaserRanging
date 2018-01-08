@@ -164,13 +164,61 @@ CMakeFiles/LaserRanging.dir/image_processing.cpp.o.provides: CMakeFiles/LaserRan
 
 CMakeFiles/LaserRanging.dir/image_processing.cpp.o.provides.build: CMakeFiles/LaserRanging.dir/image_processing.cpp.o
 
+CMakeFiles/LaserRanging.dir/algorithm.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
+CMakeFiles/LaserRanging.dir/algorithm.cpp.o: algorithm.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/algorithm.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/algorithm.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/algorithm.cpp
+
+CMakeFiles/LaserRanging.dir/algorithm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LaserRanging.dir/algorithm.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/plankton/CodeMax/LaserRangingV2/algorithm.cpp > CMakeFiles/LaserRanging.dir/algorithm.cpp.i
+
+CMakeFiles/LaserRanging.dir/algorithm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LaserRanging.dir/algorithm.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/plankton/CodeMax/LaserRangingV2/algorithm.cpp -o CMakeFiles/LaserRanging.dir/algorithm.cpp.s
+
+CMakeFiles/LaserRanging.dir/algorithm.cpp.o.requires:
+.PHONY : CMakeFiles/LaserRanging.dir/algorithm.cpp.o.requires
+
+CMakeFiles/LaserRanging.dir/algorithm.cpp.o.provides: CMakeFiles/LaserRanging.dir/algorithm.cpp.o.requires
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/algorithm.cpp.o.provides.build
+.PHONY : CMakeFiles/LaserRanging.dir/algorithm.cpp.o.provides
+
+CMakeFiles/LaserRanging.dir/algorithm.cpp.o.provides.build: CMakeFiles/LaserRanging.dir/algorithm.cpp.o
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o: laser_ranging.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LaserRanging.dir/laser_ranging.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp > CMakeFiles/LaserRanging.dir/laser_ranging.cpp.i
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LaserRanging.dir/laser_ranging.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp -o CMakeFiles/LaserRanging.dir/laser_ranging.cpp.s
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.requires:
+.PHONY : CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.requires
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.provides: CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.requires
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.provides.build
+.PHONY : CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.provides
+
+CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.provides.build: CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o
+
 # Object files for target LaserRanging
 LaserRanging_OBJECTS = \
 "CMakeFiles/LaserRanging.dir/LaserRanging.cpp.o" \
 "CMakeFiles/LaserRanging.dir/capture_frame.cpp.o" \
 "CMakeFiles/LaserRanging.dir/view_frame.cpp.o" \
 "CMakeFiles/LaserRanging.dir/timer.cpp.o" \
-"CMakeFiles/LaserRanging.dir/image_processing.cpp.o"
+"CMakeFiles/LaserRanging.dir/image_processing.cpp.o" \
+"CMakeFiles/LaserRanging.dir/algorithm.cpp.o" \
+"CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o"
 
 # External object files for target LaserRanging
 LaserRanging_EXTERNAL_OBJECTS =
@@ -180,6 +228,8 @@ LaserRanging: CMakeFiles/LaserRanging.dir/capture_frame.cpp.o
 LaserRanging: CMakeFiles/LaserRanging.dir/view_frame.cpp.o
 LaserRanging: CMakeFiles/LaserRanging.dir/timer.cpp.o
 LaserRanging: CMakeFiles/LaserRanging.dir/image_processing.cpp.o
+LaserRanging: CMakeFiles/LaserRanging.dir/algorithm.cpp.o
+LaserRanging: CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o
 LaserRanging: CMakeFiles/LaserRanging.dir/build.make
 LaserRanging: /usr/local/lib/libopencv_calib3d.so.3.3.1
 LaserRanging: /usr/local/lib/libopencv_core.so.3.3.1
@@ -258,6 +308,8 @@ CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/capture_frame.
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/view_frame.cpp.o.requires
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/timer.cpp.o.requires
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/image_processing.cpp.o.requires
+CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/algorithm.cpp.o.requires
+CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o.requires
 .PHONY : CMakeFiles/LaserRanging.dir/requires
 
 CMakeFiles/LaserRanging.dir/clean:

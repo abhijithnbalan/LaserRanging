@@ -1,19 +1,21 @@
 
-// Time Library for program run time calculation
 
+//Including the codes for functions
 #include "capture_frame.h"
 #include "view_frame.h"
 #include "timer.h"
 #include "image_processing.h"
+#include "algorithm.h"
+#include "laser_ranging.h"
 
 int main(int argc, char** argv)//The main Function
 {
     
     //----------VIDEO------------//
-        ImageProcessing processor;
+        LaserRanging Ranger;
         CaptureFrame vid;
         vid.capture_video(argv[1],"The input");
-        processor.video_processing(vid);
+        Ranger.video_processing(vid);
     
     //---------------------------//
 

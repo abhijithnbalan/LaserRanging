@@ -25,6 +25,16 @@ void CaptureFrame::capture_video(std::string filename,std::string video_window_n
         }
         window_name = video_window_name;
     }
+void CaptureFrame::reload_image(cv::Mat image_input,std::string str)
+    {
+        if ( !image_input.data )
+        {
+            std::cout<<"No image data found for loading for "<<str<<std::endl;// no input image found
+            exit(0);
+        }
+        image = image_input;
+        window_name = str;
+    }
 cv::Mat CaptureFrame::retrieve_image()
     {
         return image;

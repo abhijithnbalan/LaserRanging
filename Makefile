@@ -135,6 +135,30 @@ LaserRanging.cpp.s:
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/LaserRanging.cpp.s
 .PHONY : LaserRanging.cpp.s
 
+algorithm.o: algorithm.cpp.o
+.PHONY : algorithm.o
+
+# target to build an object file
+algorithm.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/algorithm.cpp.o
+.PHONY : algorithm.cpp.o
+
+algorithm.i: algorithm.cpp.i
+.PHONY : algorithm.i
+
+# target to preprocess a source file
+algorithm.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/algorithm.cpp.i
+.PHONY : algorithm.cpp.i
+
+algorithm.s: algorithm.cpp.s
+.PHONY : algorithm.s
+
+# target to generate assembly for a file
+algorithm.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/algorithm.cpp.s
+.PHONY : algorithm.cpp.s
+
 capture_frame.o: capture_frame.cpp.o
 .PHONY : capture_frame.o
 
@@ -182,6 +206,30 @@ image_processing.s: image_processing.cpp.s
 image_processing.cpp.s:
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/image_processing.cpp.s
 .PHONY : image_processing.cpp.s
+
+laser_ranging.o: laser_ranging.cpp.o
+.PHONY : laser_ranging.o
+
+# target to build an object file
+laser_ranging.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o
+.PHONY : laser_ranging.cpp.o
+
+laser_ranging.i: laser_ranging.cpp.i
+.PHONY : laser_ranging.i
+
+# target to preprocess a source file
+laser_ranging.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/laser_ranging.cpp.i
+.PHONY : laser_ranging.cpp.i
+
+laser_ranging.s: laser_ranging.cpp.s
+.PHONY : laser_ranging.s
+
+# target to generate assembly for a file
+laser_ranging.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/laser_ranging.cpp.s
+.PHONY : laser_ranging.cpp.s
 
 timer.o: timer.cpp.o
 .PHONY : timer.o
@@ -243,12 +291,18 @@ help:
 	@echo "... LaserRanging.o"
 	@echo "... LaserRanging.i"
 	@echo "... LaserRanging.s"
+	@echo "... algorithm.o"
+	@echo "... algorithm.i"
+	@echo "... algorithm.s"
 	@echo "... capture_frame.o"
 	@echo "... capture_frame.i"
 	@echo "... capture_frame.s"
 	@echo "... image_processing.o"
 	@echo "... image_processing.i"
 	@echo "... image_processing.s"
+	@echo "... laser_ranging.o"
+	@echo "... laser_ranging.i"
+	@echo "... laser_ranging.s"
 	@echo "... timer.o"
 	@echo "... timer.i"
 	@echo "... timer.s"
