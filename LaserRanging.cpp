@@ -15,7 +15,7 @@ int main(int argc, char** argv)//The main Function
         LaserRanging Ranger;
         CaptureFrame vid;
         vid.capture_video(argv[1],"The input");
-        Ranger.video_processing(vid);
+        Ranger.live_laser_ranging_single_laser(vid);
     
     //---------------------------//
 

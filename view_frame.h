@@ -1,16 +1,16 @@
 
-/*
-    ViewFrame class is used to show the output i.e. either image or video.
-    Multiple modes of viewing is provided.
-*/
 #ifndef _view_frame_h
 #define _view_frame_h
-
+//Including necessary header files
 #include "capture_frame.h"
 #include <opencv2/opencv.hpp> 
 #include <stdio.h>
 #include <string.h>
 
+/*
+    ViewFrame class is used to show the output i.e. either image or video.
+    Multiple modes of viewing is provided.
+*/
 class ViewFrame
 {  
     private://These variables will only be used internally.

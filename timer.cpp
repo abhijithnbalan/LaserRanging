@@ -10,7 +10,8 @@
         void Timer::timer_end()//Function to end the timer and calculate the interval
         {
             time_end = clock();
-            execution_time =CLOCKS_PER_SEC/((float)time_end - (float)time_start);
+            fps =CLOCKS_PER_SEC/((float)time_end - (float)time_start);
+            execution_time =((float)time_end - (float)time_start)/CLOCKS_PER_SEC;
             return;
         }
 
@@ -22,5 +23,15 @@
             std::string s(sst.str());
             putText(image,s, cvPoint(30,30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);//Adding time into frame
             CaptureFrame output(image,"output with time data");
+            return output;
+        }
+        CaptureFrame Timer::add_fps(CaptureFrame object)//Function to print the execution time on image
+        {
+            cv::Mat image = object.retrieve_image();
+            std::ostringstream sst;
+            sst << fps;
+            std::string s(sst.str());
+            putText(image,s, cvPoint(image.cols-100,30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
+            CaptureFrame output(image,"output with fps data");
             return output;
         }

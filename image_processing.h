@@ -1,8 +1,8 @@
 #ifndef _image_processing_h
 #define _image_processing_h
 
+//Including the essential header files
 #include <opencv2/opencv.hpp> 
-// #include "opencv2/imgproc/imgproc.hpp"
 #include "capture_frame.h"
 #include "algorithm.h"
 
@@ -12,11 +12,11 @@
 class ImageProcessing //-------medianBlur or CLAHE dehazing-------//
 {
     private://These variables will be used internally
-        cv::Mat element;
-        cv::Mat image_hsv,image_hsv_threshold,image_hsv_threshold_low,image_hsv_threshold_high,inter;
+        cv::Mat element,inter;
+        cv::Mat image_hsv,image_hsv_threshold,image_hsv_threshold_low,image_hsv_threshold_high;
         //The following varibles(preset by Constructor) can me modified.
         cv::Scalar thresh_high_0,thresh_high_180,thresh_low_0,thresh_low_180;
-    protected:
+    protected://these variables will be shared in inheritance
         int roi_percentage;cv::Rect roi; Algorithm algo;
 
     public:

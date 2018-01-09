@@ -1,8 +1,10 @@
 
+//The necessary header files are included.
 #include "view_frame.h"
 #include <stdio.h>
 #include <string.h>
 #include <opencv2/opencv.hpp>
+
 
 void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single output and wait for userkey to continue
 {
@@ -10,7 +12,7 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
     {
         if (!object.retrieve_video().isOpened())
         {
-            printf("nothing to show.\n");
+            printf("nothing to show.\n");//No data included in CaptureFrame object
             return;
         }
         else
@@ -18,14 +20,16 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
             cv::Mat temporary;
             for (;;)
             {
-                object.retrieve_video() >> temporary;
+                //Video file showing
+                object.retrieve_video() >> temporary;//frame extraction
                 cv::imshow(object.window_name, temporary);
                 if (!temporary.data)
                 {
-                    return;
+                    return;//end of video
                 }
                 if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
                 {
+                    //destroyWindow that was just created
                     cv::destroyWindow(object.window_name);
                     break;
                 }
@@ -35,14 +39,17 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
     }
     else
     {
+        //showing image
         cv::imshow(object.window_name, object.retrieve_image());
         if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue
         {
+            //destroyWindow that was just created
             cv::destroyWindow(object.window_name);
             return;
         }
     }
 }
+
 void ViewFrame::single_view_interrupted(CaptureFrame object, int percent) //Overloaded function which also resizes the output
 {
     cv::Mat temporary;
@@ -51,14 +58,16 @@ void ViewFrame::single_view_interrupted(CaptureFrame object, int percent) //Over
     ViewFrame::single_view_interrupted(output);
     return;
 }
-// The following functions are uninterrupted by user input and are used in loops.
+
+// The following single output functions are uninterrupted by user input and are used in loops.
+
 void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output and continues. Used inside loops.
 {
     if (!object.retrieve_image().data)
     {
         if (!object.retrieve_video().isOpened())
         {
-            printf("nothing to show.\n");
+            printf("nothing to show.\n");//no data in the CaptureFrame object
             cv::destroyAllWindows();
             exit(0);
         }
@@ -66,20 +75,24 @@ void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output an
         {
             cv::Mat temporary;
             for (;;)
-            {
+            {   //show the video 
                 object.retrieve_video() >> temporary;
                 cv::imshow(object.window_name, temporary);
-                return;
+                if(cv::waitKey(5)>=0)
+                {
+                    return;
+                }
             }
             return;
         }
     }
     else
-    {
+    {   //showing image
         cv::imshow(object.window_name, object.retrieve_image());
         return;
     }
 }
+
 void ViewFrame::single_view_uninterrupted(CaptureFrame object, int percent) //Overloaded function which also resizes the output
 {
     cv::Mat temporary;
@@ -101,6 +114,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
+            //the image is having more number of channes
             std::cout << "images have different number of channels" << std::endl;
             return;
         }
@@ -137,6 +151,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         return;
     }
 }
+
 void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame object2, int percent) //Overloaded function which also resizes the output
 {
     cv::Mat temporary1, temporary2;
@@ -147,6 +162,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     ViewFrame::multiple_view_interrupted(output1, output2);
     return;
 }
+
 void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3) //Overloaded function to shows three images
 {                                                                                      //Converting all single channel images to 3 channel images.
     image1 = object1.retrieve_image();
