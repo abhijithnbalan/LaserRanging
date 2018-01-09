@@ -2,6 +2,7 @@
 #define _timer_h
 //including necessary header files
 #include "capture_frame.h"
+#include "view_frame.h"
 #include <time.h>
 /*
     Timer class is used to find the execution time of the program

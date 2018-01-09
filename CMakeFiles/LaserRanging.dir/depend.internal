@@ -662,6 +662,7 @@ CMakeFiles/LaserRanging.dir/timer.cpp.o
  /home/plankton/CodeMax/LaserRangingV2/capture_frame.h
  /home/plankton/CodeMax/LaserRangingV2/timer.cpp
  /home/plankton/CodeMax/LaserRangingV2/timer.h
+ /home/plankton/CodeMax/LaserRangingV2/view_frame.h
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h

@@ -48,7 +48,10 @@ class ViewFrame
         void multiple_view_uninterrupted(CaptureFrame ,CaptureFrame ,CaptureFrame ,CaptureFrame );//4 Images
 
         void multiple_view_uninterrupted( CaptureFrame ,CaptureFrame ,CaptureFrame ,CaptureFrame ,int );//Overloaded function which also resizes the output
-
+        CaptureFrame add_overlay_percent(CaptureFrame, int, int, int);
+        CaptureFrame add_overlay(CaptureFrame, int, int, int);
+        CaptureFrame add_overlay(CaptureFrame, int, int, std::string);
+        CaptureFrame add_overlay(CaptureFrame, cv::Rect, cv::Mat);
 };
 
 #endif

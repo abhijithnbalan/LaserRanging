@@ -297,30 +297,24 @@ CaptureFrame LaserRanging::show_overlay(CaptureFrame object)
 //Function to show data on output image as an overlay with single laser range enabled
 CaptureFrame LaserRanging::show_overlay_single_laser(CaptureFrame object)
 {
+    ViewFrame viewer;
+        CaptureFrame tempo = object;
         cv::Mat image = object.retrieve_image();
         if((centerx[0]+centery[0]) != 0)//when left contour is identified
         {
-            std::ostringstream dst;
-            dst << right_laser_distance;
-            std::string d(dst.str());
-            //printing the distance value on the contour identified
-            putText(image, d, cvPoint(roi.x + laser_center_x + centerx[0],roi.y + centery[0]), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 0, 0), 1, CV_AA); //optional viewing of the mark in the center of bounding box__notice the bottom right corner for centre
+            tempo = viewer.add_overlay(tempo,laser_center_x+centerx[0],roi.y+centery[0],right_laser_distance);
         }
         if((centerx[1]+centery[1]) != 0)//when right contour is identified
         {
-            std::ostringstream dst;
-            dst << left_laser_distance;
-            std::string d(dst.str());
-            //printing the distance value on the contour identified
-            putText(image, d, cvPoint(roi.x + centerx[1],roi.y + centery[1]), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 0, 0), 1, CV_AA); //optional viewing of the mark in the center of bounding box__notice the bottom right corner for centre
+            tempo = viewer.add_overlay(tempo,centerx[1],roi.y+centery[1],left_laser_distance);
         }
 
-        //showing line and contour
-        image(roi) = image(roi).clone() - line_overlay.retrieve_image();
-        image(roi) = image(roi).clone() - contour_overlay.retrieve_image();
-
+        // //showing line and contour
+        tempo = viewer.add_overlay(tempo,roi,line_overlay.retrieve_image());
+        tempo = viewer.add_overlay(tempo,roi,contour_overlay.retrieve_image());
+     
         CaptureFrame output(image,"overlayed image");
-        output = timer.add_fps(output);//Adding FPS value
+        output = timer.add_fps(tempo);//Adding FPS value
         return output;
 }
 LaserRanging::LaserRanging()

@@ -1,5 +1,6 @@
 #include "timer.h"
 #include "capture_frame.h"
+#include "view_frame.h"
 #include <time.h>
 
         void Timer::timer_init()//Function which starts the timer
@@ -27,11 +28,7 @@
         }
         CaptureFrame Timer::add_fps(CaptureFrame object)//Function to print the execution time on image
         {
-            cv::Mat image = object.retrieve_image();
-            std::ostringstream sst;
-            sst << fps;
-            std::string s(sst.str());
-            putText(image,s, cvPoint(image.cols-100,30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
-            CaptureFrame output(image,"output with fps data");
+            ViewFrame viewer;
+            CaptureFrame output = viewer.add_overlay_percent(object,10,10,fps);
             return output;
         }

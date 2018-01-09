@@ -1,6 +1,7 @@
 
 //The necessary header files are included.
 #include "view_frame.h"
+#include "capture_frame.h"
 #include <stdio.h>
 #include <string.h>
 #include <opencv2/opencv.hpp>
@@ -561,4 +562,47 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame output4(temporary4, "Resized Image");
     ViewFrame::multiple_view_uninterrupted(output1, output2, output3, output4);
     return;
+}
+
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, std::string data)
+{
+    cv::Mat image = object.retrieve_image();
+
+    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
+            
+    CaptureFrame output(image,"overlayed image");
+    return output;
+}
+CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, int data)
+{
+    cv::Mat image = object.retrieve_image();
+    int x = x_percent*image.cols/100;
+    int y = y_percent*image.rows/100;
+
+    std::ostringstream sst;
+    sst << data;
+    std::string s(sst.str());
+
+    CaptureFrame output = add_overlay(object,x,y,s);
+    return output;
+}
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, int data)
+{
+    cv::Mat image = object.retrieve_image();
+
+    std::ostringstream sst;
+    sst << data;
+    std::string s(sst.str());
+    
+    CaptureFrame output = add_overlay(object,x,y,s);
+    return output;
+}
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,cv::Rect box, cv::Mat data)
+{
+    cv::Mat image = object.retrieve_image();
+
+    // data.copyTo(image(box));
+    image(box) = image(box).clone() + data;
+    CaptureFrame output(image,"overlayed image");
+    return output;
 }

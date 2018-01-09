@@ -661,6 +661,7 @@ CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o: /usr/local/include/opencv2/xfea
 CMakeFiles/LaserRanging.dir/timer.cpp.o: capture_frame.h
 CMakeFiles/LaserRanging.dir/timer.cpp.o: timer.cpp
 CMakeFiles/LaserRanging.dir/timer.cpp.o: timer.h
+CMakeFiles/LaserRanging.dir/timer.cpp.o: view_frame.h
 CMakeFiles/LaserRanging.dir/timer.cpp.o: /usr/local/include/opencv/cxcore.h
 CMakeFiles/LaserRanging.dir/timer.cpp.o: /usr/local/include/opencv2/calib3d.hpp
 CMakeFiles/LaserRanging.dir/timer.cpp.o: /usr/local/include/opencv2/calib3d/calib3d_c.h
