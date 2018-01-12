@@ -114,7 +114,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         else
         {
             //the image is having more number of channes
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -127,7 +127,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -178,7 +178,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -191,7 +191,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -204,7 +204,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -262,7 +262,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -275,7 +275,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -288,7 +288,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -301,7 +301,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -369,7 +369,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -382,7 +382,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -426,7 +426,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -439,7 +439,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -452,7 +452,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -505,7 +505,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -518,7 +518,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -531,7 +531,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }
@@ -544,7 +544,7 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
         }
         else
         {
-            std::cout << "images have different number of channels" << std::endl;
+            std::cout << "images have different number of channels" << "\n";
             return;
         }
     }

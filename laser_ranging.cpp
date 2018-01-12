@@ -20,7 +20,7 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
     temp = object1.retrieve_image();
     if (temp.channels() != 1) //check whether the image is segemented or not.
     {
-        std::cout << "The image is not segemented for contour identification" << std::endl;
+        std::cout << "The image is not segemented for contour identification" << "\n";
         return object1;
     }
 
@@ -97,7 +97,7 @@ CaptureFrame LaserRanging::contour_distance_single_laser(CaptureFrame object1) /
     temp = object1.retrieve_image();
     if (temp.channels() != 1) //check whether the image is segemented or not.
     {
-        std::cout << "The image is not segemented for contour identification" << std::endl;
+        std::cout << "The image is not segemented for contour identification" << "\n";
         return object1;
     }
 
@@ -164,7 +164,7 @@ CaptureFrame LaserRanging::contour_distance_single_laser(CaptureFrame object1) /
         rectangle(contour_draw_left, box, cv::Scalar(255, 255, 255)); //center of rectangle also can be used.
 
         contour_overlay_left.reload_image(contour_draw_right, "Left Half contours");
-        // std::cout<<contour_draw_left.cols<<"  "<<contour_draw_left.rows<<std::endl;
+        // std::cout<<contour_draw_left.cols<<"  "<<contour_draw_left.rows<<"\n";
         contour_draw_left.copyTo(contour_draw(cv::Rect(0, 0, contour_draw_left.cols, contour_draw_left.rows)));
 
         //line is drawn connecting two centers.
@@ -242,15 +242,16 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 {
     CaptureFrame out_frame, out_timer;
     ViewFrame viewer;
-    std::cout << "Press any key to exit " << std::endl;
+    std::cout << "Press any key to exit " << "\n";
     for (;;)
     {
 
         vid.frame_extraction();                          //Frame extraction from video
         out_frame = laser_ranging(vid);                  //single frame laser range detection
-        viewer.single_view_uninterrupted(out_frame, 50); //showing the output resized to 50 percent
+        pixel_distance_to_distance();
+        // viewer.single_view_uninterrupted(out_frame, 50); //showing the output resized to 50 percent
         viewer.multiple_view_uninterrupted(out_frame,dehaze,hsv_segment,contour_overlay);//showing the steps as mutliple input
-        std::cout<<"Range = "<<range<<"\n";
+        printf("\r Range : %f",range);
         if (cv::waitKey(1) >= 0)
             break;
     }
@@ -261,7 +262,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
     CaptureFrame out_frame, out_timer, test;
     ViewFrame viewer;
-    std::cout << "Press any key to exit " << std::endl;
+    std::cout << "Press any key to exit " << "\n";
 
     for (;;)
     {
@@ -271,7 +272,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
         pixel_distance_to_distance();
         printf("\r[ Left Range : %f \tRight Range : %f ]",left_range,right_range);
         viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay,ROI);//showing the steps as multiple inputs
-        viewer.single_view_uninterrupted(out_frame, 50); //show output with resizing by 50 percent
+        // viewer.single_view_uninterrupted(out_frame, 50); //show output with resizing by 50 percent
         if (cv::waitKey(2) >= 0)
             break;
     }
@@ -329,7 +330,7 @@ void LaserRanging::pixel_distance_to_distance()
 
     (centerx[1]+centery[1] != 0)?right_range = right_laser_distance*2 : right_range = 0;
   
-    (centerx[1]+centery[1] != 0 && centerx[0]+centery[0] != 0)?range = left_range + right_range : range = 0;
+    (centerx[1]+centery[1] != 0 && centerx[0]+centery[0] != 0)?range = left_range + right_range : range = laser_distance;
     
     return;
 }

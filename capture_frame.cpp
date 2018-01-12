@@ -12,7 +12,7 @@ void CaptureFrame::capture_image(std::string filename,std::string image_window_n
         image = cv::imread(filename,1);
         if ( !image.data )
         {
-            std::cout<<"No image data found for "<<filename<<std::endl;// no input image found.exiting.
+            std::cout<<"No image data found for "<<filename<<"\n";// no input image found.exiting.
             exit(0);
         }
         window_name = image_window_name;
@@ -37,7 +37,7 @@ void CaptureFrame::reload_image(cv::Mat image_input,std::string str)
     {
         if ( !image_input.data )
         {
-            std::cout<<"No image data found for loading for "<<str<<std::endl;// no input image found
+            std::cout<<"No image data found for loading for "<<str<<"\n";// no input image found
             exit(0);
         }
         //Assignes new value to image and window name.
@@ -66,7 +66,7 @@ void CaptureFrame::frame_extraction()
         cap>>image;
         if ( !image.data )
         {
-            std::cout<<"No image data found for "<<window_name<<std::endl;// no input image found
+            std::cout<<"No image data found for "<<window_name<<"\n";// no input image found
             exit(0);
         }//After this function call the current frame is saved in the image file of the same object.
         return;
@@ -79,7 +79,7 @@ void CaptureFrame::clear()
         image.release();
         window_name.clear();
         cap.release();
-        std::cout<<"Capture Frame cleared"<<std::endl;
+        std::cout<<"Capture Frame cleared"<<"\n";
         return;
     }
 

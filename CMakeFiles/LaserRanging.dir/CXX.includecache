@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+/home/plankton/CodeMax/LaserRangingV2/LaserRanging.cpp
+capture_frame.h
+/home/plankton/CodeMax/LaserRangingV2/capture_frame.h
+view_frame.h
+/home/plankton/CodeMax/LaserRangingV2/view_frame.h
+timer.h
+/home/plankton/CodeMax/LaserRangingV2/timer.h
+image_processing.h
+/home/plankton/CodeMax/LaserRangingV2/image_processing.h
+algorithm.h
+/home/plankton/CodeMax/LaserRangingV2/algorithm.h
+laser_ranging.h
+/home/plankton/CodeMax/LaserRangingV2/laser_ranging.h
+
 /home/plankton/CodeMax/LaserRangingV2/algorithm.h
 capture_frame.h
 /home/plankton/CodeMax/LaserRangingV2/capture_frame.h
@@ -27,18 +41,6 @@ capture_frame.h
 /home/plankton/CodeMax/LaserRangingV2/capture_frame.h
 algorithm.h
 /home/plankton/CodeMax/LaserRangingV2/algorithm.h
-
-/home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp
-laser_ranging.h
-/home/plankton/CodeMax/LaserRangingV2/laser_ranging.h
-capture_frame.h
-/home/plankton/CodeMax/LaserRangingV2/capture_frame.h
-image_processing.h
-/home/plankton/CodeMax/LaserRangingV2/image_processing.h
-view_frame.h
-/home/plankton/CodeMax/LaserRangingV2/view_frame.h
-opencv2/opencv.hpp
--
 
 /home/plankton/CodeMax/LaserRangingV2/laser_ranging.h
 timer.h
