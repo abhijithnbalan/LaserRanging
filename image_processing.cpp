@@ -27,13 +27,18 @@ cv::Mat ImageProcessing::roi_selection(cv::Mat image1) //Selecting the Region of
 
 CaptureFrame ImageProcessing::hsv_segmentation(CaptureFrame object1) //Color segmentation. according to threshold set.
 {
-    cvtColor(object1.retrieve_image(), image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identification
+    cvtColor(object1.retrieve_image(), image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identificati    on
+    cv::Mat image_hls;
+    cvtColor(object1.retrieve_image(), image_hls, cv::COLOR_BGR2HLS);
     // Segmentation according to the value set in threshold variables
     inRange(image_hsv, thresh_low_0, thresh_low_180, image_hsv_threshold_low);
+    inRange(image_hls, cv::Scalar(0,215,0,0), cv::Scalar(255,255,255,0), image_hsv_threshold_white);
     inRange(image_hsv, thresh_high_0, thresh_high_180, image_hsv_threshold_high);
-    image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
+    image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high + image_hsv_threshold_white;
+    // image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
+    // imshow("hsvt",image_hsv_threshold_white);
     //Morphological Transformations for noise reduction.
-    morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1), 2);
+    morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1));
     dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);
 
     CaptureFrame hsv_threshold(image_hsv_threshold, "HSV_threshold");
@@ -78,8 +83,8 @@ void ImageProcessing::set_roi(int req_percent) // Function to set the Region of 
 
 ImageProcessing::ImageProcessing() //Constructor definition The values are preset in this constructor.
 {
-    roi_percentage = 30; //Region of interst in percentage
+    roi_percentage =20; //Region of interst in percentage
     thresh_low_0 = cv::Scalar(0, 140, 180, 0), thresh_low_180 = cv::Scalar(16, 255, 255, 0),
-    thresh_high_0 = cv::Scalar(160, 140, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0); //Threshold values preset for red color identification.
+    thresh_high_0 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0); //Threshold values preset for red color identification.
     element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(0, 0));         //Structuring element for dilation and erosion
 }

@@ -20,7 +20,7 @@
         {
             cv::Mat image = object.retrieve_image();
             std::ostringstream sst;
-            sst << execution_time;
+            sst << execution_time<<"  "<<fps;
             std::string s(sst.str());
             putText(image,s, cvPoint(30,30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);//Adding time into frame
             CaptureFrame output(image,"output with time data");

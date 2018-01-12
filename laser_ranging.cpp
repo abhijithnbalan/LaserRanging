@@ -4,12 +4,12 @@
 #include "capture_frame.h"
 #include "image_processing.h"
 #include "view_frame.h"
-#include <opencv2/opencv.hpp> 
+#include <opencv2/opencv.hpp>
 
 CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour identification and pixel distance calculation.
 {
     //necessary variable declaraiton
-    cv::Mat temp,contour_overlay;
+    cv::Mat temp, contour_overlay;
     int a, i;
     //contour centers
     int *cenx = NULL;
@@ -26,10 +26,10 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
 
     findContours(temp, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); //Finding contours
 
-    contour_overlay = cv::Mat::zeros(temp.size(), CV_8UC3); // image file will be used to draw contours
-    cv::Mat line_draw = cv::Mat::zeros(temp.size(), CV_8UC3);// image file which will be used to draw line
+    contour_overlay = cv::Mat::zeros(temp.size(), CV_8UC3);   // image file will be used to draw contours
+    cv::Mat line_draw = cv::Mat::zeros(temp.size(), CV_8UC3); // image file which will be used to draw line
 
-    line_overlay.reload_image(line_draw,"blank line"); //reinitialising line as blank 
+    line_overlay.reload_image(line_draw, "blank line"); //reinitialising line as blank
 
     for (i = 0; i < contours.size(); i++) //Loop to draw every identified contours.
     {
@@ -57,9 +57,11 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
         laser_distance = sqrt(pow(cenx[0] - cenx[1], 2) + pow(ceny[0] - ceny[1], 2));
         //line is drawn connecting two centers.
         line(line_draw, cv::Point(cenx[0], ceny[0]), cv::Point(cenx[1], ceny[1]), cv::Scalar(255, 255, 255), 2, 8);
-        line_overlay.reload_image(line_draw,"overlayed line");
-        centerx[0] = cenx[0];centerx[1] = cenx[1];
-        centery[0] = ceny[0];centery[1] = ceny[1];
+        line_overlay.reload_image(line_draw, "overlayed line");
+        centerx[0] = cenx[0];
+        centerx[1] = cenx[1];
+        centery[0] = ceny[0];
+        centery[1] = ceny[1];
     }
     else
     {
@@ -76,13 +78,13 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
     return points_distance;
 }
 
-CaptureFrame LaserRanging::contour_distance_single_laser( CaptureFrame object1) //Contour identification and pixel distance calculation.
+CaptureFrame LaserRanging::contour_distance_single_laser(CaptureFrame object1) //Contour identification and pixel distance calculation.
 {
 
     //necessary variable declaraiton
-    cv::Mat temp,contour_draw,line_draw;
+    cv::Mat temp, contour_draw, line_draw;
 
-    int i;//used only for loops #can be negleted
+    int i; //used only for loops #can be negleted
 
     //contour centers
     std::vector<std::vector<cv::Point> > contours_right;
@@ -91,7 +93,7 @@ CaptureFrame LaserRanging::contour_distance_single_laser( CaptureFrame object1) 
     std::vector<cv::Vec4i> hierarchy_left;
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
-    
+
     temp = object1.retrieve_image();
     if (temp.channels() != 1) //check whether the image is segemented or not.
     {
@@ -102,88 +104,85 @@ CaptureFrame LaserRanging::contour_distance_single_laser( CaptureFrame object1) 
     findContours(temp, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); //Finding contours
 
     contour_draw = cv::Mat::zeros(temp.size(), CV_8UC3); // image file will be used to draw contours
-    line_draw = cv::Mat::zeros(temp.size(), CV_8UC3); // image file will be used to draw line
+    line_draw = cv::Mat::zeros(temp.size(), CV_8UC3);    // image file will be used to draw line
 
     for (i = 0; i < contours.size(); i++) //Loop to draw every identified contours.
     {
         drawContours(temp, contours, i, cv::Scalar(255, 0, 0), CV_FILLED); // fill the contours to eliminate hollow segments.
     }
-        
-    //Dividing the frame but two according to the laser center.
-    cv::Mat left_half_frame = temp(cv::Rect(0,0,laser_center_x,temp.rows)).clone();
-    cv::Mat right_half_frame = temp(cv::Rect(laser_center_x,0,(temp.cols - laser_center_x),temp.rows)).clone();
 
-    //Creating and Initialising variables for line 
+    //Dividing the frame but two according to the laser center.
+    cv::Mat left_half_frame = temp(cv::Rect(0, 0, laser_center_x, temp.rows)).clone();
+    cv::Mat right_half_frame = temp(cv::Rect(laser_center_x, 0, (temp.cols - laser_center_x), temp.rows)).clone();
+
+    //Creating and Initialising variables for line
     cv::Mat line_draw_left = cv::Mat::zeros(left_half_frame.size(), CV_8UC3);
     cv::Mat line_draw_right = cv::Mat::zeros(right_half_frame.size(), CV_8UC3);
-    line_overlay_left.reload_image(line_draw_left,"blank line"); 
-    line_overlay_right.reload_image(line_draw_right,"blank line");
+    line_overlay_left.reload_image(line_draw_left, "blank line");
+    line_overlay_right.reload_image(line_draw_right, "blank line");
 
-    //Creating and Initialising variables for contour 
-    cv::Mat contour_draw_left= cv::Mat::zeros(left_half_frame.size(), CV_8UC3); 
+    //Creating and Initialising variables for contour
+    cv::Mat contour_draw_left = cv::Mat::zeros(left_half_frame.size(), CV_8UC3);
     cv::Mat contour_draw_right = cv::Mat::zeros(right_half_frame.size(), CV_8UC3);
-    contour_overlay_left.reload_image(contour_draw_left,"Blank contour");
-    contour_overlay_right.reload_image(contour_draw_right,"Blank contour");
+    contour_overlay_left.reload_image(contour_draw_left, "Blank contour");
+    contour_overlay_right.reload_image(contour_draw_right, "Blank contour");
 
     findContours(right_half_frame, contours_right, hierarchy_right, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); //searching for contour in right half plane
-    findContours(left_half_frame, contours_left, hierarchy_left, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); //searching for contour in left half plane
+    findContours(left_half_frame, contours_left, hierarchy_left, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);    //searching for contour in left half plane
 
     //Distance is calculated only if two contours are identified. This will be the pixel distance.
     if (contours_right.size() == 1)
-    {   
-        cv::Rect box = boundingRect(contours_right[0]);//drawing bounding rectangle
+    {
+        cv::Rect box = boundingRect(contours_right[0]); //drawing bounding rectangle
         //identifying the center of the bounding rectangle
-        centerx[0] = box.x+box.width/2;
-        centery[0] = box.y+box.height/2;
+        centerx[0] = box.x + box.width / 2;
+        centery[0] = box.y + box.height / 2;
         //Calculating the distance from laser center to the center identified
         right_laser_distance = sqrt(pow(centerx[0], 2) + pow(laser_center_y - centery[0], 2));
-        
+
         rectangle(contour_draw_right, box, cv::Scalar(255, 255, 255)); //center of rectangle also can be used.
-        contour_overlay_right.reload_image(contour_draw_right,"Right Half contours");
+        contour_overlay_right.reload_image(contour_draw_right, "Right Half contours");
 
-        contour_draw_right.copyTo(contour_draw(cv::Rect(laser_center_x,0,contour_draw_right.cols,contour_draw_right.rows)));
+        contour_draw_right.copyTo(contour_draw(cv::Rect(laser_center_x, 0, contour_draw_right.cols, contour_draw_right.rows)));
         //line is drawn connecting two centers.
-        
-        line(line_draw_right, cv::Point(0, laser_center_y), cv::Point(centerx[0], centery[0]), cv::Scalar(255, 255, 255), 2, 8);
-        line_overlay_right.reload_image(line_draw_right,"overlayed line");
-        line_draw_right.copyTo(line_draw(cv::Rect(laser_center_x,0,line_draw_right.cols,line_draw_right.rows)));
 
+        line(line_draw_right, cv::Point(0, laser_center_y - (original.retrieve_image().rows / 2 - roi.height / 2)), cv::Point(centerx[0], centery[0]), cv::Scalar(255, 255, 255), 2, 8);
+        line_overlay_right.reload_image(line_draw_right, "overlayed line");
+        line_draw_right.copyTo(line_draw(cv::Rect(laser_center_x, 0, line_draw_right.cols, line_draw_right.rows)));
     }
-    
+
     if (contours_left.size() == 1)
     {
         cv::Rect box = boundingRect(contours_left[0]);
         //taking the center of the bounding rectangle
-        centerx[1] = box.x+box.width/2;
-        centery[1] = box.y+box.height/2;
+        centerx[1] = box.x + box.width / 2;
+        centery[1] = box.y + box.height / 2;
 
         //calculating the distance from the laser center to the center identified
         left_laser_distance = sqrt(pow(laser_center_x - centerx[1], 2) + pow(laser_center_y - centery[1], 2));
-        
+
         rectangle(contour_draw_left, box, cv::Scalar(255, 255, 255)); //center of rectangle also can be used.
-        
-        contour_overlay_left.reload_image(contour_draw_right,"Left Half contours");
+
+        contour_overlay_left.reload_image(contour_draw_right, "Left Half contours");
         // std::cout<<contour_draw_left.cols<<"  "<<contour_draw_left.rows<<std::endl;
-        contour_draw_left.copyTo(contour_draw(cv::Rect(0,0,contour_draw_left.cols,contour_draw_left.rows)));
+        contour_draw_left.copyTo(contour_draw(cv::Rect(0, 0, contour_draw_left.cols, contour_draw_left.rows)));
 
         //line is drawn connecting two centers.
-        line(line_draw_left, cv::Point(laser_center_x, laser_center_y), cv::Point(centerx[1], centery[1]), cv::Scalar(255, 255, 255), 2, 8);
-        line_overlay_left.reload_image(line_draw,"overlayed line");
-        line_draw_left.copyTo(line_draw(cv::Rect(0,0,line_draw_left.cols,line_draw_left.rows)));
-
+        line(line_draw_left, cv::Point(laser_center_x, laser_center_y - (original.retrieve_image().rows / 2 - roi.height / 2)), cv::Point(centerx[1], centery[1]), cv::Scalar(255, 255, 255), 2, 8);
+        line_overlay_left.reload_image(line_draw, "overlayed line");
+        line_draw_left.copyTo(line_draw(cv::Rect(0, 0, line_draw_left.cols, line_draw_left.rows)));
     }
-    
 
-    if(contours_left.size()!=1 && contours_right.size()!=1)
+    if (contours_left.size() != 1 && contours_right.size() != 1)
     {
         //when no centers are identified then setting the center values back to zeros
         centerx[0] = centerx[1] = 0;
         centery[0] = centery[1] = 0;
     }
-    
-    contour_overlay.reload_image(contour_draw,"Full Contour");
-    line_overlay.reload_image(line_draw,"Full line");
-    
+
+    contour_overlay.reload_image(contour_draw, "Full Contour");
+    line_overlay.reload_image(line_draw, "Full line");
+
     return contour_overlay;
 }
 
@@ -204,33 +203,37 @@ float LaserRanging::get_right_laser_distance() //Funtion to retrieve the right l
 
 CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1) //Calling every functions for laser ranging and show it on the input image.
 {
-    original = object1;//keeping the original input
+    original = object1; //keeping the original input
 
-    ROI = roi_selection(original);//cropping out the region of interest
+    ROI = roi_selection(original); //cropping out the region of interest
 
-    dehaze = algo.CLAHE_dehaze(ROI);//dehazing using CLAHE algorithm
+    // dehaze = algo.CLAHE_dehaze(ROI);//dehazing using CLAHE algorithm
 
-    hsv_segment = hsv_segmentation(dehaze);//color segmentation through HSV conversion
+    hsv_segment = hsv_segmentation(ROI); //color segmentation through HSV conversion
 
-    contour_overlay = contour_distance(hsv_segment);//contour identification
+    contour_overlay = contour_distance(hsv_segment); //contour identification
 
-    CaptureFrame output = show_overlay(original);//overlaying necessary data
+    CaptureFrame output = show_overlay(original); //overlaying necessary data
 
     return output;
 }
 
 CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Calling every functions for laser ranging and show it on the input image.
 {
+    timer.timer_init(); //initiating timer
+
     original = object1;
     ROI = roi_selection(original);
-    
+
     dehaze = algo.CLAHE_dehaze(ROI);
-    
+
     hsv_segment = hsv_segmentation(dehaze);
-    
+
     contour_overlay = contour_distance_single_laser(hsv_segment);
-    
+
     CaptureFrame output = show_overlay_single_laser(original);
+
+    timer.timer_end(); //ending timer and calculating time interval and fps
 
     return output;
 }
@@ -242,86 +245,101 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
     std::cout << "Press any key to exit " << std::endl;
     for (;;)
     {
-        timer.timer_init();//initiating timer
-        vid.frame_extraction();//Frame extraction from video
-        out_frame = laser_ranging(vid);//single frame laser range detection
-        viewer.single_view_uninterrupted(out_frame, 50);//showing the output resized to 50 percent
-        viewer.multiple_view_uninterrupted(ROI,dehaze,hsv_segment,contour_overlay);//showing the steps as mutliple input
+
+        vid.frame_extraction();                          //Frame extraction from video
+        out_frame = laser_ranging(vid);                  //single frame laser range detection
+        viewer.single_view_uninterrupted(out_frame, 50); //showing the output resized to 50 percent
+        viewer.multiple_view_uninterrupted(out_frame,dehaze,hsv_segment,contour_overlay);//showing the steps as mutliple input
+        std::cout<<"Range = "<<range<<"\n";
         if (cv::waitKey(1) >= 0)
             break;
-        timer.timer_end();//ending timer and calculating time interval and fps
     }
     return;
 }
 //video laser range detection with single laser ranging enabled
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
-    CaptureFrame out_frame, out_timer;
+    CaptureFrame out_frame, out_timer, test;
     ViewFrame viewer;
     std::cout << "Press any key to exit " << std::endl;
+
     for (;;)
     {
-        timer.timer_init();//initialting timer
-        vid.frame_extraction(); //frame extraction from video
-        out_frame = laser_ranging_single_laser(vid);//single frame laser ranging
-        viewer.single_view_uninterrupted(out_frame, 50);//show output with resizing by 50 percent
-        viewer.multiple_view_uninterrupted(ROI,hsv_segment,contour_overlay,dehaze);//showing the steps as multiple inputs
-        if (cv::waitKey(1) >= 0)
+
+        vid.frame_extraction();                      //frame extraction from video
+        out_frame = laser_ranging_single_laser(vid); //single frame laser ranging
+        pixel_distance_to_distance();
+        printf("\r[ Left Range : %f \tRight Range : %f ]",left_range,right_range);
+        viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay,ROI);//showing the steps as multiple inputs
+        viewer.single_view_uninterrupted(out_frame, 50); //show output with resizing by 50 percent
+        if (cv::waitKey(2) >= 0)
             break;
-        timer.timer_end();//ending and calculating time interval and fps
     }
     return;
 }
 //Function to show data as an overlay on the output image
 CaptureFrame LaserRanging::show_overlay(CaptureFrame object)
 {
-        cv::Mat image = object.retrieve_image();
-        if(centerx[1]+centerx[0]+centery[0]+centery[1] != 0)
-        {
-            std::ostringstream dst;
-            dst << laser_distance;
-            std::string d(dst.str());
-            //Printing distance value in the middle part of the line
-            putText(image, d, cvPoint(roi.x+(centerx[0] + centerx[1]) / 2, roi.y+(centery[0] + centery[1]) ), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(255, 255, 255), 1, CV_AA); //optional viewing of the mark in the center of bounding box__notice the bottom right corner for centre
-        }
-        
-        //shwing line connecting centers and contours
-        image(roi) = image(roi).clone() - line_overlay.retrieve_image();
-        image(roi) = image(roi).clone() - contour_overlay.retrieve_image();
+    cv::Mat image = object.retrieve_image();
+    if (centerx[1] + centerx[0] + centery[0] + centery[1] != 0)
+    {
+        std::ostringstream dst;
+        dst << laser_distance;
+        std::string d(dst.str());
+        //Printing distance value in the middle part of the line
+        putText(image, d, cvPoint(roi.x + (centerx[0] + centerx[1]) / 2, roi.y + (centery[0] + centery[1])), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(255, 255, 255), 1, CV_AA); //optional viewing of the mark in the center of bounding box__notice the bottom right corner for centre
+    }
 
-        CaptureFrame output(image,"overlayed image");
-        output = timer.add_fps(output);//Adding maximum fps 
-        return object;
+    //shwing line connecting centers and contours
+    image(roi) = image(roi).clone() - line_overlay.retrieve_image();
+    image(roi) = image(roi).clone() - contour_overlay.retrieve_image();
+
+    CaptureFrame output(image, "overlayed image");
+    output = timer.add_fps(output); //Adding maximum fps
+    return object;
 }
 
 //Function to show data on output image as an overlay with single laser range enabled
 CaptureFrame LaserRanging::show_overlay_single_laser(CaptureFrame object)
 {
     ViewFrame viewer;
-        CaptureFrame tempo = object;
-        cv::Mat image = object.retrieve_image();
-        if((centerx[0]+centery[0]) != 0)//when left contour is identified
-        {
-            tempo = viewer.add_overlay(tempo,laser_center_x+centerx[0],roi.y+centery[0],right_laser_distance);
-        }
-        if((centerx[1]+centery[1]) != 0)//when right contour is identified
-        {
-            tempo = viewer.add_overlay(tempo,centerx[1],roi.y+centery[1],left_laser_distance);
-        }
+    CaptureFrame tempo = object;
+    cv::Mat image = object.retrieve_image();
+    if ((centerx[0] + centery[0]) != 0) //when left contour is identified
+    {
+        tempo = viewer.add_overlay(tempo, laser_center_x + centerx[0], roi.y + centery[0], right_laser_distance);
+    }
+    if ((centerx[1] + centery[1]) != 0) //when right contour is identified
+    {
+        tempo = viewer.add_overlay(tempo, centerx[1], roi.y + centery[1], left_laser_distance);
+    }
 
-        // //showing line and contour
-        tempo = viewer.add_overlay(tempo,roi,line_overlay.retrieve_image());
-        tempo = viewer.add_overlay(tempo,roi,contour_overlay.retrieve_image());
-     
-        CaptureFrame output(image,"overlayed image");
-        output = timer.add_fps(tempo);//Adding FPS value
-        return output;
+    // //showing line and contour
+    tempo = viewer.add_overlay(tempo, roi, line_overlay.retrieve_image());
+    tempo = viewer.add_overlay(tempo, roi, contour_overlay.retrieve_image());
+
+    CaptureFrame output(image, "overlayed image");
+    output = timer.add_time(tempo); //Adding FPS value
+    return output;
 }
+void LaserRanging::pixel_distance_to_distance()
+{
+    (centerx[0]+centery[0] != 0)?left_range = left_laser_distance*2 : left_range = 0;
+  
+
+    (centerx[1]+centery[1] != 0)?right_range = right_laser_distance*2 : right_range = 0;
+  
+    (centerx[1]+centery[1] != 0 && centerx[0]+centery[0] != 0)?range = left_range + right_range : range = 0;
+    
+    return;
+}
+
 LaserRanging::LaserRanging()
 {
-    centerx[0] = centerx[1] = 0;//Initialising all centers to be zeros
+    centerx[0] = centerx[1] = 0; //Initialising all centers to be zeros
     centery[0] = centery[1] = 0;
+    range = left_range = right_range = 0;
 
-    laser_center_x = 630;//Initialising the laser center for range finding with single laser.
-    laser_center_y = 124;
+    laser_center_x = 630; //Initialising the laser center for range finding with single laser.
+    laser_center_y = 380;
 }

@@ -79,10 +79,8 @@ void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output an
             {   //show the video 
                 object.retrieve_video() >> temporary;
                 cv::imshow(object.window_name, temporary);
-                if(cv::waitKey(5)>=0)
-                {
-                    return;
-                }
+                if(cv::waitKey(1)>=0)return;
+                
             }
             return;
         }
@@ -133,20 +131,25 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
             return;
         }
     }
+    int row_max = std::max(image1.rows,image2.rows);
+    int col_max = std::max(image1.cols,image2.cols);
     //Copy the images to images to a bigger image and resize it to original size
-    cv::Mat full_image = cv::Mat(image1.rows, image1.cols + image2.cols, image1.type()); //the bigger image
+    cv::Mat full_image = cv::Mat::zeros(row_max, image1.cols + image2.cols, CV_8UC3); //the bigger image
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
-    if (cv::waitKey(30) >= 0) //Waits for a key press from user to continue.
+    if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
     {
         cv::destroyWindow("Multiple Outputs");
         return;
@@ -205,25 +208,32 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
             return;
         }
     }
+    int row_max1 = std::max(image1.rows,image2.rows);
+    int row_max2 = std::max(image4.rows,image3.rows);
+    int col_max = std::max(image1.cols,image2.cols);
     //Copy Images to a bigger image and resize itto original size and shows.
-    cv::Mat full_image = cv::Mat(image1.rows + image3.rows, image1.cols + image2.cols, image1.type());
+    cv::Mat full_image = cv::Mat::zeros(row_max1+row_max2,col_max+image3.cols, CV_8UC3);
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols / 2;
     sub_roi.y = image1.rows;
     sub_roi.height = image3.rows;
     sub_roi.width = image3.cols;
     image3.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object3.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
-    if (cv::waitKey(30) >= 0) //Waits for a key press from user to continue.
+    if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
     {
         cv::destroyWindow("Multiple Outputs");
         return;
@@ -295,32 +305,37 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
             return;
         }
     }
+    int row_max1 = std::max(image1.rows,image2.rows);
+    int col_max1 = std::max(image1.cols,image4.cols);
+    int row_max2 = std::max(image3.rows,image2.rows);
+    int col_max2 = std::max(image2.cols,image3.cols);
     //Copying all images to a single image and resize it to original size.
-    cv::Mat full_image = cv::Mat(image1.rows + image3.rows, image1.cols + image2.cols, image1.type());
+    cv::Mat full_image = cv::Mat::zeros(row_max1+row_max2,col_max1+col_max2, CV_8UC3);
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object1.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200, 0, 0), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object2.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 0, 250), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.y = image1.rows;
     sub_roi.height = image4.rows;
     sub_roi.width = image4.cols;
     image3.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object3.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 200, 0), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object3.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = 0;
     sub_roi.height = image3.rows;
     sub_roi.width = image3.cols;
     image4.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object4.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200, 200, 250), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object4.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
-    if (cv::waitKey(30) >= 0) //Waits for a key press from user to continue
+    if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue
     {
         cv::destroyWindow("Multiple Outputs");
         return;
@@ -371,17 +386,21 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
             return;
         }
     }
+    int row_max = std::max(image1.rows,image2.rows);
 
-    cv::Mat full_image = cv::Mat(image1.rows, image1.cols + image2.cols, image1.type());
+    cv::Mat full_image = cv::Mat::zeros(row_max, image1.cols + image2.cols, CV_8UC3);
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
     return;
@@ -437,22 +456,28 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
             return;
         }
     }
+    int row_max1 = std::max(image1.rows,image2.rows);
+    int col_max1 = std::max(image1.cols+image2.cols,image3.cols+image1.cols/2);
 
-    cv::Mat full_image = cv::Mat(image1.rows + image3.rows, image1.cols + image2.cols, image1.type());
+    cv::Mat full_image = cv::Mat::zeros(row_max1+image3.rows, col_max1, CV_8UC3);
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols / 2;
     sub_roi.y = image1.rows;
     sub_roi.height = image3.rows;
     sub_roi.width = image3.cols;
     image3.copyTo(full_image(sub_roi));
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object3.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
     return;
@@ -523,28 +548,33 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
             return;
         }
     }
-    cv::Mat full_image = cv::Mat(image1.rows + image3.rows, image1.cols + image2.cols, image1.type());
+    int row_max1 = std::max(image1.rows,image2.rows);
+    int row_max2 = std::max(image4.rows,image3.rows);
+    int col_max1 = std::max(image1.cols,image4.cols);
+    int col_max2 = std::max(image2.cols,image3.cols);
+    cv::Mat full_image = cv::Mat::zeros(row_max1+row_max2, col_max1+col_max2, CV_8UC3);
     cv::Rect sub_roi;
     sub_roi.x = 0;
     sub_roi.y = 0;
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object1.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200, 0, 0), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),15,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
+    sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object2.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 0, 250), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),15,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.y = image1.rows;
     sub_roi.height = image4.rows;
     sub_roi.width = image4.cols;
     image3.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object3.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 200, 0), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),25,10,object3.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = 0;
     sub_roi.height = image3.rows;
     sub_roi.width = image3.cols;
     image4.copyTo(full_image(sub_roi));
-    putText(full_image(sub_roi), object4.window_name, cvPoint(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200, 200, 250), 1, CV_AA);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),25,10,object4.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
     return;
@@ -556,24 +586,24 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     resize(object2.retrieve_image(), temporary2, cv::Size(object2.retrieve_image().cols * percent / 100, object2.retrieve_image().rows * percent / 100));
     resize(object3.retrieve_image(), temporary3, cv::Size(object3.retrieve_image().cols * percent / 100, object3.retrieve_image().rows * percent / 100));
     resize(object4.retrieve_image(), temporary4, cv::Size(object4.retrieve_image().cols * percent / 100, object4.retrieve_image().rows * percent / 100));
-    CaptureFrame output1(temporary1, "Resized Image");
-    CaptureFrame output2(temporary2, "Resized Image");
-    CaptureFrame output3(temporary3, "Resized Image");
-    CaptureFrame output4(temporary4, "Resized Image");
+    CaptureFrame output1(temporary1, object1.window_name);
+    CaptureFrame output2(temporary2, object2.window_name);
+    CaptureFrame output3(temporary3, object3.window_name);
+    CaptureFrame output4(temporary4, object4.window_name);
     ViewFrame::multiple_view_uninterrupted(output1, output2, output3, output4);
     return;
 }
-
-CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, std::string data)
+// Overloaded Functions to overlay data onto the image
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, std::string data)//For String when point is known
 {
     cv::Mat image = object.retrieve_image();
 
-    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
+    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.2, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
             
     CaptureFrame output(image,"overlayed image");
     return output;
 }
-CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, int data)
+CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, int data)//for integer on required position
 {
     cv::Mat image = object.retrieve_image();
     int x = x_percent*image.cols/100;
@@ -586,7 +616,35 @@ CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, i
     CaptureFrame output = add_overlay(object,x,y,s);
     return output;
 }
-CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, int data)
+//String with font size and thickness
+CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, std::string data,cv::Scalar color,int thick)
+{
+    cv::Mat image = object.retrieve_image();
+    int x = x_percent*image.cols/100;
+    int y = y_percent*image.rows/100;
+
+    std::ostringstream sst;
+    sst << data;
+    std::string s(sst.str());
+    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, color, thick, CV_AA);//Adding time into frame
+      
+    CaptureFrame output(image,"overlayed image");
+    return output;
+}
+//String with font size and thickness for Image
+cv::Mat ViewFrame::add_overlay_percent(cv::Mat input,int x_percent, int y_percent, std::string data,cv::Scalar color,int size,int thick)
+{
+    cv::Mat image = input;
+    int x = x_percent*image.cols/100;
+    int y = y_percent*image.rows/100;
+
+    std::ostringstream sst;
+    sst << data;
+    std::string s(sst.str());
+    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, double(size), color, thick, CV_AA);//Adding time into frame
+    return image;
+}
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, int data)//for integer when point is known
 {
     cv::Mat image = object.retrieve_image();
 
@@ -597,12 +655,24 @@ CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, int data)
     CaptureFrame output = add_overlay(object,x,y,s);
     return output;
 }
-CaptureFrame ViewFrame::add_overlay(CaptureFrame object,cv::Rect box, cv::Mat data)
+CaptureFrame ViewFrame::add_overlay(CaptureFrame object,cv::Rect box, cv::Mat data)//Overlay image through a known rectange
 {
     cv::Mat image = object.retrieve_image();
 
-    // data.copyTo(image(box));
     image(box) = image(box).clone() + data;
     CaptureFrame output(image,"overlayed image");
+    return output;
+}
+CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, float data)//for floating point numbers with required position
+{
+    cv::Mat image = object.retrieve_image();
+    int x = x_percent*image.cols/100;
+    int y = y_percent*image.rows/100;
+
+    std::ostringstream sst;
+    sst << data;
+    std::string s(sst.str());
+
+    CaptureFrame output = add_overlay(object,x,y,s);
     return output;
 }

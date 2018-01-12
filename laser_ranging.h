@@ -12,7 +12,8 @@ class LaserRanging : public ImageProcessing
 {
   private:
     float laser_distance;int centerx[2],centery[2];
-    CaptureFrame hsv_segment,ROI,dehaze,contour_overlay,line_overlay,original;
+    
+    
     Timer timer;//For time interval and FPS calculation
     //Special for single laser 
     float left_laser_distance, right_laser_distance;
@@ -20,6 +21,9 @@ class LaserRanging : public ImageProcessing
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
 
   public:
+    float range,left_range,right_range;
+    CaptureFrame hsv_segment,ROI,dehaze,contour_overlay,line_overlay,original;
+    
     CaptureFrame contour_distance(CaptureFrame); //Contour identification and pixel distance calculation.
 
     CaptureFrame contour_distance_single_laser(CaptureFrame); //Contour identification and pixel distance calculation.
@@ -37,6 +41,7 @@ class LaserRanging : public ImageProcessing
     
     CaptureFrame show_overlay(CaptureFrame);//Overlay different display data direclt onto the image
     CaptureFrame show_overlay_single_laser(CaptureFrame);//Overlay different display data direclt onto the image
+    void pixel_distance_to_distance();
     
     LaserRanging();//Constructor
 };

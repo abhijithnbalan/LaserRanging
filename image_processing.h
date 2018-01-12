@@ -13,7 +13,7 @@ class ImageProcessing //-------medianBlur or CLAHE dehazing-------//
 {
     private://These variables will be used internally
         cv::Mat element,inter;
-        cv::Mat image_hsv,image_hsv_threshold,image_hsv_threshold_low,image_hsv_threshold_high;
+        cv::Mat image_hsv,image_hsv_threshold,image_hsv_threshold_low,image_hsv_threshold_high,image_hsv_threshold_white;
         //The following varibles(preset by Constructor) can me modified.
         cv::Scalar thresh_high_0,thresh_high_180,thresh_low_0,thresh_low_180;
     protected://these variables will be shared in inheritance

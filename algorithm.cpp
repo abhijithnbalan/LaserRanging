@@ -1,4 +1,5 @@
 
+
 #include "algorithm.h"
 #include <opencv2/opencv.hpp> 
 
@@ -17,7 +18,7 @@ CaptureFrame Algorithm::CLAHE_dehaze(CaptureFrame object) //CLAHE based basic de
         cv::Mat dehazed;
         cvtColor(image_hsv, dehazed, cv::COLOR_HSV2BGR);
         GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
-        CaptureFrame output(dehazed, "Dehazed(CLAHE) image");
+        CaptureFrame output(dehazed, "Dehazed image");
         return output;
     }
 cv::Mat Algorithm::CLAHE_dehaze(cv::Mat object) //CLAHE based basic dehazing algorithm

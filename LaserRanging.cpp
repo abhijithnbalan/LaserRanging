@@ -14,25 +14,25 @@ int main(int argc, char** argv)//The main Function
     //----------VIDEO------------//
         LaserRanging Ranger;
         CaptureFrame vid;
-        vid.capture_video(argv[1],"The input");
+        vid.capture_video(argv[1],"Final output");
         Ranger.live_laser_ranging_single_laser(vid);
     
     //---------------------------//
 
     // ---------IMAGE------------//
-        // CaptureFrame img1,img2,img3,img4;
-        // ViewFrame viewer;
-        // ImageProcessing processer;
-        // img1.capture_image(argv[1],"A test one");~
+    //    LaserRanging Ranger;
+    //    ViewFrame viewer;
+    //    CaptureFrame img,out;
+    //    Ranger.set_roi(30);
+    //    img.capture_image(argv[1],"image");
+    //    out = Ranger.laser_ranging_single_laser(img);
+        
+    // //    out = viewer.add_overlay_percent;
+    // viewer.multiple_view_interrupted(out,Ranger.dehaze,Ranger.contour_overlay);
+    // // viewer.multiple_view_interrupted(Ranger.ROI,Ranger.hsv_segment,Ranger.contour_overlay,Ranger.dehaze);
+    // if(cv::waitKey(10)>=0)return 1;
 
-        // img2 = processer.hsv_segmentation(img1);
-        // img3 = processer.contour_distance(img2);
-        // img4 = processer.laser_ranging(img1);
-
-        // viewer.multiple_output(img1,img2,img3,img4);
-        // std::cout<<processer.get_distance()<<std::endl;
-        // cv::waitKey(0);
     //----------------------------//
 
-    return 1;
+    // return 1;
 }
