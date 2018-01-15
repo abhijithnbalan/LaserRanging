@@ -19,6 +19,8 @@ algorithm.h
 /home/plankton/CodeMax/LaserRangingV2/algorithm.h
 laser_ranging.h
 /home/plankton/CodeMax/LaserRangingV2/laser_ranging.h
+stdio.h
+-
 
 /home/plankton/CodeMax/LaserRangingV2/algorithm.h
 capture_frame.h

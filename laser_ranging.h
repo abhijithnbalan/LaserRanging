@@ -17,10 +17,10 @@ class LaserRanging : public ImageProcessing
     Timer timer;//For time interval and FPS calculation
     //Special for single laser 
     float left_laser_distance, right_laser_distance;
-    int laser_center_x,laser_center_y;
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
 
   public:
+    int laser_center_x,laser_center_y;
     float range,left_range,right_range;
     CaptureFrame hsv_segment,ROI,dehaze,contour_overlay,line_overlay,original;
     
