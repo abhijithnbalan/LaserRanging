@@ -5,6 +5,7 @@
 #include "image_processing.h"
 #include "view_frame.h"
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
 
 CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour identification and pixel distance calculation.
 {
@@ -207,14 +208,16 @@ CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1) //Calling every f
 
     ROI = roi_selection(original); //cropping out the region of interest
 
-    // dehaze = algo.CLAHE_dehaze(ROI);//dehazing using CLAHE algorithm
-
+    if(dehaze_use)
+    {
+        ROI = algo.CLAHE_dehaze(ROI);//dehazing using CLAHE algorithm
+    }
     hsv_segment = hsv_segmentation(ROI); //color segmentation through HSV conversion
 
     contour_overlay = contour_distance(hsv_segment); //contour identification
 
     CaptureFrame output = show_overlay(original); //overlaying necessary data
-
+    
     return output;
 }
 
@@ -223,15 +226,23 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
     timer.timer_init(); //initiating timer
 
     original = object1;
+    // std::cout<<object1.window_name<<"\n";
+
     ROI = roi_selection(original);
-
-    dehaze = algo.CLAHE_dehaze(ROI);
-
-    hsv_segment = hsv_segmentation(dehaze);
+    if(dehaze_use)
+    {
+        ROI = algo.CLAHE_dehaze(ROI);
+    }
+    // std::cout<<ROI.window_name<<"\n";
+    hsv_segment = hsv_segmentation(ROI);
+    // std::cout<<hsv_segment.window_name<<"\n";
 
     contour_overlay = contour_distance_single_laser(hsv_segment);
+    // std::cout<<contour_overlay.window_name<<"\n";
 
     CaptureFrame output = show_overlay_single_laser(original);
+        std::cout<<output.window_name<<"\n";
+
 
     timer.timer_end(); //ending timer and calculating time interval and fps
 
@@ -240,6 +251,13 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
 //laser ranging for video input
 void LaserRanging::live_laser_ranging(CaptureFrame vid)
 {
+    // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+    // cv::createTrackbar("Hue Lower threshold","Control Panel",&hue_lower,50,on_trackbar,this);
+    // cv::createTrackbar("Hue Upper threshold","Control Panel",&hue_upper,50,on_trackbar,this);
+    // cv::createTrackbar("Lightess Upper threshold","Control Panel",&lightness_upper,50,on_trackbar,this);
+    // cv::createTrackbar("Saturation Upper threshold","Control Panel",&saturation_upper,50,on_trackbar,this);
+    // cv::createTrackbar("Value Lower threshold","Control Panel",&value_lower,50,on_trackbar,this);
+
     CaptureFrame out_frame, out_timer;
     ViewFrame viewer;
     std::cout << "Press any key to exit " << "\n";
@@ -248,11 +266,11 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 
         vid.frame_extraction();                          //Frame extraction from video
         out_frame = laser_ranging(vid);                  //single frame laser range detection
-        pixel_distance_to_distance();
+        // pixel_distance_to_distance();
         // viewer.single_view_uninterrupted(out_frame, 50); //showing the output resized to 50 percent
-        viewer.multiple_view_uninterrupted(out_frame,dehaze,hsv_segment,contour_overlay);//showing the steps as mutliple input
-        printf("\r Range : %f",range);
-        if (cv::waitKey(1) >= 0)
+        viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay);//showing the steps as mutliple input
+        // printf("\r Range : %f",range);
+        if (cv::waitKey(3) >= 0)
             break;
     }
     return;
@@ -260,20 +278,29 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 //video laser range detection with single laser ranging enabled
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
+    // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+    
+    // cv::createTrackbar("Hue Lower threshold","",&hue_lower,30,on_trackbar,this);
+    // cv::createTrackbar("Hue Upper threshold","",&hue_upper,20,on_trackbar,this);
+    // cv::createTrackbar("Lightness Upper threshold","",&lightness_upper,50,on_trackbar,this);
+    // cv::createTrackbar("Saturation Lower threshold","",&saturation_upper,130,on_trackbar,this);
+    // cv::createTrackbar("Value Lower threshold","",&value_lower,130,on_trackbar,this);
+    // cv::createButton("Use White?",on_button,this,CV_CHECKBOX,0);
+
     CaptureFrame out_frame, out_timer, test;
     ViewFrame viewer;
     std::cout << "Press any key to exit " << "\n";
 
     for (;;)
     {
-
+        std::cout<<cv::getNumThreads()<<"\n";
         vid.frame_extraction();                      //frame extraction from video
         out_frame = laser_ranging_single_laser(vid); //single frame laser ranging
         pixel_distance_to_distance();
         printf("\r[ Left Range : %f \tRight Range : %f ]",left_range,right_range);
         viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay,ROI);//showing the steps as multiple inputs
         // viewer.single_view_uninterrupted(out_frame, 50); //show output with resizing by 50 percent
-        if (cv::waitKey(2) >= 0)
+        if (cv::waitKey(3) >= 0)
             break;
     }
     return;
@@ -295,8 +322,8 @@ CaptureFrame LaserRanging::show_overlay(CaptureFrame object)
     image(roi) = image(roi).clone() - line_overlay.retrieve_image();
     image(roi) = image(roi).clone() - contour_overlay.retrieve_image();
 
-    CaptureFrame output(image, "overlayed image");
-    output = timer.add_fps(output); //Adding maximum fps
+    CaptureFrame output(image, "overlayed output");
+    output = timer.add_time(output); //Adding maximum fps
     return object;
 }
 
@@ -335,6 +362,33 @@ void LaserRanging::pixel_distance_to_distance()
     return;
 }
 
+void LaserRanging::single_frame_laser_ranging(CaptureFrame object)
+{
+    while(true)
+    {
+        // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+
+    original = object;
+    // cv::createTrackbar("Hue Lower threshold","",&hue_lower,50,on_trackbar_single,this);
+    // cv::createTrackbar("Hue Upper threshold","",&hue_upper,50,on_trackbar_single,this);
+    // cv::createTrackbar("Lightess Upper threshold","",&lightness_upper,50,on_trackbar_single,this);
+    // cv::createTrackbar("Saturation Upper threshold","",&saturation_upper,50,on_trackbar_single,this);
+    // cv::createTrackbar("Value Lower threshold","",&value_lower,50,on_trackbar_single,this);
+    
+    ViewFrame viewer;
+    CaptureFrame out;
+    set_roi(30);
+    
+    out = laser_ranging_single_laser(object);
+        
+    //    out = viewer.add_overlay_percent;
+    // viewer.multiple_view_interrupted(ROI,hsv_segment,contour_overlay);
+    char c = (char)cv::waitKey(30);
+        if (c == 27)return;
+    }
+
+}
+
 LaserRanging::LaserRanging()
 {
     centerx[0] = centerx[1] = 0; //Initialising all centers to be zeros
@@ -343,4 +397,6 @@ LaserRanging::LaserRanging()
 
     laser_center_x = 630; //Initialising the laser center for range finding with single laser.
     laser_center_y = 380;
+    dehaze_use = false;
+    hue_lower = 20,hue_upper =16,saturation_upper = 95,value_lower = 75,lightness_upper = 40;
 }

@@ -8,38 +8,32 @@
 #include "algorithm.h"
 #include "laser_ranging.h"
 #include <stdio.h>
+#include <opencv2/highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 int main(int argc, char** argv)//The main Function
 {
 LaserRanging Ranger;
-std::string filename = argv[1];
-std::string extension = filename.substr(filename.find_last_of(".") + 1);
-if(extension == "mp4" ||extension == "avi" ||extension == "flv")
-{
+// std::string filename = argv[1];
+// std::string extension = filename.substr(filename.find_last_of(".") + 1);
+// if(extension == "mp4" ||extension == "avi" ||extension == "flv")
+// {
     //----------VIDEO------------//
-        
         CaptureFrame vid;
-        vid.capture_video(argv[1],"Final output");
+        vid.capture_video(argv[1],"Input");
+        // Ranger.dehaze_use = true;
         Ranger.live_laser_ranging_single_laser(vid);
     
-    //---------------------------//
-}
-if(extension == "png" ||extension == "jpg" ||extension == "jpeg")
-{
-    // ---------IMAGE------------//
-       
-       ViewFrame viewer;
-       CaptureFrame img,out;
-       Ranger.set_roi(30);
-       img.capture_image(argv[1],"image");
-       out = Ranger.laser_ranging_single_laser(img);
-        
-    //    out = viewer.add_overlay_percent;
-    viewer.multiple_view_interrupted(out,Ranger.dehaze,Ranger.contour_overlay);
-    // viewer.multiple_view_interrupted(Ranger.ROI,Ranger.hsv_segment,Ranger.contour_overlay,Ranger.dehaze);
-    if(cv::waitKey(10)>=0)return 1;
-}
-    //----------------------------//
+    // //---------------------------//
+// }
+// if(extension == "png" ||extension == "jpg" ||extension == "jpeg")
+// {
+//     // ---------IMAGE------------//
+    // CaptureFrame img;
+    // img.capture_image(argv[1],"image");
+    // Ranger.single_frame_laser_ranging(img);
 
+//     //----------------------------//
+// }
     return 1;
 }

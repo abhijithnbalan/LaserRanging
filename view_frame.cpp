@@ -600,7 +600,7 @@ CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, std::strin
 
     putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.2, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
             
-    CaptureFrame output(image,"overlayed image");
+    CaptureFrame output(image,"overlayed output");
     return output;
 }
 CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, int data)//for integer on required position
