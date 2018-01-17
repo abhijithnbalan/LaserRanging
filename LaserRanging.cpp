@@ -18,20 +18,20 @@ LaserRanging Ranger;
 // std::string extension = filename.substr(filename.find_last_of(".") + 1);
 // if(extension == "mp4" ||extension == "avi" ||extension == "flv")
 // {
-    //----------VIDEO------------//
-        CaptureFrame vid;
-        vid.capture_video(argv[1],"Input");
-        // Ranger.dehaze_use = true;
-        Ranger.live_laser_ranging_single_laser(vid);
+    // //----------VIDEO------------//
+    //     CaptureFrame vid;
+    //     vid.capture_video(argv[1],"Input");
+    //     // Ranger.dehaze_use = true;
+    //     Ranger.live_laser_ranging_single_laser(vid);
     
     // //---------------------------//
 // }
 // if(extension == "png" ||extension == "jpg" ||extension == "jpeg")
 // {
 //     // ---------IMAGE------------//
-    // CaptureFrame img;
-    // img.capture_image(argv[1],"image");
-    // Ranger.single_frame_laser_ranging(img);
+    CaptureFrame img;
+    img.capture_image(argv[1],"image");
+    Ranger.single_frame_laser_ranging(img);
 
 //     //----------------------------//
 // }

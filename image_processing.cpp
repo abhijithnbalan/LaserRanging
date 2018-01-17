@@ -9,7 +9,7 @@
 
 CaptureFrame ImageProcessing::roi_selection(CaptureFrame object1) //Selecting the Region of interst. full width is taken.
 {
-    cv::Mat image1 = object1.retrieve_image();
+    cv::Mat image1 = object1.retrieve_image().clone();
     //roi selection
     roi = cv::Rect(0, image1.rows / 2 - image1.rows * roi_percentage / 200, image1.cols, image1.rows * roi_percentage / 100);
     cv::Mat temp = image1(roi).clone();
@@ -27,9 +27,9 @@ cv::Mat ImageProcessing::roi_selection(cv::Mat image1) //Selecting the Region of
 
 CaptureFrame ImageProcessing::hsv_segmentation(CaptureFrame object1) //Color segmentation. according to threshold set.
 {
-    cvtColor(object1.retrieve_image(), image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identificati    on
+    cvtColor(object1.retrieve_image().clone(), image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identificati    on
     cv::Mat image_hls;
-    cvtColor(object1.retrieve_image(), image_hls, cv::COLOR_BGR2HLS);
+    cvtColor(object1.retrieve_image().clone(), image_hls, cv::COLOR_BGR2HLS);
     // Segmentation according to the value set in threshold variables
     inRange(image_hsv, thresh_low_0, thresh_low_180, image_hsv_threshold_low); 
     inRange(image_hsv, thresh_high_0, thresh_high_180, image_hsv_threshold_high);
@@ -87,14 +87,14 @@ void ImageProcessing::set_roi(int req_percent) // Function to set the Region of 
 
 void ImageProcessing::on_trackbar(int red , void* ptr)
 {
-     std::cout<<"ontrack\n";
+    //  std::cout<<"ontrack\n";
     ImageProcessing *c = (ImageProcessing*)(ptr);
     c->myhandler(red);
     return;
 }
 void ImageProcessing::on_trackbar_single(int red , void* ptr)
 {
-     std::cout<<"ontrack\n";
+    //  std::cout<<"ontrack\n";
     ImageProcessing *c = (ImageProcessing*)(ptr);
     c->myhandler_single(red);
     return;
@@ -106,7 +106,7 @@ void ImageProcessing::myhandler(int red)
     thresh_low_0 = cv::Scalar(0,255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
     thresh_high_0 = cv::Scalar(180-cv::getTrackbarPos("Hue Lower threshold",""),255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
     thresh_white = cv::Scalar(0,255-cv::getTrackbarPos("Lightness Upper threshold",""),0,0);
-    std::cout<<"myhandler\n";
+    // std::cout<<"myhandler\n";
     std::ostringstream sst;
     if(white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","")<<" lu:"<<255-cv::getTrackbarPos("Lightness Upper threshold","");
     if(!white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","");
@@ -120,7 +120,7 @@ void ImageProcessing::myhandler_single(int red)
     thresh_low_0 = cv::Scalar(0,255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
     thresh_high_0 = cv::Scalar(180-cv::getTrackbarPos("Hue Lower threshold",""),255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
     thresh_white = cv::Scalar(0,255-cv::getTrackbarPos("Lightness Upper threshold",""),0,0);
-    std::cout<<"myhandler\n";
+    // std::cout<<"myhandler\n";
     std::ostringstream sst;
     if(white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","")<<" lu:"<<255-cv::getTrackbarPos("Lightness Upper threshold","");
     if(!white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","");
@@ -133,7 +133,7 @@ void ImageProcessing::myhandler_single(int red)
 
 void ImageProcessing::on_button(int state , void* ptr )
 {
-     std::cout<<"onbutton\n";
+    //  std::cout<<"onbutton\n";
     ImageProcessing *c = (ImageProcessing*)(ptr);
     c->myhandlerbutton(state);
     return;
@@ -143,7 +143,7 @@ void ImageProcessing::myhandlerbutton(int state)
 {
     if(state == 1)white_use = true;
     else white_use = false;
-    std::cout<<"myhandler\n";
+    // std::cout<<"myhandler\n";
     return;
 }
 

@@ -18,7 +18,7 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
 
-    temp = object1.retrieve_image();
+    temp = object1.retrieve_image().clone();
     if (temp.channels() != 1) //check whether the image is segemented or not.
     {
         std::cout << "The image is not segemented for contour identification" << "\n";
@@ -95,7 +95,7 @@ CaptureFrame LaserRanging::contour_distance_single_laser(CaptureFrame object1) /
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
 
-    temp = object1.retrieve_image();
+    temp = object1.retrieve_image().clone();
     if (temp.channels() != 1) //check whether the image is segemented or not.
     {
         std::cout << "The image is not segemented for contour identification" << "\n";
@@ -225,7 +225,7 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
 {
     timer.timer_init(); //initiating timer
 
-    original = object1;
+    original.reload_image(object1.retrieve_image().clone(),"test");
     // std::cout<<object1.window_name<<"\n";
 
     ROI = roi_selection(original);
@@ -241,8 +241,6 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
     // std::cout<<contour_overlay.window_name<<"\n";
 
     CaptureFrame output = show_overlay_single_laser(original);
-        std::cout<<output.window_name<<"\n";
-
 
     timer.timer_end(); //ending timer and calculating time interval and fps
 
@@ -251,12 +249,12 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
 //laser ranging for video input
 void LaserRanging::live_laser_ranging(CaptureFrame vid)
 {
-    // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
-    // cv::createTrackbar("Hue Lower threshold","Control Panel",&hue_lower,50,on_trackbar,this);
-    // cv::createTrackbar("Hue Upper threshold","Control Panel",&hue_upper,50,on_trackbar,this);
-    // cv::createTrackbar("Lightess Upper threshold","Control Panel",&lightness_upper,50,on_trackbar,this);
-    // cv::createTrackbar("Saturation Upper threshold","Control Panel",&saturation_upper,50,on_trackbar,this);
-    // cv::createTrackbar("Value Lower threshold","Control Panel",&value_lower,50,on_trackbar,this);
+    cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+    cv::createTrackbar("Hue Lower threshold","Control Panel",&hue_lower,50,on_trackbar,this);
+    cv::createTrackbar("Hue Upper threshold","Control Panel",&hue_upper,50,on_trackbar,this);
+    cv::createTrackbar("Lightess Upper threshold","Control Panel",&lightness_upper,50,on_trackbar,this);
+    cv::createTrackbar("Saturation Upper threshold","Control Panel",&saturation_upper,50,on_trackbar,this);
+    cv::createTrackbar("Value Lower threshold","Control Panel",&value_lower,50,on_trackbar,this);
 
     CaptureFrame out_frame, out_timer;
     ViewFrame viewer;
@@ -278,14 +276,14 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 //video laser range detection with single laser ranging enabled
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
-    // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+    cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
     
-    // cv::createTrackbar("Hue Lower threshold","",&hue_lower,30,on_trackbar,this);
-    // cv::createTrackbar("Hue Upper threshold","",&hue_upper,20,on_trackbar,this);
-    // cv::createTrackbar("Lightness Upper threshold","",&lightness_upper,50,on_trackbar,this);
-    // cv::createTrackbar("Saturation Lower threshold","",&saturation_upper,130,on_trackbar,this);
-    // cv::createTrackbar("Value Lower threshold","",&value_lower,130,on_trackbar,this);
-    // cv::createButton("Use White?",on_button,this,CV_CHECKBOX,0);
+    cv::createTrackbar("Hue Lower threshold","",&hue_lower,30,on_trackbar,this);
+    cv::createTrackbar("Hue Upper threshold","",&hue_upper,20,on_trackbar,this);
+    cv::createTrackbar("Lightness Upper threshold","",&lightness_upper,50,on_trackbar,this);
+    cv::createTrackbar("Saturation Lower threshold","",&saturation_upper,130,on_trackbar,this);
+    cv::createTrackbar("Value Lower threshold","",&value_lower,130,on_trackbar,this);
+    cv::createButton("Use White?",on_button,this,CV_CHECKBOX,0);
 
     CaptureFrame out_frame, out_timer, test;
     ViewFrame viewer;
@@ -293,7 +291,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 
     for (;;)
     {
-        std::cout<<cv::getNumThreads()<<"\n";
+        // std::cout<<cv::getNumThreads()<<"\n";
         vid.frame_extraction();                      //frame extraction from video
         out_frame = laser_ranging_single_laser(vid); //single frame laser ranging
         pixel_distance_to_distance();
@@ -364,29 +362,31 @@ void LaserRanging::pixel_distance_to_distance()
 
 void LaserRanging::single_frame_laser_ranging(CaptureFrame object)
 {
-    while(true)
-    {
-        // cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
+    cv::namedWindow("Multiple Outputs",CV_WINDOW_AUTOSIZE);
 
-    original = object;
-    // cv::createTrackbar("Hue Lower threshold","",&hue_lower,50,on_trackbar_single,this);
-    // cv::createTrackbar("Hue Upper threshold","",&hue_upper,50,on_trackbar_single,this);
-    // cv::createTrackbar("Lightess Upper threshold","",&lightness_upper,50,on_trackbar_single,this);
-    // cv::createTrackbar("Saturation Upper threshold","",&saturation_upper,50,on_trackbar_single,this);
-    // cv::createTrackbar("Value Lower threshold","",&value_lower,50,on_trackbar_single,this);
-    
+    // CaptureFrame original1 = object;
+    cv::createTrackbar("Hue Lower threshold","",&hue_lower,30,on_trackbar,this);
+    cv::createTrackbar("Hue Upper threshold","",&hue_upper,20,on_trackbar,this);
+    cv::createTrackbar("Lightness Upper threshold","",&lightness_upper,50,on_trackbar,this);
+    cv::createTrackbar("Saturation Lower threshold","",&saturation_upper,130,on_trackbar,this);
+    cv::createTrackbar("Value Lower threshold","",&value_lower,130,on_trackbar,this);
+    cv::createButton("Use White?",on_button,this,CV_CHECKBOX,0);
     ViewFrame viewer;
-    CaptureFrame out;
+    // cv::Mat image = object.retrieve_image().clone();
+    CaptureFrame in,out;
     set_roi(30);
-    
-    out = laser_ranging_single_laser(object);
+    for(;;)
+    {   
+        // in.reload_image(image,"test");
+        out = laser_ranging_single_laser(object);
+        // imshow("dil ",image);
         
     //    out = viewer.add_overlay_percent;
-    // viewer.multiple_view_interrupted(ROI,hsv_segment,contour_overlay);
-    char c = (char)cv::waitKey(30);
-        if (c == 27)return;
+        viewer.multiple_view_uninterrupted(out,ROI,hsv_segment,contour_overlay);
+        // ROI.clear();hsv_segment.clear();contour_overlay.clear();
+        if(cv::waitKey(100)>=0)break;
     }
-
+    return;
 }
 
 LaserRanging::LaserRanging()
