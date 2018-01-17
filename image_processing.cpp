@@ -153,5 +153,6 @@ ImageProcessing::ImageProcessing() //Constructor definition The values are prese
     thresh_low_0 = cv::Scalar(0, 140, 180, 0), thresh_low_180 = cv::Scalar(16, 255, 255, 0),
     thresh_high_0 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0); //Threshold values preset for red color identification.
     thresh_white = cv::Scalar(0,215,0,0);
+    white_use = false;
     element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(0, 0));         //Structuring element for dilation and erosion
 }

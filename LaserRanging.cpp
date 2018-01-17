@@ -19,11 +19,17 @@ LaserRanging Ranger;
 // if(extension == "mp4" ||extension == "avi" ||extension == "flv")
 // {
     //----------VIDEO------------//
+    
         CaptureFrame vid;
         vid.capture_video(argv[1],"Input");
-        // Ranger.dehaze_use = true;
-        Ranger.live_laser_ranging_single_laser(vid);
+        Ranger.dehaze_use = true;
+        Ranger.white_use = true;
+        Ranger.live_laser_ranging(vid);
     
+
+
+
+
     // //---------------------------//
 // }
 // if(extension == "png" ||extension == "jpg" ||extension == "jpeg")

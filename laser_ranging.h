@@ -12,7 +12,7 @@ class LaserRanging : public ImageProcessing
 {
   private:
     float laser_distance;int centerx[2],centery[2];
-    
+     Timer timer1,timer2,timer3,timer4,timer5,timer6;
     Timer timer;//For time interval and FPS calculation
     //Special for single laser 
     float left_laser_distance, right_laser_distance;

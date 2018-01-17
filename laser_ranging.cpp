@@ -204,20 +204,24 @@ float LaserRanging::get_right_laser_distance() //Funtion to retrieve the right l
 
 CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1) //Calling every functions for laser ranging and show it on the input image.
 {
+    timer.timer_init();
     original = object1; //keeping the original input
 
     ROI = roi_selection(original); //cropping out the region of interest
-
+    timer1.timer_end();
     if(dehaze_use)
     {
-        ROI = algo.CLAHE_dehaze(ROI);//dehazing using CLAHE algorithm
+        ROI = algo.hist_equalize(ROI);//dehazing using CLAHE algorithm
     }
+    timer2.timer_end();
     hsv_segment = hsv_segmentation(ROI); //color segmentation through HSV conversion
-
+    timer3.timer_end();
     contour_overlay = contour_distance(hsv_segment); //contour identification
-
+    timer4.timer_end();
     CaptureFrame output = show_overlay(original); //overlaying necessary data
-    
+    timer5.timer_end();
+
+    timer.timer_end();
     return output;
 }
 
@@ -229,20 +233,21 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
     // std::cout<<object1.window_name<<"\n";
 
     ROI = roi_selection(original);
+    timer1.timer_end();
     if(dehaze_use)
     {
-        ROI = algo.CLAHE_dehaze(ROI);
+        ROI = algo.hist_equalize(ROI);
     }
+    timer2.timer_end();
     // std::cout<<ROI.window_name<<"\n";
     hsv_segment = hsv_segmentation(ROI);
     // std::cout<<hsv_segment.window_name<<"\n";
-
+    timer3.timer_end();
     contour_overlay = contour_distance_single_laser(hsv_segment);
     // std::cout<<contour_overlay.window_name<<"\n";
-
+    timer4.timer_end();
     CaptureFrame output = show_overlay_single_laser(original);
-        std::cout<<output.window_name<<"\n";
-
+    timer5.timer_end();
 
     timer.timer_end(); //ending timer and calculating time interval and fps
 
@@ -257,18 +262,31 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
     // cv::createTrackbar("Lightess Upper threshold","Control Panel",&lightness_upper,50,on_trackbar,this);
     // cv::createTrackbar("Saturation Upper threshold","Control Panel",&saturation_upper,50,on_trackbar,this);
     // cv::createTrackbar("Value Lower threshold","Control Panel",&value_lower,50,on_trackbar,this);
+    
+            float time1 = 0,time2 = 0,time3 = 0,time4 = 0,time5 = 0,time6 = 0,time7 = 0;
 
     CaptureFrame out_frame, out_timer;
     ViewFrame viewer;
     std::cout << "Press any key to exit " << "\n";
-    for (;;)
+    for (int p = 1;;p++)
     {
-
+        timer1.timer_init();timer2.timer_init();timer3.timer_init();timer4.timer_init();
+        timer5.timer_init();timer6.timer_init();
         vid.frame_extraction();                          //Frame extraction from video
         out_frame = laser_ranging(vid);                  //single frame laser range detection
         // pixel_distance_to_distance();
         // viewer.single_view_uninterrupted(out_frame, 50); //showing the output resized to 50 percent
         viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay);//showing the steps as mutliple input
+        timer6.timer_end();
+        time1 = (time1*(p-1)+timer1.execution_time)/p;
+        time2 = (time2*(p-1)+timer2.execution_time)/p;
+        time3 = (time3*(p-1)+timer3.execution_time)/p;
+        time4 = (time4*(p-1)+timer4.execution_time)/p;
+        time5 = (time5*(p-1)+timer5.execution_time)/p;
+        time6 = (time6*(p-1)+timer6.execution_time)/p;
+        time7 = (time7*(p-1)+timer.execution_time)/p;
+        printf("ROI: %5f Dehaze: %5f HSV: %5f contour: %5f overlay: %5f display: %5f Code: %5f Total: %5f\n",time1,time2-time1,time3-time2,time4-time3,time5-time4,time6-time5,time7,time6);
+        
         // printf("\r Range : %f",range);
         if (cv::waitKey(3) >= 0)
             break;
@@ -286,20 +304,32 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
     // cv::createTrackbar("Saturation Lower threshold","",&saturation_upper,130,on_trackbar,this);
     // cv::createTrackbar("Value Lower threshold","",&value_lower,130,on_trackbar,this);
     // cv::createButton("Use White?",on_button,this,CV_CHECKBOX,0);
-
+   
+    
+    float time1 = 0,time2 = 0,time3 = 0,time4 = 0,time5 = 0,time6 = 0,time7 = 0;
     CaptureFrame out_frame, out_timer, test;
     ViewFrame viewer;
     std::cout << "Press any key to exit " << "\n";
 
-    for (;;)
+    for (int p = 1;;p++)
     {
-        std::cout<<cv::getNumThreads()<<"\n";
+        timer1.timer_init();timer2.timer_init();timer3.timer_init();timer4.timer_init();
+        timer5.timer_init();timer6.timer_init();
         vid.frame_extraction();                      //frame extraction from video
         out_frame = laser_ranging_single_laser(vid); //single frame laser ranging
         pixel_distance_to_distance();
-        printf("\r[ Left Range : %f \tRight Range : %f ]",left_range,right_range);
+        // printf("\r[ Left Range : %f \tRight Range : %f ]",left_range,right_range);
         viewer.multiple_view_uninterrupted(out_frame,hsv_segment,contour_overlay,ROI);//showing the steps as multiple inputs
         // viewer.single_view_uninterrupted(out_frame, 50); //show output with resizing by 50 percent
+        timer6.timer_end();
+        time1 = (time1*(p-1)+timer1.execution_time)/p;
+        time2 = (time2*(p-1)+timer2.execution_time)/p;
+        time3 = (time3*(p-1)+timer3.execution_time)/p;
+        time4 = (time4*(p-1)+timer4.execution_time)/p;
+        time5 = (time5*(p-1)+timer5.execution_time)/p;
+        time6 = (time6*(p-1)+timer6.execution_time)/p;
+        time7 = (time7*(p-1)+timer.execution_time)/p;
+        printf("ROI: %5f Dehaze: %5f HSV: %5f contour: %5f overlay: %5f display: %5f Code: %5f Total: %5f\n",time1,time2-time1,time3-time2,time4-time3,time5-time4,time6-time5,time7,time6);
         if (cv::waitKey(3) >= 0)
             break;
     }
