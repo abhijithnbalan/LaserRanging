@@ -18,11 +18,11 @@ class ImageProcessing //-------medianBlur or CLAHE dehazing-------//
         
     protected://these variables will be shared in inheritance
         cv::Rect roi; Algorithm algo;bool flag;
-        int hue_upper,hue_lower,saturation_upper,value_lower,lightness_upper;bool white_use;
+        int hue_upper,hue_lower,saturation_upper,value_lower,lightness_upper;
         
 
     public:
-        
+        bool white_use;
         cv::Scalar thresh_high_0,thresh_high_180,thresh_low_0,thresh_low_180,thresh_white;
         int roi_percentage;
         cv::Mat element;
