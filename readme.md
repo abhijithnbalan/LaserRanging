@@ -7,13 +7,10 @@ LASER RANGING
 
 ## USAGE
 
+>make
 
-```shell
-     
-    make
+>./LaserRanging <path to video or image>
 
-    ./LaserRanging <path to video or image>
-```
 
 ## INCLUDED FILES
 
@@ -21,90 +18,112 @@ LASER RANGING
 
 1. laser_ranging.cpp   
             
-    **Functions**
+    ***Functions***
 
     * contour_distance                :
     
-        * Identify contours and distance between them in a segmented image                
+        *Identify contours and distance between them in a segmented image*              
     * contour_distance_single_laser   : 
     
-        * Identify contours and distance between them in a segmented image for single laser ranging enabled
+        *Identify contours and distance between them in a segmented image for single laser ranging enabled*
     * get_laser_distance              : 
     
-        * Distance from two laser dots     
+        *Distance from two laser dots*
     * get_left_laser_distance         : 
     
-        * Distance according to left laser dot        
+        *Distance according to left laser dot*      
     * get_right_laser_distance        : 
     
-        * Distance according to right laser dot   
+        *Distance according to right laser dot*  
     *    laser_ranging                   : 
     
-            * Single function to call all associated functions for laser ranging   
+            *Single function to call all associated functions for laser ranging*   
     * laser_ranging_single_laser      : 
     
-        * Single function to call all associated functions for laser ranging with single laser ranging enabled
+        *Single function to call all associated functions for laser ranging with single laser ranging enabled*
     * show_overlay                    : 
     
-        * Show overlays associated with laser ranging   
+        *Show overlays associated with laser ranging*   
     * show_overlay_single_laser       : 
     
-        * Show overlays associated with laser ranging with single laser ranging enabled 
+        *Show overlays associated with laser ranging with single laser ranging enabled* 
 
-        **Public Variables**
+    ***Public Variables***
     * laser_center_x                  : 
-        * to change the center point between two lasers (single laser only)
+        
+        *to change the center point between two lasers (single laser only)*
     * laser_center_y                  : 
-        * to change the center point between two lasers
+        
+        *to change the center point between two lasers*
     * range                           : 
-        * to extract range data
+        
+        *to extract range data*
     * left_range and right_range      : 
-        * to extract left range data and right range data (single laser only)
+        
+        *to extract left range data and right range data (single laser only)*
     * hsv_segment                     : 
-        * to extrace segemented image
+        
+        *to extrace segemented image*
     * ROI                             : 
-        * to extract region of interest 
+        
+        *to extract region of interest*
     * extract dehazed image
     * contour_overlay                 : 
-        * to extract contour identified
+        
+        *to extract contour identified*
     *  line_overlay                    : 
-        * to extract line drawn between the contors
+        
+        *to extract line drawn between the contors*
+
     *  original                        : 
-        * to extract the original image that is passed to laser ranging 
+        
+        *to extract the original image that is passed to laser ranging* 
 
 2. image_processing.cpp
 
     **Functions**
 
     *  roi_selection                   :
-        *  Crop the region of interset
+        
+        *Crop the region of interset*
     *  hsv_segmentation                : 
-        * Segment image according to color set previously (preset for red)
+        
+        *Segment image according to color set previously (preset for red)*
     *  set_threshold                   : 
-        * set color threshold according to scene
+        
+        *set color threshold according to scene*
     * set_roi                         : 
-        * Set region of interset percentage
+        
+        *Set region of interset percentage*
 
-    **Public Variables**
+    ***Public Variables***
 
     * threshold_high_0                : 
-        * to set high value of color threshold in 0 hue range
+        
+        *to set high value of color threshold in 0 hue range*
     * threshold_high_180              : 
-        * to set high value of color threshold in 180 hue range
+        
+        *to set high value of color threshold in 180 hue range*
     * threshold_low_0                 : 
-        *   to set low value of color threshold in 0 hue range
+        
+        *to set low value of color threshold in 0 hue range*
     * threshold_low_180               : 
-        * to set low value of color threshold in 180 hue range
+        
+        *to set low value of color threshold in 180 hue range*
     * roi_percentage                  : 
-        * to set required region of interest percentage
+       
+        *to set required region of interest percentage*
 
  3. algorithm.cpp
 
-    **Functions**
+
+    ***Functions***
     * CLAHE_dehaze                     : 
-        * Dehaze using CLAHE algorithm
+        
+        *Dehaze using CLAHE algorithm*
     * hist_equalize:                     : 
-        * Dehaze using normal histogram equalization.
+       
+        *Dehaze using normal histogram equalization.*
 4. view_frame.cpp
 
     * **single_view_interrupted**         : 
@@ -152,9 +171,9 @@ LASER RANGING
     
         *clear all the data in the object
         
-6. timer.cpp    
+6. **timer.cpp**    
 
-    **Functions**
+    ***Functions***
     * timer_init                      : 
         
         *start the timer*
@@ -168,10 +187,11 @@ LASER RANGING
     
         *add maximum fps as overlay to imgae*
 
-    **Public Variables**
+    ***Public Variables***
     *    execution_time                  : 
     
-        *to extract the execution time data*
+            *to extract the execution time data*
+
     * fps  :
 
         *to extract the maximum fps data*
