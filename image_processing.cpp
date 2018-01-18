@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "view_frame.h"
 
-#include <opencv2/opencv.hpp> 
+#include <opencv2/opencv.hpp>
 
 CaptureFrame ImageProcessing::roi_selection(CaptureFrame object1) //Selecting the Region of interst. full width is taken.
 {
@@ -31,13 +31,13 @@ CaptureFrame ImageProcessing::hsv_segmentation(CaptureFrame object1) //Color seg
     cv::Mat image_hls;
     cvtColor(object1.retrieve_image().clone(), image_hls, cv::COLOR_BGR2HLS);
     // Segmentation according to the value set in threshold variables
-    inRange(image_hsv, thresh_low_0, thresh_low_180, image_hsv_threshold_low); 
+    inRange(image_hsv, thresh_low_0, thresh_low_180, image_hsv_threshold_low);
     inRange(image_hsv, thresh_high_0, thresh_high_180, image_hsv_threshold_high);
     image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
 
-    if(white_use)
+    if (white_use)
     {
-        inRange(image_hls, thresh_white, cv::Scalar(255,255,255,0), image_hsv_threshold_white);
+        inRange(image_hls, thresh_white, cv::Scalar(255, 255, 255, 0), image_hsv_threshold_white);
         image_hsv_threshold = image_hsv_threshold + image_hsv_threshold_white;
     }
     // imshow("hsvt",image_hsv_threshold_white);
@@ -77,82 +77,88 @@ void ImageProcessing::set_threshold(CaptureFrame object1) //Function to set the 
     //     thresh_low_0 = cv::Scalar(21, 160, 180, 0),thresh_low_180 = cv::Scalar(33, 255, 255, 0),
     //     thresh_high_0 = cv::Scalar(180, 255, 255, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0);
     //------RED------//
-        thresh_low_0 = cv::Scalar(0, 160, 180, 0), thresh_low_180 = cv::Scalar(16, 255, 255, 0),
-        thresh_high_0 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0);
+    thresh_low_0 = cv::Scalar(0, 160, 180, 0), thresh_low_180 = cv::Scalar(16, 255, 255, 0),
+    thresh_high_0 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0);
 }
 void ImageProcessing::set_roi(int req_percent) // Function to set the Region of Interest
 {
     roi_percentage = req_percent;
 }
 
-void ImageProcessing::on_trackbar(int red , void* ptr)
+void ImageProcessing::on_trackbar(int red, void *ptr)
 {
     //  std::cout<<"ontrack\n";
-    ImageProcessing *c = (ImageProcessing*)(ptr);
+    ImageProcessing *c = (ImageProcessing *)(ptr);
     c->myhandler(red);
     return;
 }
-void ImageProcessing::on_trackbar_single(int red , void* ptr)
+void ImageProcessing::on_trackbar_single(int red, void *ptr)
 {
     //  std::cout<<"ontrack\n";
-    ImageProcessing *c = (ImageProcessing*)(ptr);
+    ImageProcessing *c = (ImageProcessing *)(ptr);
     c->myhandler_single(red);
     return;
 }
 
 void ImageProcessing::myhandler(int red)
 {
-    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold",""),255,255,0);
-    thresh_low_0 = cv::Scalar(0,255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
-    thresh_high_0 = cv::Scalar(180-cv::getTrackbarPos("Hue Lower threshold",""),255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
-    thresh_white = cv::Scalar(0,255-cv::getTrackbarPos("Lightness Upper threshold",""),0,0);
+    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold", ""), 255, 255, 0);
+    thresh_low_0 = cv::Scalar(0, 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
+    thresh_high_0 = cv::Scalar(180 - cv::getTrackbarPos("Hue Lower threshold", ""), 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
+    thresh_white = cv::Scalar(0, 255 - cv::getTrackbarPos("Lightness Upper threshold", ""), 0, 0);
     // std::cout<<"myhandler\n";
     std::ostringstream sst;
-    if(white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","")<<" lu:"<<255-cv::getTrackbarPos("Lightness Upper threshold","");
-    if(!white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","");
+    if (white_use)
+        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "") << " lu:" << 255 - cv::getTrackbarPos("Lightness Upper threshold", "");
+    if (!white_use)
+        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "");
     std::string view = std::string(sst.str());
-    cv::displayStatusBar("Multiple Outputs",view,1000);
+    cv::displayStatusBar("Multiple Outputs", view, 1000);
     return;
 }
 void ImageProcessing::myhandler_single(int red)
 {
-    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold",""),255,255,0);
-    thresh_low_0 = cv::Scalar(0,255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
-    thresh_high_0 = cv::Scalar(180-cv::getTrackbarPos("Hue Lower threshold",""),255-cv::getTrackbarPos("Saturation Lower threshold",""),255-cv::getTrackbarPos("Value Lower threshold",""),0);
-    thresh_white = cv::Scalar(0,255-cv::getTrackbarPos("Lightness Upper threshold",""),0,0);
+    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold", ""), 255, 255, 0);
+    thresh_low_0 = cv::Scalar(0, 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
+    thresh_high_0 = cv::Scalar(180 - cv::getTrackbarPos("Hue Lower threshold", ""), 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
+    thresh_white = cv::Scalar(0, 255 - cv::getTrackbarPos("Lightness Upper threshold", ""), 0, 0);
     // std::cout<<"myhandler\n";
     std::ostringstream sst;
-    if(white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","")<<" lu:"<<255-cv::getTrackbarPos("Lightness Upper threshold","");
-    if(!white_use)sst<<"hl:"<<180-cv::getTrackbarPos("Hue Lower threshold","")<<" hu:"<<cv::getTrackbarPos("Hue Upper threshold","")<<" sl:"<<255-cv::getTrackbarPos("Saturation Lower threshold","")<<"vl:"<<255-cv::getTrackbarPos("Value Lower threshold","");
+    if (white_use)
+        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "") << " lu:" << 255 - cv::getTrackbarPos("Lightness Upper threshold", "");
+    if (!white_use)
+        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "");
     std::string view = std::string(sst.str());
     flag = true;
-    cv::displayStatusBar("Multiple Outputs",view,1000);
+    cv::displayStatusBar("Multiple Outputs", view, 1000);
 
     return;
 }
 
-void ImageProcessing::on_button(int state , void* ptr )
+void ImageProcessing::on_button(int state, void *ptr)
 {
     //  std::cout<<"onbutton\n";
-    ImageProcessing *c = (ImageProcessing*)(ptr);
+    ImageProcessing *c = (ImageProcessing *)(ptr);
     c->myhandlerbutton(state);
     return;
 }
 
 void ImageProcessing::myhandlerbutton(int state)
 {
-    if(state == 1)white_use = true;
-    else white_use = false;
+    if (state == 1)
+        white_use = true;
+    else
+        white_use = false;
     // std::cout<<"myhandler\n";
     return;
 }
 
 ImageProcessing::ImageProcessing() //Constructor definition The values are preset in this constructor.
 {
-    roi_percentage =20; //Region of interst in percentage
+    roi_percentage = 20; //Region of interst in percentage
     thresh_low_0 = cv::Scalar(0, 140, 180, 0), thresh_low_180 = cv::Scalar(16, 255, 255, 0),
     thresh_high_0 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0); //Threshold values preset for red color identification.
-    thresh_white = cv::Scalar(0,215,0,0);
+    thresh_white = cv::Scalar(0, 215, 0, 0);
     white_use = false;
-    element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(0, 0));         //Structuring element for dilation and erosion
+    element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(0, 0)); //Structuring element for dilation and erosion
 }
