@@ -6,11 +6,11 @@ LASER RANGING
 <div style="text-align: right"> Planys Technologies </div>
 
 ## USAGE
+```bash
+make
 
->make
-
->./LaserRanging <path to video or image>
-
+./LaserRanging <path to video or image>
+```
 
 ## INCLUDED FILES
 
@@ -20,31 +20,31 @@ LASER RANGING
             
     ***Functions***
 
-    * contour_distance                :
+    * CaptureFrame contour_distance(CaptureFrame)              :
     
         *Identify contours and distance between them in a segmented image*              
-    * contour_distance_single_laser   : 
+    * CaptureFrame contour_distance_single_laser(CaptureFrame)   : 
     
         *Identify contours and distance between them in a segmented image for single laser ranging enabled*
-    * get_laser_distance              : 
+    * float get_laser_distance ()             : 
     
         *Distance from two laser dots*
-    * get_left_laser_distance         : 
+    * float get_left_laser_distance()     : 
     
         *Distance according to left laser dot*      
-    * get_right_laser_distance        : 
+    * float get_right_laser_distance ()       : 
     
         *Distance according to right laser dot*  
-    *    laser_ranging                   : 
+    *   void laser_ranging (CaptureFrame)                  : 
     
             *Single function to call all associated functions for laser ranging*   
-    * laser_ranging_single_laser      : 
+    * void laser_ranging_single_laser (CaptureFrame)     : 
     
         *Single function to call all associated functions for laser ranging with single laser ranging enabled*
-    * show_overlay                    : 
+    * CaptureFrame LR_data_overlay(CaptureFrame)                   : 
     
         *Show overlays associated with laser ranging*   
-    * show_overlay_single_laser       : 
+    * CaptureFrame LR_data_overlay_single_laser(CaptureFrame)       : 
     
         *Show overlays associated with laser ranging with single laser ranging enabled* 
 
@@ -83,18 +83,18 @@ LASER RANGING
 
     **Functions**
 
-    *  roi_selection                   :
+    *  CaptureFrame roi_selection(CaptureFrame)                 :
         
         *Crop the region of interset*
-    *  hsv_segmentation                : 
+    * CaptureFrame hsv_segmentation  (CaptureFrame)              : 
         
         *Segment image according to color set previously (preset for red)*
-    *  set_threshold                   : 
+    *  void set_threshold (CaptureFrame)                : 
         
         *set color threshold according to scene*
-    * set_roi                         : 
+    * void set_roi  (int x_percent,int y_percent,int width,int height)                       : 
         
-        *Set region of interset percentage*
+        *Set region of interset*
 
     ***Public Variables***
 
@@ -118,50 +118,50 @@ LASER RANGING
 
 
     ***Functions***
-    * CLAHE_dehaze                     : 
+    * CaptureFrame CLAHE_dehaze(CaptureFrame)                     : 
         
         *Dehaze using CLAHE algorithm*
-    * hist_equalize:                     : 
+    * CaptureFrame hist_equalize (CaptureFrame):                     : 
        
         *Dehaze using normal histogram equalization.*
 4. view_frame.cpp
 
-    * **single_view_interrupted**         : 
+    * void single_view_interrupted   (CaptureFrame)      : 
         
         *Show single window and wait for user input to continue*
-    * **single_view_uninterrupted**       : 
+    *  void single_view_uninterrupted (CaptureFrame)      : 
         
         *Show single window and continue*
-    * multiple_view_interrupted       : 
+    * void multiple_view_interrupted  (CaptureFrame,CaptureFrame,CaptureFrame,CaptureFrame)     : 
         
         *Show multiple windows and wait for user input to continue*
-    * multiple_view_uninterrupted     : 
+    * void multiple_view_uninterrupted (CaptureFrame,CaptureFrame,CaptureFrame,CaptureFrame)    : 
         
         *Show multiple windows and continue*
-    * add_overlay_percent             : 
+    * CaptureFrame add_overlay_percent (CaptureFrame input, x_percent,y_percent,data)            : 
         
         *Add overlays to the image at a point according to percentage*
-    * add_overlay                     : 
+    * CaptureFrame add_overlay (CaptureFrame,x_point , y_point, data)                    : 
         
          *Add overlays to the image at the specified point*
         
 5. capture_frame.cpp
 
     **Functions**
-   * capture_image                   : 
+   * void capture_image (filename,window_name)                  : 
         
         *load image*
-    * capture_video                   : 
+    * void capture_video     (filename,window_name)               : 
     
         *load video*
 
-    * reload_image                    : 
+    * reload_image        (image,window_name)             : 
     
         *rewrite existing image*
-    * retrieve_image                  : 
+    * CaptureFrame retrieve_image                  : 
     
         *extract stored image*
-    *  retrieve_video                  : 
+    *  CaptureFrame retrieve_video                  : 
     
         *extract stored video*
     * frame_extraction                : 
@@ -180,10 +180,10 @@ LASER RANGING
     * timer_end                       : 
         
         *end the timer and calculate execution time and maximum fps*
-    * add_time                        :    
+    * CaptureFrame add_time                        :    
        
         *add execution timer as overlay to image*
-    * add_fps                         : 
+    * CaptureFrame add_fps                         : 
     
         *add maximum fps as overlay to imgae*
 

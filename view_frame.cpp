@@ -141,12 +141,12 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     sub_roi.height = image1.rows;
     sub_roi.width = image1.cols;
     image1.copyTo(full_image(sub_roi));
-    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object1.window_name,cv::Scalar(200,200,250),1.5,2);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),5,20,object1.window_name,cv::Scalar(200,200,250),1.5,2);
     sub_roi.x = image1.cols;
     sub_roi.width = image2.cols;
     sub_roi.height = image2.rows;
     image2.copyTo(full_image(sub_roi));
-    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),10,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
+    full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),5,20,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     cv::imshow("Multiple Outputs", full_image);
     if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
@@ -617,7 +617,7 @@ CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, i
     return output;
 }
 //String with font size and thickness
-CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, std::string data,cv::Scalar color,int thick)
+CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, std::string data,cv::Scalar color,float size,int thick)
 {
     cv::Mat image = object.retrieve_image();
     int x = x_percent*image.cols/100;
@@ -626,13 +626,13 @@ CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, i
     std::ostringstream sst;
     sst << data;
     std::string s(sst.str());
-    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, color, thick, CV_AA);//Adding time into frame
+    putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, double(size), color, thick, CV_AA);//Adding time into frame
       
     CaptureFrame output(image,"overlayed image");
     return output;
 }
 //String with font size and thickness for Image
-cv::Mat ViewFrame::add_overlay_percent(cv::Mat input,int x_percent, int y_percent, std::string data,cv::Scalar color,int size,int thick)
+cv::Mat ViewFrame::add_overlay_percent(cv::Mat input,int x_percent, int y_percent, std::string data,cv::Scalar color,float size,int thick)
 {
     cv::Mat image = input;
     int x = x_percent*image.cols/100;

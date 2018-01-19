@@ -10,14 +10,14 @@ CaptureFrame Algorithm::CLAHE_dehaze(CaptureFrame object) //CLAHE based basic de
     std::vector<cv::Mat> channels;
     split(image_hsv, channels);
     cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
-    clahe->setClipLimit(2);
+    clahe->setClipLimit(CLAHE_clip_limit);
     clahe->apply(channels[2], channels[2]);
     clahe->apply(channels[1], channels[1]);
     channels[2] = channels[2] * 0.85;
     merge(channels, image_hsv);
     cv::Mat dehazed;
     cvtColor(image_hsv, dehazed, cv::COLOR_HSV2BGR);
-    GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
+    // GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
     CaptureFrame output(dehazed, "Dehazed image");
     return output;
 }
@@ -28,14 +28,14 @@ cv::Mat Algorithm::CLAHE_dehaze(cv::Mat object) //CLAHE based basic dehazing alg
     std::vector<cv::Mat> channels;
     split(image_hsv, channels);
     cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE();
-    clahe->setClipLimit(2);
+    clahe->setClipLimit(CLAHE_clip_limit);
     clahe->apply(channels[2], channels[2]);
     clahe->apply(channels[1], channels[1]);
     channels[2] = channels[2] * 0.85;
     merge(channels, image_hsv);
     cv::Mat dehazed;
     cvtColor(image_hsv, dehazed, cv::COLOR_HSV2BGR);
-    GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
+    // GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
     return dehazed;
 }
 CaptureFrame Algorithm::hist_equalize(CaptureFrame object) //CLAHE based basic dehazing algorithm
@@ -49,7 +49,12 @@ CaptureFrame Algorithm::hist_equalize(CaptureFrame object) //CLAHE based basic d
     merge(channels, image_hsv);
     cv::Mat dehazed;
     cvtColor(image_hsv, dehazed, cv::COLOR_HSV2BGR);
-    GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
+    // GaussianBlur(dehazed, dehazed, cv::Size(3, 3), 2, 2);
     CaptureFrame output(dehazed, "Dehazed image");
     return output;
+}
+
+void Algorithm::set_CLAHE_clip_limit(int clip_limit)
+{
+    CLAHE_clip_limit = clip_limit;
 }

@@ -20,8 +20,8 @@ class Timer
 
         void timer_end();//Function to end the timer and calculate the interval
 
-        CaptureFrame add_time(CaptureFrame );//Function to print the execution time on image
-        CaptureFrame add_fps(CaptureFrame );//Function to print the maximum fps on image
+        CaptureFrame add_time(CaptureFrame original_frame);//Function to print the execution time on image
+        CaptureFrame add_fps(CaptureFrame original_frame);//Function to print the maximum fps on image
 
 };
 

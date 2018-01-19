@@ -45,6 +45,12 @@ void CaptureFrame::reload_image(cv::Mat image_input,std::string str)
         window_name = str;
     }
 
+void CaptureFrame::reload_video(cv::VideoCapture video_input,std::string str)
+    {
+        cap = video_input;
+        window_name = str;
+    }
+
 //retrieve the image stored in object
 cv::Mat CaptureFrame::retrieve_image()
     {

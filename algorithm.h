@@ -7,9 +7,12 @@
 class Algorithm
 {
   public:
-    CaptureFrame CLAHE_dehaze(CaptureFrame ); //CLAHE based basic dehazing algorithm
-    cv::Mat CLAHE_dehaze(cv::Mat); //CLAHE based basic dehazing algorithm
-    CaptureFrame hist_equalize(CaptureFrame);
+    int CLAHE_clip_limit;
+
+    CaptureFrame CLAHE_dehaze(CaptureFrame input_image); //CLAHE based basic dehazing algorithm
+    cv::Mat CLAHE_dehaze(cv::Mat input_image); //CLAHE based basic dehazing algorithm
+    CaptureFrame hist_equalize(CaptureFrame input_image);
+    void set_CLAHE_clip_limit(int clip_limit);
 };
 
 #endif
