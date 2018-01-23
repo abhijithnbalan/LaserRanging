@@ -8,6 +8,9 @@
         "cstring": "cpp",
         "ctime": "cpp",
         "cstdint": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "cwchar": "cpp",
+        "iosfwd": "cpp",
+        "sstream": "cpp"
     }
 }

@@ -6,6 +6,12 @@
 #include "view_frame.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
+//for json support -- rapidjason is used
+#include "rapidjson/document.h"
+#include "rapidjson/istreamwrapper.h"
+#include "rapidjson/ostreamwrapper.h"
+#include "rapidjson/writer.h"
+#include <fstream>
 
 #define PI 3.14159265
 
@@ -68,6 +74,8 @@ CaptureFrame LaserRanging::contour_distance(CaptureFrame object1) //Contour iden
     }
 
     CaptureFrame points_distance(contour_overlay_frame, "Contour and distance");
+    contours.clear();
+    hierarchy.clear();
     return points_distance;
 }
 
@@ -180,7 +188,13 @@ CaptureFrame LaserRanging::contour_distance_single_laser(CaptureFrame object1) /
 
     contour_overlay_frame.reload_image(contour_draw, "Full Contour");
     line_overlay_frame.reload_image(line_draw, "Full line");
-
+    //Clearing out the vectors used
+    contours.clear();
+    hierarchy.clear();
+    contours_right.clear();
+    hierarchy_right.clear();
+    contours_left.clear();
+    hierarchy_left.clear();
     return contour_overlay_frame;
 }
 
@@ -205,7 +219,7 @@ CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1) //Calling every f
 
     ROI_frame = roi_selection(original_frame); //cropping out the region of interest
 
-    if (use_dehaze)
+    if (use_dehaze)//dehazing is only done when bool dehaze is set true.
     {
         ROI_frame = algo.CLAHE_dehaze(ROI_frame); //dehazing using CLAHE algorithm
     }
@@ -223,19 +237,15 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
     timer.timer_init(); //initiating timer
 
     original_frame.reload_image(object1.retrieve_image().clone(), "test");
-    // std::cout<<object1.window_name<<"\n";
 
     ROI_frame = roi_selection(original_frame);
-    if (use_dehaze)
+    if (use_dehaze)//dehazing is only done when bool dehaze is set true.
     {
         ROI_frame = algo.CLAHE_dehaze(ROI_frame);
     }
-    // std::cout<<ROI_frame.window_name<<"\n";
     segmented_frame = image_segmentation(ROI_frame);
-    // std::cout<<segmented_frame.window_name<<"\n";
 
     contour_overlay_frame = contour_distance_single_laser(segmented_frame);
-    // std::cout<<contour_overlay_frame.window_name<<"\n";
 
     CaptureFrame output = LR_data_overlay_single_laser(original_frame);
 
@@ -246,7 +256,7 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
 //laser ranging for video input
 void LaserRanging::live_laser_ranging(CaptureFrame vid)
 {
-    if (use_dynamic_control)
+    if (use_dynamic_control)//Enabling control panel
     {
         cv::namedWindow("Multiple Outputs", CV_WINDOW_AUTOSIZE);
         if(laser_range_status)cv::createButton("Use LaserRanging", laser_ranging_button, this, CV_CHECKBOX, 1);
@@ -290,7 +300,16 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 //video laser range_mm detection with single laser ranging enabled
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
-    if (use_dynamic_control)
+    //calibration file is opened and laser center values are read
+    std::ifstream ifs("laser_calibration_values.json");
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Initialising the laser center for range_mm finding with single laser.
+    laser_center_y = calibration_file["laser_center_y"].GetInt();
+    std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
+
+    if (use_dynamic_control)//Enabling control panel
     {
         cv::namedWindow("Control Panel", CV_WINDOW_AUTOSIZE);
         if(laser_range_status)cv::createButton("Use LaserRanging", laser_ranging_button, this, CV_CHECKBOX, 1);
@@ -393,7 +412,16 @@ void LaserRanging::pixel_distance_to_distance()
 
 void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
 {
-    if (use_dynamic_control)
+    //using laser center value from json file
+    std::ifstream ifs("laser_calibration_values.json");
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Initialising the laser center for range_mm finding with single laser.
+    laser_center_y = calibration_file["laser_center_y"].GetInt();
+    std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
+    
+    if (use_dynamic_control)//when control panel is needed
     {
         cv::namedWindow("Multiple Outputs", CV_WINDOW_AUTOSIZE);
 
@@ -410,17 +438,18 @@ void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
     CaptureFrame in, output_frame;
     for (;;)
     {
-        if(laser_range_status)
+        if(laser_range_status) //only executes when laser ranging status is true
         {
          if(use_dynamic_control)cv::destroyWindow("Resized");
         output_frame = laser_ranging_single_laser(object);
         
         viewer.multiple_view_uninterrupted(output_frame, ROI_frame, segmented_frame, contour_overlay_frame);
-        if (cv::waitKey(100) >= 0)
+        if (cv::waitKey(100) >= 0)//Lower refresh rate for image mode.
             break;
         }
         else
         {
+            //no laser ranging. so direct image is given back
             if(use_dynamic_control)cv::destroyWindow("Multiple Outputs");
             CaptureFrame outframe = viewer.add_overlay_percent(object, 20, 20, "LaserRanging : Disengaged", cv::Scalar(0, 0, 255), 0.8, 2);
             viewer.single_view_uninterrupted(outframe, 50);
@@ -509,8 +538,16 @@ float LaserRanging::angle_of_tilt()
 
 void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
 {
+    //opening the calibration json file and reading the existing values
+    std::ifstream ifs("laser_calibration_values.json");
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
+              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
+
     ViewFrame viewer;
-    std::cout << "Calibration initialed\n";
+    std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
     for (;;)
     {
@@ -518,19 +555,38 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
         CaptureFrame outframe = laser_ranging_single_laser(vid);
         viewer.single_view_uninterrupted(outframe,50);
         char c = (char)cv::waitKey(100);
-        if (c == 99)
+        if (c == 99)//Recording user key press 'c'
         {
-            std::cout<<centerx[0]<<" "<<centery[0]<<"\n"<<centerx[1]<<" "<<centery[1]<<"\n";
-            laser_center_x = (centerx[0] + centerx[1]) / 2;
-            laser_center_y = (centery[0] + centery[1]) / 2;
-            std::cout << "Capturing laser center values as  x = " << laser_center_x << " and  y = " << laser_center_y << "\n";
-            // cv::destroyWindow(outframe.window_name);
+            if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
+            {   
+                //Two laser dots not found so using the existng values in json file.
+                std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
+            }
+            else
+            {
+                //two laser dots are identified
+                laser_center_x = (centerx[0] + centerx[1]) / 2;
+                laser_center_y = (centery[0] + centery[1]) / 2;
+                std::cout << "Capturing laser center values as  x = " << laser_center_x
+                          << " and  y = " << laser_center_y << "\n";
+                //now writing the new calibraiton values to json file
+                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
+                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
+                document_x_value.SetInt(laser_center_x);
+                document_y_value.SetInt(laser_center_y);
+                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
+                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
+                std::ofstream ofs("laser_calibration_values.json");
+                rapidjson::OStreamWrapper osw(ofs);
+                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+                calibration_file.Accept(writer);
+            }
             cv::destroyAllWindows();
             break;
         }
-        else if (c == 27)
+        else if (c == 27)//userkey ESC is pressed
         {
-            // cv::destroyWindow(outframe.window_name);
+            //skipping calibration
             cv::destroyAllWindows();
             break;
         }
@@ -544,11 +600,18 @@ LaserRanging::LaserRanging()
     centery[0] = centery[1] = 0;
     range_mm = range_ll_mm = range_rl_mm = 0;
 
-    laser_center_x = 630; //Initialising the laser center for range_mm finding with single laser.
-    laser_center_y = 380;
+    //For initializing the laser center point, the json file is opended and the recorded data is read.
+    std::ifstream ifs("laser_calibration_values.json");//calibration filename
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
+    laser_center_y = calibration_file["laser_center_y"].GetInt();
+
     use_dehaze = false;
     use_dynamic_control = true;
     laser_range_status = true;
+
     distance_between_laser = 100;
     hue_lower = 20, hue_upper = 16, saturation_upper = 95, value_lower = 75, lightness_upper = 40;
 }

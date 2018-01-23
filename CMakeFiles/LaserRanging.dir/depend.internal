@@ -531,6 +531,32 @@ CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o
  /home/plankton/CodeMax/LaserRangingV2/image_processing.h
  /home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp
  /home/plankton/CodeMax/LaserRangingV2/laser_ranging.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/allocators.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/document.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/encodedstream.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/encodings.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/error/error.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/biginteger.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/diyfp.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/dtoa.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/ieee754.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/itoa.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/meta.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/pow10.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/stack.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/strfunc.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/strtod.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/internal/swap.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/istreamwrapper.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/memorystream.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/msinttypes/inttypes.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/msinttypes/stdint.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/ostreamwrapper.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/rapidjson.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/reader.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/stream.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/stringbuffer.h
+ /home/plankton/CodeMax/LaserRangingV2/rapidjson/writer.h
  /home/plankton/CodeMax/LaserRangingV2/timer.h
  /home/plankton/CodeMax/LaserRangingV2/view_frame.h
  /usr/local/include/opencv/cxcore.h
