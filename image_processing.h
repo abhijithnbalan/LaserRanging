@@ -17,14 +17,18 @@ class ImageProcessing //-------medianBlur or CLAHE dehazing-------//
         //The following varibles(preset by Constructor) can me modified.
         
     protected://these variables will be shared in inheritance
-        cv::Rect roi; bool flag;
-        int hue_upper,hue_lower,saturation_upper,value_lower,lightness_upper;
+        cv::Rect roi; //Region of interest
+        bool flag;//
+        int hue_upper,hue_lower,saturation_upper,value_lower,lightness_upper;//thresholding values (private)
         
 
     public:
-        bool use_white;Algorithm algo;
+    int white_use_value;
+        bool use_white;//controlling variable for white filtering
+        Algorithm algo;//algorithm object
+        //threshold(public) can be changed by user
         cv::Scalar thresh_high_0,thresh_high_180,thresh_low_0,thresh_low_180,thresh_white;
-        int roi_percentage;
+        //element for dilation and Morphological Opening.
         cv::Mat element;
 
         CaptureFrame roi_selection(CaptureFrame input_image);//Selecting the Region of interst.
@@ -37,15 +41,17 @@ class ImageProcessing //-------medianBlur or CLAHE dehazing-------//
 
         void set_threshold(CaptureFrame current_scene_image);//Function to set the threshold value according to water type.
 
+        void set_threshold(int Hue_Low, int Hue_High,int Saturation_High, int Saturation_Low, int Value_High, int Value_Low);//Function to set the threshold value according to water type.
+
         void set_roi(int x_percent, int y_percent, int width, int height);// Function to set the Region of Interest 
 
 
-        static void on_trackbar(int trackbar_value ,void* trackbar_user_pointer);// Function for trackbar
-        static void on_trackbar_single(int trackbar_value ,void* trackbar_user_pointer);// Function for trackbar
-        void myhandler(int trackbar_value);
-        void myhandler_single(int trackbar_value);
-        static void on_button(int trackbar_value,void* trackbar_user_pointer);// Function for button
-        void myhandlerbutton(int trackbar_value);
+        static void on_trackbar(int trackbar_value ,void* trackbar_user_pointer);//Callback function for trackbar
+        static void on_trackbar_single(int trackbar_value ,void* trackbar_user_pointer);//Callback Function for trackbar single laser
+        void myhandler(int trackbar_value);//function to change parameter for trackbar
+        void myhandler_single(int trackbar_value);//function to change parameter for trackbar single laser
+        static void on_button(int trackbar_value,void* trackbar_user_pointer);//Callback Function for button
+        void myhandlerbutton(int trackbar_value);//function to change parameter for use_white button
 
         ImageProcessing();//Constructor definition The values are preset in this constructor.
 

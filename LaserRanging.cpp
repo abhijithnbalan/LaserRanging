@@ -50,7 +50,7 @@ int main(int argc, char **argv) //The main Function
         // Ranger.use_white = true;
         // Ranger.use_dynamic_control = false;
         // Ranger.laser_range_status = false;
-        Ranger.laser_ranging_calibraton(vid);
+        // Ranger.laser_ranging_calibraton(vid);
         Ranger.live_laser_ranging_single_laser(vid);
 
         //---------------------------//

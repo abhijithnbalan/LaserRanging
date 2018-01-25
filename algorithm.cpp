@@ -54,7 +54,7 @@ CaptureFrame Algorithm::hist_equalize(CaptureFrame object) //CLAHE based basic d
     return output;
 }
 
-void Algorithm::set_CLAHE_clip_limit(int clip_limit)
+void Algorithm::set_CLAHE_clip_limit(int clip_limit)//function which set the clip limit in CLAHE dehazing
 {
     CLAHE_clip_limit = clip_limit;
 }

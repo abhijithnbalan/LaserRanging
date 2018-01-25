@@ -23,7 +23,7 @@ class CaptureFrame
         //load_video is used to load VideoCapture data to variable cap
         void capture_video(std::string filename,std::string Window_name);
 
-        //load_video is used to load VideoCapture data to variable cap
+        //load_video is used to load camera to variable cap
         void capture_video(int camera,std::string Window_name);
 
         //load a image file into an existing CaptureFrame object

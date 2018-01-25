@@ -49,10 +49,12 @@ class ViewFrame
         void multiple_view_uninterrupted( CaptureFrame image_1 ,CaptureFrame image_2 ,CaptureFrame image_3 ,CaptureFrame image_4 ,int resize_percentage);//Overloaded function which also resizes the output
         
         // Overloaded Functions for overlaying data onto the image
+        //in percentage
         CaptureFrame add_overlay_percent(CaptureFrame input_image, int x_percentage, int y_percentage, int data);
         CaptureFrame add_overlay_percent(CaptureFrame, int x_percentage , int y_percentage , std::string data,cv::Scalar color ,float font_size ,int thickness);
         cv::Mat add_overlay_percent(cv::Mat image, int x_percentage , int y_percentage , std::string data ,cv::Scalar color ,float font_size ,int thickness);
         CaptureFrame add_overlay_percent(CaptureFrame image, int x_percentage , int y_percentage , float data);
+        //When actual point is known
         CaptureFrame add_overlay(CaptureFrame, int x_point , int y_point , int data);
         CaptureFrame add_overlay(CaptureFrame, int x_point , int y_point , std::string data);
         CaptureFrame add_overlay(CaptureFrame image, cv::Rect overlay_rectangle, cv::Mat overlay_image);
