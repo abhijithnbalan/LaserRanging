@@ -593,7 +593,7 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
         CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
         viewer.single_view_uninterrupted(outframe,50);
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
-        if (c == 99)//Recording user key press 'c'
+        if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
             if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
             {   
@@ -619,13 +619,15 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
                 rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
                 calibration_file.Accept(writer);
             }
+            calib_trigger = false;
             cv::destroyWindow("Resized Image");
             break;
         }
-        else if (c == 27)//userkey ESC is pressed
+        else if (c == 27 || cancel_calib)//userkey ESC is pressed
         {
             //skipping calibration
             cv::destroyWindow("Resized Image");
+            cancel_calib = false;
             break;
         }
     }
@@ -650,6 +652,8 @@ LaserRanging::LaserRanging()
     use_dynamic_control = true;//dynamic control is used by default
     laser_range_status = true;laser_ranging_button_value = 1;//laser ranging is used by default
     calibration_status = true;//calibration is used by default
+    calib_trigger = false;//calibration trigger set to false by default
+    cancel_calib = false;//calibration cancellation variable set to false by default
     distance_between_laser = 100;//the distance between laser pointers
     hue_lower = 20, hue_upper = 16, saturation_upper = 95, value_lower = 75, lightness_upper = 40;//A sample set of threshold vlues
 }
