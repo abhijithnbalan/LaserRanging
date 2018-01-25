@@ -43,6 +43,7 @@ void CaptureFrame::capture_video(int camera,std::string video_window_name)
             exit(0);
         }
         window_name = video_window_name;
+        std::cout<<"test";
     }
 
 //load image into already existing object of CaptureFrame class
