@@ -19,7 +19,7 @@ class LaserRanging : public ImageProcessing
 
   public:
     //public variables
-    bool calib_trigger,cancel_calib;
+    bool calib_trigger,calib_cancel;
     int laser_ranging_button_value;
     float distance_between_laser;
     float distance_ll_px, distance_rl_px, distance_px;//distance from left laser,right laser and in dual laser mode

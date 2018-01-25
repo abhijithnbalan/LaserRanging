@@ -623,11 +623,11 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
             cv::destroyWindow("Resized Image");
             break;
         }
-        else if (c == 27 || cancel_calib)//userkey ESC is pressed
+        else if (c == 27 || calib_cancel)//userkey ESC is pressed
         {
             //skipping calibration
             cv::destroyWindow("Resized Image");
-            cancel_calib = false;
+            calib_cancel = false;
             break;
         }
     }
@@ -653,7 +653,7 @@ LaserRanging::LaserRanging()
     laser_range_status = true;laser_ranging_button_value = 1;//laser ranging is used by default
     calibration_status = true;//calibration is used by default
     calib_trigger = false;//calibration trigger set to false by default
-    cancel_calib = false;//calibration cancellation variable set to false by default
+    calib_cancel = false;//calibration cancellation variable set to false by default
     distance_between_laser = 100;//the distance between laser pointers
     hue_lower = 20, hue_upper = 16, saturation_upper = 95, value_lower = 75, lightness_upper = 40;//A sample set of threshold vlues
 }

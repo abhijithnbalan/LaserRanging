@@ -4,11 +4,11 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/plankton/CodeMax/LaserRangingV2/LaserRanging.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/LaserRanging.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/algorithm.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/algorithm.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/capture_frame.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/capture_frame.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/image_processing.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/image_processing.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/laser_ranging.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/laser_ranging.cpp.o"
+  "/home/plankton/CodeMax/LaserRangingV2/main.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/main.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/timer.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/timer.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/view_frame.cpp" "/home/plankton/CodeMax/LaserRangingV2/CMakeFiles/LaserRanging.dir/view_frame.cpp.o"
   )

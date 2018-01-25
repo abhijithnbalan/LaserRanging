@@ -111,30 +111,6 @@ LaserRanging/fast:
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/build
 .PHONY : LaserRanging/fast
 
-LaserRanging.o: LaserRanging.cpp.o
-.PHONY : LaserRanging.o
-
-# target to build an object file
-LaserRanging.cpp.o:
-	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/LaserRanging.cpp.o
-.PHONY : LaserRanging.cpp.o
-
-LaserRanging.i: LaserRanging.cpp.i
-.PHONY : LaserRanging.i
-
-# target to preprocess a source file
-LaserRanging.cpp.i:
-	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/LaserRanging.cpp.i
-.PHONY : LaserRanging.cpp.i
-
-LaserRanging.s: LaserRanging.cpp.s
-.PHONY : LaserRanging.s
-
-# target to generate assembly for a file
-LaserRanging.cpp.s:
-	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/LaserRanging.cpp.s
-.PHONY : LaserRanging.cpp.s
-
 algorithm.o: algorithm.cpp.o
 .PHONY : algorithm.o
 
@@ -231,6 +207,30 @@ laser_ranging.cpp.s:
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/laser_ranging.cpp.s
 .PHONY : laser_ranging.cpp.s
 
+main.o: main.cpp.o
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/main.cpp.s
+.PHONY : main.cpp.s
+
 timer.o: timer.cpp.o
 .PHONY : timer.o
 
@@ -288,9 +288,6 @@ help:
 	@echo "... LaserRanging"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... LaserRanging.o"
-	@echo "... LaserRanging.i"
-	@echo "... LaserRanging.s"
 	@echo "... algorithm.o"
 	@echo "... algorithm.i"
 	@echo "... algorithm.s"
@@ -303,6 +300,9 @@ help:
 	@echo "... laser_ranging.o"
 	@echo "... laser_ranging.i"
 	@echo "... laser_ranging.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... timer.o"
 	@echo "... timer.i"
 	@echo "... timer.s"
