@@ -11,6 +11,24 @@
         "initializer_list": "cpp",
         "cwchar": "cpp",
         "iosfwd": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "clocale": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "chrono": "cpp",
+        "exception": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "ratio": "cpp",
+        "stdexcept": "cpp",
+        "thread": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "utility": "cpp",
+        "cstdarg": "cpp",
+        "atomic": "cpp",
+        "slist": "cpp"
     }
 }
