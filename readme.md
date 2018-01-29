@@ -239,6 +239,9 @@ The code loads a default video file "rendered.mp4"
     float angle = Ranger.angle_of_tilt()
     ```
 
+## Program Flow
+![Optional Text](/LaserRanging.png)
+
 
 ## INCLUDED FILES
 
