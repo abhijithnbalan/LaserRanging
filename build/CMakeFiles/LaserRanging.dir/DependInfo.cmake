@@ -23,7 +23,6 @@ SET(CMAKE_C_TARGET_INCLUDE_PATH
   "/usr/local/include"
   "/usr/local/include/opencv"
   "../include"
-  ".."
   )
 SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
 SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

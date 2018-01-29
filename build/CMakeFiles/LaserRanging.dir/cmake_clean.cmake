@@ -6,8 +6,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o"
   "CMakeFiles/LaserRanging.dir/src/timer.cpp.o"
   "CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o"
-  "../LaserRanging.pdb"
-  "../LaserRanging"
+  "../bin/LaserRanging.pdb"
+  "../bin/LaserRanging"
 )
 
 # Per-language clean rules from dependency scanning.
