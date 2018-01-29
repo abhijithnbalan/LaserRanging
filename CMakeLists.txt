@@ -27,7 +27,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake/cm
 #	endif()
 #endif()
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 # Don't warn about zero-length format strings, which we sometimes
 # use when constructing error objectss.
@@ -45,7 +45,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
 #INCLUDE_DIRECTORIES(${FFMPEG_INCLUDE_DIR})
 
 
-INCLUDE_DIRECTORIES(include ${CMAKE_CURRENT_LIST_DIR})
+INCLUDE_DIRECTORIES(include)
 SET(SOURCES
  ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/laser_ranging.cpp

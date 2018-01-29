@@ -12,15 +12,31 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <cstdlib> //for integer checking support
-
+#include <unistd.h>
 int main(int argc, char **argv) //The main Function
 {
+    //Changing directory for accessing files. another workaround is giving full path for each files.
+    int success = chdir("..");
+    if(success != 0)
+    {
+        std::cout<<"couldn't change the directory/\n";
+        return -1;    
+    }
+
     LaserRanging Ranger; //Laser ranging object
     cv::Mat image_stream;
-    image_stream = cv::imread("samples/test1.png", 1);
-    int x, y, wt, ht, hue_high, hue_low, sat_high, sat_low, val_high, val_low;
-    bool dev_mode = false;
-    bool exe_mode = false;
+
+    int x, y, wt, ht, hue_high, hue_low, sat_high, sat_low, val_high, val_low;//for changing roi in image_stream
+    bool dev_mode = false;//developer mode control
+    bool exe_mode = false;//execution mode control
+
+    if(argc > 1)//checking for exe
+    {
+        if (!strcmp(argv[1], "Exe") || !strcmp(argv[1], "exe"))
+        {
+            exe_mode = true;
+        }
+    }
     
     if (!exe_mode)
     {
@@ -111,6 +127,7 @@ int main(int argc, char **argv) //The main Function
     }
     else
     {
+        image_stream = cv::imread("samples/test1.png", 1);
         Ranger.calibration_status = false;
         // Ranger.set_roi(x,y,wt,ht);
         // Ranger.set_threshold(hue_low,hue_high,sat_low,sat_high,val_low,val_high);
