@@ -641,11 +641,18 @@ void LaserRanging::image_stream_laser_ranging_single_laser(cv::Mat input_image,i
 {
     // ViewFrame viewer;
     CaptureFrame object(input_image,"input"), output_frame;
-
-    output_frame = laser_ranging_single_laser(object,0);//laser ranging with single laser enabled and minimal mode for execution
-    // viewer.single_view_interrupted(output_frame);
-    pixel_distance_to_distance();
-    printf("[ Left Range : %f \tRight Range : %f ]\n", range_ll_mm, range_rl_mm);//printing values to console
+    if(calibration_status)
+    {
+        image_stream_laser_ranging_calibraton(object,0);
+        calibration_status = false;
+    }
+    else
+    {
+        output_frame = laser_ranging_single_laser(object,0);//laser ranging with single laser enabled and minimal mode for execution
+        // viewer.single_view_interrupted(output_frame);
+        pixel_distance_to_distance();
+        printf("[ Left Range : %f \tRight Range : %f ]\n", range_ll_mm, range_rl_mm);//printing values to console
+    }
     return;
 }
 

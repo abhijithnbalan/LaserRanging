@@ -1,8 +1,6 @@
 
-LASER RANGING
------------------    
------------------   
-                                    
+# LASER RANGING
+---------------------                                
 <div style="text-align: right"> Planys Technologies </div>
 
 ### Image Processing based Laser Ranging is a Technology which measures distance to an object by projecting (two preferrably) laser dots on the object and capturing its image using a camera.
@@ -27,10 +25,21 @@ Make sure you have the following files in your system
 14. laser\_calibration_values.json
 15. CMakeLists.txt
 
-Now to compile, run the following commands on terminal
+Dependencies
+
+1. Opencv3.4
+2. rapidjson
+
+### File System
+-------------
+
+![file_system](/filesystem.png)
+
+Now to compile, move to the main directory and run the following commands on terminal.
 
 ```
-cmake .
+cd build
+cmake ..
 make
 ```
 The code offers multiple modes of execution
@@ -55,27 +64,40 @@ The code offers multiple modes of execution
     ```
 
 
-To run the code,
+To run the code, first move to bin directory by
+
+```
+cd bin
+```
+
 1. Laser Ranging with Video file.
 ```
-./LaserRanging <path to video>
+./LaserRanging dev <path to video>
 ```
 
 2. Laser Ranging with Image file.
 ```
-./LaserRanging <path to image>
+./LaserRanging dev <path to image>
 ```
 
 3. Laser Ranging with camera input
 ```
-./LaserRanging <camera device number>
+./LaserRanging dev <camera device number>
 ```
 
 4. Laser Ranging without arguments
 ```
-./LaserRanging
+./LaserRanging dev
 ```
 The code loads a default video file "rendered.mp4"
+
+*without the argument 'dev', a mode without preview will be executed.*
+
+5. Laser Ranging execution mode
+```
+./LaserRanging exe 
+```
+This mode, a shared image will be updated and the code run once showing only the range values as output on the console.
 
 ## RUNNING THE CODE
 
@@ -284,6 +306,24 @@ The code loads a default video file "rendered.mp4"
     
     *Show overlays associated with laser ranging with single laser ranging enabled* 
 
+* CaptureFrame laser_ranging_calibration(CaptureFrame)       : 
+    
+    *Runs calibration, determine and write the laser center values to a file (only for single laser)* 
+* CaptureFrame image_stream_laser_ranging(cv::Mat)       : 
+    
+    *Execute laser ranging when input is image stream* 
+* CaptureFrame image_stream_laser_ranging_single_laser(cv::Mat)       : 
+    
+    *Execute laser ranging in single laser mode when input is an image stream* 
+
+* CaptureFrame image_stream_laser_ranging_calibration(CaptureFrame)       : 
+    
+    *Run calibration and write the laser center values to a local file when input is an image stream* 
+
+
+
+
+
  ***Public Variables***
  * laser_center_x                  : 
         
@@ -291,13 +331,13 @@ The code loads a default video file "rendered.mp4"
  * laser_center_y                  : 
         
     *to change the center point between two lasers*
- * range                           : 
+ * range_mm                          : 
         
     *to extract range data*
- * left_range and right_range      : 
+ * range_lr_mm and range_ll_mm      : 
         
     *to extract left range data and right range data (single laser only)*
- * hsv_segment                     : 
+ * segmented_frame                    : 
         
     *to extrace segemented image*
   * ROI                             : 
@@ -314,6 +354,29 @@ The code loads a default video file "rendered.mp4"
 *  original                        : 
         
      *to extract the original image that is passed to laser ranging* 
+* calibration_status
+
+     *to decide whether to do calibration or not*
+
+* use_dehaze
+
+     *to decide whether to filter white color also along with colour*
+
+* use_dynamic_control
+
+     *for displaying the control panel for real-time control*
+
+* laser_ranging_status
+
+     *to decide whether to run the laser ranging or not*
+
+* dev_mode
+
+     *to toggle developer mode. `false` means no preview will be available*
+
+* distance_between_lasers
+
+     *to set the actual distance between two laser pointers in mm*
 
 
 
@@ -327,14 +390,14 @@ Class Imageprocessing will have the basic image processing functionalities. This
 **Functions**
 
   *  CaptureFrame roi_selection(CaptureFrame)                 :
-        
-    *Crop the region of interset*
+     
+     *Crop the region of interset*
   * CaptureFrame hsv_segmentation  (CaptureFrame)              : 
         
      *Segment image according to color set previously (preset for red)*
  *  void set_threshold (CaptureFrame)                : 
         
-    *set color threshold according to scene*
+    *set color threshold according to scene or manual input*
  * void set_roi  (int x_percent,int y_percent,int width,int height)                       : 
         
    *Set region of interset*
@@ -417,6 +480,11 @@ CaptureFrame class is used as a substitute for image and video files. It holds o
  * reload_image        (image,window_name)             : 
     
     *rewrite existing image*
+
+ * reload_video       (video,window_name)             : 
+    
+    *rewrite existing video*
+
  * CaptureFrame retrieve_image                  : 
     
     *extract stored image*

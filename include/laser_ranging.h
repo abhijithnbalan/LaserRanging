@@ -63,6 +63,7 @@ class LaserRanging : public ImageProcessing
 //functions used for control panel buttons
     static void laser_ranging_button(int state , void *button_user_pointer);
     void laser_ranging_handler(int state);
+   
     float scale_L_by_px();
     float angle_of_tilt();
     void laser_ranging_calibraton(CaptureFrame);
