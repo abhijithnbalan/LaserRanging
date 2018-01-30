@@ -68,7 +68,11 @@ Parallax method is a widely used method in astronomy. It uses angular difference
 ## Using the Program
 -------------------------
 
-1. execution mode
+### File System
+--------------
+![File-system_image](/filesystem.png)
+
+1. Execution mode
 
 No display and other controls. Just console output is present. No loops present
 
@@ -77,10 +81,12 @@ No display and other controls. Just console output is present. No loops present
 ```
 
 
-2. developer mode
+2. Developer mode
 
 Allows control and preview. Loop is present
 
 ```
 ./LaserRanging  dev <video/image file path / camer device number>
 ```
+
+Detailed readme file can be accessed [here](readme.md)
