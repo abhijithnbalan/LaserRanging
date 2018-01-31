@@ -461,6 +461,14 @@ ViewFrame class is used for displaying the images. This class offers multiple mo
  * CaptureFrame add_overlay (CaptureFrame,x_point , y_point, data)                    : 
         
     *Add overlays to the image at the specified point*
+
+ * CaptureFrame join_image_horizontal (CaptureFrame image1,CaptureFrame image2)                    : 
+        
+    *Takes two images and join them horizontlly to one single bigger image. Used in every multiple output functions*
+
+ * CaptureFrame add_overlay (CaptureFrame image1,CaptureFrame image2)                  : 
+        
+    *Takes two images and join them vertically to one single bigger image. Used in every multiple output functions*
         
 ## 5. capture_frame.cpp
 
