@@ -79,6 +79,8 @@ No display and other controls. Just console output is present. No loops present
 ```
 ./LaserRanging  exe <image file (cv::Mat)>
 ```
+This runs for one image and terminates. Image has to be shared variable and the program will be running multiple times
+
 
 
 2. Developer mode

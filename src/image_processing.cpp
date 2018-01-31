@@ -30,35 +30,28 @@ cv::Mat ImageProcessing::roi_selection(cv::Mat image1) //Selecting the Region of
 
 CaptureFrame ImageProcessing::image_segmentation(CaptureFrame object1) //Color segmentation. according to threshold set.
 {
-    cvtColor(object1.retrieve_image().clone(), image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identificati    on
-    cv::Mat image_hls;
-    cvtColor(object1.retrieve_image().clone(), image_hls, cv::COLOR_BGR2HLS);
-    // Segmentation according to the value set in threshold variables
-    inRange(image_hsv, thresh_low_0,thresh_high_0, image_hsv_threshold_low);
-    inRange(image_hsv,  thresh_low_180, thresh_high_180, image_hsv_threshold_high);
-    image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
-
-    if (use_white)//white is filtered in hsl image format and filter using lightness value
-    {
-        inRange(image_hls, thresh_white, cv::Scalar(255, 255, 255, 0), image_hsv_threshold_white);
-        image_hsv_threshold = image_hsv_threshold + image_hsv_threshold_white;
-    }
-    
-    //Morphological Transformations for noise reduction.
-    morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1));
-    dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);//dilating 3 times
-
-    CaptureFrame hsv_threshold(image_hsv_threshold, "HSV_threshold");
+    cv::Mat segmented;
+    segmented = image_segmentation(object1.retrieve_image());
+    CaptureFrame hsv_threshold(segmented, "Segmented Image");
     return hsv_threshold;
 }
 
 cv::Mat ImageProcessing::image_segmentation(cv::Mat object1) //Color segmentation. according to threshold set.
 {
+    cv::Mat image_hls;
     cvtColor(object1, image_hsv, cv::COLOR_BGR2HSV); //Convert to HSV format for color identification
+    cvtColor(object1, image_hls, cv::COLOR_BGR2HLS); //Convert to HLS format for white color filtering.
+    
     // Segmentation according to the value set in threshold variables
-    inRange(image_hsv, thresh_low_0, thresh_low_180, image_hsv_threshold_low);
-    inRange(image_hsv, thresh_high_0, thresh_high_180, image_hsv_threshold_high);
+    inRange(image_hsv, thresh_low_0, thresh_high_0, image_hsv_threshold_low);
+    inRange(image_hsv, thresh_low_180, thresh_high_180, image_hsv_threshold_high);
     image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
+    
+    if (use_white)//white is filtered in hsl image format and filter using lightness value
+    {
+        inRange(image_hls, thresh_white, cv::Scalar(255, 255, 255, 0), image_hsv_threshold_white);
+        image_hsv_threshold = image_hsv_threshold + image_hsv_threshold_white;
+    }
     //Morphological Transformations for noise reduction.
     morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1), 2);
     dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);//dilating 3 times
@@ -129,10 +122,11 @@ void ImageProcessing::on_trackbar_single(int red, void *ptr)
 void ImageProcessing::myhandler(int red)
 {
     //getting all the trackbar position and update the threshold values
-    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold", ""), 255, 255, 0);
-    thresh_low_0 = cv::Scalar(0, 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
-    thresh_high_0 = cv::Scalar(180 - cv::getTrackbarPos("Hue Lower threshold", ""), 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
-    thresh_white = cv::Scalar(0, 255 - cv::getTrackbarPos("Lightness Upper threshold", ""), 0, 0);
+    thresh_high_0 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold", "Control Panel"), 255, 255, 0);
+    thresh_low_0 = cv::Scalar(0, 255 - cv::getTrackbarPos("Saturation Lower threshold", "Control Panel"), 255 - cv::getTrackbarPos("Value Lower threshold", "Control Panel"), 0);
+    thresh_low_180 = cv::Scalar(180 - cv::getTrackbarPos("Hue Lower threshold", "Control Panel"), 255 - cv::getTrackbarPos("Saturation Lower threshold", "Control Panel"), 255 - cv::getTrackbarPos("Value Lower threshold", "Control Panel"), 0);
+    thresh_high_180 = cv::Scalar(180, 255, 255, 0);
+    thresh_white = cv::Scalar(0, 255 - cv::getTrackbarPos("Lightness Upper threshold", "Control Panel"), 0, 0);
     //Writing the updated threshold values on status bar 
     std::ostringstream sst;
     if (use_white)
@@ -146,21 +140,8 @@ void ImageProcessing::myhandler(int red)
 //Function to change parameter for trackbar change for single laser ranging enabled
 void ImageProcessing::myhandler_single(int red)
 {
-    //Getting postion data from all the trackbars and updating all threshold values accordingly
-    thresh_low_180 = cv::Scalar(cv::getTrackbarPos("Hue Upper threshold", ""), 255, 255, 0);
-    thresh_low_0 = cv::Scalar(0, 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
-    thresh_high_0 = cv::Scalar(180 - cv::getTrackbarPos("Hue Lower threshold", ""), 255 - cv::getTrackbarPos("Saturation Lower threshold", ""), 255 - cv::getTrackbarPos("Value Lower threshold", ""), 0);
-    thresh_white = cv::Scalar(0, 255 - cv::getTrackbarPos("Lightness Upper threshold", ""), 0, 0);
-    //displaying the current threshold data onto status bar
-    std::ostringstream sst;
-    if (use_white)
-        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "") << " lu:" << 255 - cv::getTrackbarPos("Lightness Upper threshold", "");
-    if (!use_white)
-        sst << "hl:" << 180 - cv::getTrackbarPos("Hue Lower threshold", "") << " hu:" << cv::getTrackbarPos("Hue Upper threshold", "") << " sl:" << 255 - cv::getTrackbarPos("Saturation Lower threshold", "") << "vl:" << 255 - cv::getTrackbarPos("Value Lower threshold", "");
-    std::string view = std::string(sst.str());
+    myhandler(red);
     flag = true;
-    cv::displayStatusBar("Multiple Outputs", view, 1000);//function to show data on statusbar for 1sec
-
     return;
 }
 //Callback function for the white use button 

@@ -40,9 +40,9 @@ class LaserRanging : public ImageProcessing
 
     CaptureFrame laser_ranging_single_laser(CaptureFrame input_image); //Calling every functions for laser ranging and show it on the input image.
 
-    CaptureFrame laser_ranging(CaptureFrame input_image,int execution_mode); //Calling every functions for laser ranging and show it on the input image.
+    void laser_ranging(CaptureFrame input_image,int execution_mode); //Calling every functions for laser ranging and show it on the input image.
 
-    CaptureFrame laser_ranging_single_laser(CaptureFrame input_image, int execution_mode); //Calling every functions for laser ranging and show it on the input image.
+    void laser_ranging_single_laser(CaptureFrame input_image, int execution_mode); //Calling every functions for laser ranging and show it on the input image.
 
     void live_laser_ranging(CaptureFrame input_video);//running laser ranging on a video
     void live_laser_ranging_single_laser(CaptureFrame input_video);//running laser ranging on a video

@@ -234,19 +234,13 @@ float LaserRanging::get_right_laser_distance_px() //Funtion to retrieve the righ
 
 CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1) //Calling every functions for laser ranging and show it on the input image.
 {
-    original_frame.reload_image(object1.retrieve_image().clone(), "copy of original");; //keeping the original_frame input
-
-    ROI_frame = roi_selection(original_frame); //cropping out the region of interest
-
-    if (use_dehaze)//dehazing is only done when bool dehaze is set true.
-    {
-        ROI_frame = algo.CLAHE_dehaze(ROI_frame); //dehazing using CLAHE algorithm
-    }
-    segmented_frame = image_segmentation(ROI_frame); //color segmentation through HSV conversion
-
-    contour_overlay_frame = contour_distance(segmented_frame); //contour identification
+    timer.timer_init(); //initiating timer
+    
+    laser_ranging(object1,0);
 
     CaptureFrame output = LR_data_overlay(original_frame); //overlaying necessary data
+
+    timer.timer_end(); //ending timer and calculating time interval and fps
 
     return output;
 }
@@ -255,17 +249,7 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
 {
     timer.timer_init(); //initiating timer
 
-    original_frame.reload_image(object1.retrieve_image().clone(), "copy of original");
-
-    ROI_frame = roi_selection(original_frame);
-    if (use_dehaze)//dehazing is only done when bool dehaze is set true.
-    {
-        ROI_frame = algo.CLAHE_dehaze(ROI_frame);
-    }
-    //segments image according to the set color
-    segmented_frame = image_segmentation(ROI_frame);
-    //identify the contours and calculate the distance
-    contour_overlay_frame = contour_distance_single_laser(segmented_frame);
+    laser_ranging_single_laser(object1,0);//minimal laser ranging function
     //Overlay necessary data for single laser
     CaptureFrame output = LR_data_overlay_single_laser(original_frame);
 
@@ -274,7 +258,7 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1) //Ca
     return output;
 }
 
-CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1, int mode) //Calling every functions for laser ranging and show it on the input image.
+void LaserRanging::laser_ranging_single_laser(CaptureFrame object1, int mode) //Calling every functions for laser ranging and show it on the input image.
 {
     // timer.timer_init(); //initiating timer
 
@@ -283,10 +267,11 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1, int 
     ROI_frame = roi_selection(original_frame);
     if (use_dehaze)//dehazing is only done when bool dehaze is set true.
     {
-        ROI_frame = algo.CLAHE_dehaze(ROI_frame);
+        dehazed_frame = algo.CLAHE_dehaze(ROI_frame);
     }
+    else dehazed_frame = ROI_frame;
     //segments image according to the set color
-    segmented_frame = image_segmentation(ROI_frame);
+    segmented_frame = image_segmentation(dehazed_frame);
     //identify the contours and calculate the distance
     contour_overlay_frame = contour_distance_single_laser(segmented_frame);
     //Overlay necessary data for single laser
@@ -294,9 +279,9 @@ CaptureFrame LaserRanging::laser_ranging_single_laser(CaptureFrame object1, int 
 
     // timer.timer_end(); //ending timer and calculating time interval and fps
 
-    return contour_overlay_frame;
+    return;
 }
-CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1, int mode) //Calling every functions for laser ranging and show it on the input image.
+void LaserRanging::laser_ranging(CaptureFrame object1, int mode) //Calling every functions for laser ranging and show it on the input image.
 {
     // timer.timer_init(); //initiating timer
 
@@ -305,8 +290,11 @@ CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1, int mode) //Calli
     ROI_frame = roi_selection(original_frame);
     if (use_dehaze)//dehazing is only done when bool dehaze is set true.
     {
-        ROI_frame = algo.CLAHE_dehaze(ROI_frame);
+        // std::cout<<"here\n";
+        dehazed_frame = algo.CLAHE_dehaze(ROI_frame);
+        
     }
+    else dehazed_frame = ROI_frame;
     //segments image according to the set color
     segmented_frame = image_segmentation(ROI_frame);
     //identify the contours and calculate the distance
@@ -316,7 +304,7 @@ CaptureFrame LaserRanging::laser_ranging(CaptureFrame object1, int mode) //Calli
 
     // timer.timer_end(); //ending timer and calculating time interval and fps
 
-    return contour_overlay_frame;
+    return;
 }
 //laser ranging for video input
 void LaserRanging::live_laser_ranging(CaptureFrame vid)
@@ -352,7 +340,7 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
             if(use_dynamic_control)cv::destroyWindow("Resized Image");//killing previously opened window
             // pixel_distance_to_distance();
 
-            if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame, contour_overlay_frame); //showing the steps as mutliple input
+            if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame,ROI_frame, contour_overlay_frame,70); //showing the steps as mutliple input
             printf("\r Range : %f\n",range_mm);//writing range to console
             if (cv::waitKey(3) >= 0)
                 break;
@@ -416,12 +404,12 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
         vid.frame_extraction(); //frame extraction from video
         if (laser_range_status)//laser_ranging get executed only when laser_range_status is true.
         {
-            if(use_dynamic_control)cv::destroyWindow("Resized Image");//destroy previously opened window
+            if(use_dynamic_control)cv::destroyWindow("overlayed image");//destroy previously opened window
             
             output_frame = laser_ranging_single_laser(vid); //single frame laser ranging
             pixel_distance_to_distance();
             printf("\r[ Left Range : %f \tRight Range : %f ]", range_ll_mm, range_rl_mm);//printing values to console
-            if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame, contour_overlay_frame, ROI_frame); //showing the steps as multiple inputs
+            if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame,ROI_frame,contour_overlay_frame,70); //showing the steps as multiple inputs
             // viewer.single_view_uninterrupted(output_frame, 50); //show output with resizing by 50 percent
             if (cv::waitKey(3) >= 0)
                 break;
@@ -454,7 +442,8 @@ CaptureFrame LaserRanging::LR_data_overlay(CaptureFrame object)
     tempo = viewer.add_overlay(tempo, roi, contour_overlay_frame.retrieve_image());
 
     CaptureFrame output;
-    output = timer.add_time(tempo); //Adding FPS value
+    output = timer.add_time(tempo); //Adding time value
+    output = timer.add_fps(output); //Adding time value
     return output;
 }
 
@@ -477,7 +466,8 @@ CaptureFrame LaserRanging::LR_data_overlay_single_laser(CaptureFrame object)
     tempo = viewer.add_overlay(tempo, roi, contour_overlay_frame.retrieve_image());
 
     CaptureFrame output;
-    output = timer.add_time(tempo); //Adding FPS value
+    output = timer.add_time(tempo); //Adding time value
+    output = timer.add_fps(output); //Adding FPS value
     return output;
 }
 void LaserRanging::pixel_distance_to_distance()//not complete
@@ -523,10 +513,10 @@ void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
     {
         if(laser_range_status) //only executes when laser ranging status is true
         {
-         if(use_dynamic_control)cv::destroyWindow("Resized Image");//destroy previously created window
+         if(use_dynamic_control)cv::destroyWindow("overlayed image" );//destroy previously created window
         output_frame = laser_ranging_single_laser(object);
         
-        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, ROI_frame, segmented_frame, contour_overlay_frame);
+        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame, ROI_frame, contour_overlay_frame,70);
         if (cv::waitKey(100) >= 0)//Lower refresh rate for image mode.
             break;
         }
@@ -567,7 +557,7 @@ void LaserRanging::image_laser_ranging(CaptureFrame object)
         {
         output_frame = laser_ranging(object);//laser ranging
         
-        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, ROI_frame, segmented_frame, contour_overlay_frame);
+        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame, ROI_frame, contour_overlay_frame,70);
         if (cv::waitKey(100) >= 0)
             break;
         }
@@ -611,7 +601,7 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
         {
         output_frame = laser_ranging(object);//laser ranging
         
-        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, ROI_frame, segmented_frame, contour_overlay_frame);
+        if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame,ROI_frame, contour_overlay_frame,70);
         if (cv::waitKey(100) >= 0)
             break;
         }
@@ -632,7 +622,7 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image,int mode)
 
     CaptureFrame object(input_image,"input"), output_frame;
 
-    output_frame = laser_ranging(object,0);//laser ranging minimal mode for execution
+    laser_ranging(object,0);//laser ranging minimal mode for execution
     pixel_distance_to_distance();
     printf("[  Range : %f ]\n", range_mm);//printing values to console
     return;
@@ -648,7 +638,7 @@ void LaserRanging::image_stream_laser_ranging_single_laser(cv::Mat input_image,i
     }
     else
     {
-        output_frame = laser_ranging_single_laser(object,0);//laser ranging with single laser enabled and minimal mode for execution
+        laser_ranging_single_laser(object,0);//laser ranging with single laser enabled and minimal mode for execution
         // viewer.single_view_interrupted(output_frame);
         pixel_distance_to_distance();
         printf("[ Left Range : %f \tRight Range : %f ]\n", range_ll_mm, range_rl_mm);//printing values to console
@@ -742,13 +732,13 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
                 calibration_file.Accept(writer);
             }
             calib_trigger = false;
-            if(dev_mode)cv::destroyWindow("Resized Image");
+            if(dev_mode)cv::destroyWindow(outframe.window_name );
             break;
         }
         else if (c == 27 || calib_cancel)//userkey ESC is pressed
         {
             //skipping calibration
-            if(dev_mode)cv::destroyWindow("Resized Image");
+            if(dev_mode)cv::destroyWindow(outframe.window_name );
             calib_cancel = false;
             break;
         }

@@ -47,14 +47,13 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 INCLUDE_DIRECTORIES(include)
 SET(SOURCES
- ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
- ${CMAKE_CURRENT_LIST_DIR}/src/laser_ranging.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/capture_frame.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/view_frame.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/algorithm.cpp
- ${CMAKE_CURRENT_LIST_DIR}/src/capture_frame.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/timer.cpp
- ${CMAKE_CURRENT_LIST_DIR}/src/image_processing.cpp)
-
+ ${CMAKE_CURRENT_LIST_DIR}/src/image_processing.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/laser_ranging.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp)
 
 ADD_EXECUTABLE(LaserRanging ${SOURCES})
 

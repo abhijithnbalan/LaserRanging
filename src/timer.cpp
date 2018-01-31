@@ -18,12 +18,8 @@
 
         CaptureFrame Timer::add_time(CaptureFrame object)//Function to print the execution time on image
         {
-            cv::Mat image = object.retrieve_image();
-            std::ostringstream sst;
-            sst << execution_time<<"  "<<fps;
-            std::string s(sst.str());
-            putText(image,s, cvPoint(30,30), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);//Adding time into frame
-            CaptureFrame output(image,"output with time data");
+            ViewFrame viewer;
+            CaptureFrame output = viewer.add_overlay_percent(object,10,5,execution_time);
             return output;
         }
         CaptureFrame Timer::add_fps(CaptureFrame object)//Function to print the execution time on image
