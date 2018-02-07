@@ -10,7 +10,7 @@ LASER RANGING
 
 ## Program Flow
 --------------------------
-![Optional Text](/LaserRanging.png)
+![Optional Text](documentation/LaserRanging.png)
 
 
 1. Region of Interest selection
@@ -54,23 +54,27 @@ Dual laser mode requires two laser dots to be identified simultaneously for dist
 Dual laser mode does not need calibration.
 
 ### 3. Laser calibration mode
-Laser calibration is only needed for single laser mode for getting the center of lasers.
+Laser calibration is only needed for single laser mode for getting the center of lasers and also the parallax constant for finding the distance.
 
-**Calibration process** : Bring a plate infront of ROV and position it such a way that the plane is normal to camera. The colour of the plate should be choosen such that laser detection is easier. Execute laser ranging and when two laser dots are identified, the corresponding centers are captured. laser center will be the mid-point of the line connecting centers of individual laser dots.
+**Calibration process** : Bring a plate infront of ROV at a specific distance from the camera and position it such a way that the plate is normal to camera. The colour of the plate should be choosen such that laser detection is easier. The distance chosen has to be recorded in the program. Not doing so will make the program re use the distance fixed last time. Execute laser ranging and when two laser dots are identified, the corresponding centers are captured and also the parallax constant. Laser center will be the mid-point of the line connecting centers of individual laser dots.
 The mid-point is found out and written to a local file.
 
-After Calibration, a local file will be updated with the latest laser center values, this data will be used for further laser ranging. 
+After Calibration, a local file will be updated with the latest laser center values, the distance used in calibration and the parallax constant. This data will be used for further laser ranging. 
 
 ## Parallax Method
 ---------------
 Parallax method is a widely used method in astronomy. It uses angular difference betwee two image captured of a same object but from different positions. Given the distance between the positions of two pictures, distance from object to camera(mid point of line connecting two camera positions) can be found out.
 
+According to parallax method, the actual distance is inversely proportional to the pixel distance and the proportionality constant (called parallax constant in program) is found out at the time of calibration. This value does not change unless Camera, camera position or laser positions are changed.
+
 ## Using the Program
 -------------------------
 
-### File System
+### Program file structure
 --------------
-![File-system_image](/filesystem.png)
+![File-system_image](documentation/filesystem.png)
+
+### Modes of execution
 
 1. Execution mode
 

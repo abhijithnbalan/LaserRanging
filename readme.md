@@ -27,13 +27,13 @@ Make sure you have the following files in your system
 
 Dependencies
 
-1. Opencv3.4
+1. Opencv 3.4
 2. rapidjson
 
 ### File System
 -------------
 
-![file_system](/filesystem.png)
+![file_system](documentation/filesystem.png)
 
 Now to compile, move to the main directory and run the following commands on terminal.
 
@@ -262,7 +262,7 @@ This mode, a shared image will be updated and the code run once showing only the
     ```
 
 ## Program Flow
-![Optional Text](/LaserRanging.png)
+![Optional Text](documentation/LaserRanging.png)
 
 
 ## INCLUDED FILES
@@ -377,6 +377,15 @@ This mode, a shared image will be updated and the code run once showing only the
 * distance_between_lasers
 
      *to set the actual distance between two laser pointers in mm*
+
+* calibration_distance
+
+     *the distance to the normal plate from camera in calibration.*
+
+* parallax_constant
+
+     *the proportionality constant for prallax method. This is found out using calibration and is written to a local file*
+
 
 
 
@@ -539,3 +548,32 @@ Timer class is used for measuring the execution time and maximum fps. It calcula
      *to extract the maximum fps data*
         
 
+## Program Execution Time
+
+Program's execution times are very important in terms of scalability and reliability. The program is tested with 2 computers with the following configuration
+
+### Computer - 1
+     CPU   - Intel i5 5th Generation quad core
+     RAM  - 4 GB
+    Ubuntu 14.04
+
+
+| Tasks     | Time Taken  (ms)  |
+| -------   | ----------    |
+| ROI selection |   0.89  |
+| Dehazing (optional)    | 19.28 (CLAHE) \| 11.8(Eq Histogram)
+| Image segmentation    |   9.8 |
+|Contour Identification |   1.8 |
+| Data Overlay      |   0.9 |
+| Display       |   12.4|
+
+_total time in developer mode_ -- 33.76 ms
+
+_total time in execution mode_ -- 13.6 ms   (without display)
+
+
+
+### Computer - 2
+     CPU   - Intel i7 5th Generation quad core
+     RAM  - 8 GB
+    Ubuntu 16.04

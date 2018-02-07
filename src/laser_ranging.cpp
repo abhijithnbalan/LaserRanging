@@ -398,7 +398,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
         if(calibration_status)//checking for calibration_status for calibration
         {
             calibration_status = false;//reset calibration_status and continue
-            laser_ranging_calibraton(vid);//laser calibration
+            laser_ranging_calibration(vid);//laser calibration
         }
         
         vid.frame_extraction(); //frame extraction from video
@@ -420,7 +420,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
             if(dev_mode){CaptureFrame outframe = viewer.add_overlay_percent(vid, 20, 20, "LaserRanging : Disengaged", cv::Scalar(0, 0, 255), 0.8, 2);
             viewer.single_view_uninterrupted(outframe, 50);}
             if (cv::waitKey(3) >= 0)
-                break;
+                exit(0);
         }
     }
     return;
@@ -472,12 +472,20 @@ CaptureFrame LaserRanging::LR_data_overlay_single_laser(CaptureFrame object)
 }
 void LaserRanging::pixel_distance_to_distance()//not complete
 {
-    (centerx[0] + centery[0] != 0) ? range_ll_mm = distance_ll_px * 2 : range_ll_mm = 0;
-
-    (centerx[1] + centery[1] != 0) ? range_rl_mm = distance_rl_px * 2 : range_rl_mm = 0;
-
-    (centerx[1] + centery[1] != 0 && centerx[0] + centery[0] != 0) ? range_mm = range_ll_mm + range_rl_mm : range_mm = distance_px;
-
+    if(distance_ll_px != 0 || distance_rl_px != 0)
+    {
+        range_rl_mm = parallax_constant/(2 * distance_rl_px);
+        range_ll_mm = parallax_constant/(2 * distance_ll_px);
+        range_mm = (range_rl_mm + range_ll_mm)/2;
+    }
+    else if(distance_px != 0)
+    {
+        range_mm = parallax_constant/(2 * distance_px);
+    }
+    else
+    {
+        range_ll_mm = range_rl_mm = range_mm = 0;
+    }
     return;
 }
 //laser ranging for an image
@@ -595,7 +603,7 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
         if(calibration_status)//checking for calibration_status for calibration
         {
             calibration_status = false;//reset calibration_status and continue
-            laser_ranging_calibraton(object);//laser calibration
+            laser_ranging_calibration(object);//laser calibration
         }
         if(laser_range_status)//laser ranging happens only when laser_ranging_status is true
         {
@@ -633,7 +641,7 @@ void LaserRanging::image_stream_laser_ranging_single_laser(cv::Mat input_image,i
     CaptureFrame object(input_image,"input"), output_frame;
     if(calibration_status)
     {
-        image_stream_laser_ranging_calibraton(object,0);
+        image_stream_laser_ranging_calibration(object,0);
         calibration_status = false;
     }
     else
@@ -668,11 +676,13 @@ void LaserRanging::laser_ranging_handler(int state)
     }
     return;
 }
+
 //Funcion to output the constant length per pixel
 float LaserRanging::scale_L_by_px()
 {
     return float(distance_between_laser)/float(distance_px);
 }
+
 //Function to output the angle of tilt
 float LaserRanging::angle_of_tilt()
 {//Feature only available in single_laser mode
@@ -686,15 +696,15 @@ float LaserRanging::angle_of_tilt()
     }
 }
 
-void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
+void LaserRanging::laser_ranging_calibration(CaptureFrame vid)
 {
     //opening the calibration json file and reading the existing values
     std::ifstream ifs("laser_calibration_values.json");
     rapidjson::IStreamWrapper isw(ifs);
     rapidjson::Document calibration_file;
     calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
-              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
+    std::cout << "The current values : x = " << laser_center_x
+              << "  y = " << laser_center_y << "\n"<<" calibration_distance : "<<calibration_distance;
 
     ViewFrame viewer;
     std::cout << "Calibration initiated\n";
@@ -717,15 +727,23 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
                 //two laser dots are identified
                 laser_center_x = (centerx[0] + centerx[1]) / 2;
                 laser_center_y = (centery[0] + centery[1]) / 2;
+                parallax_constant = calibration_distance*(distance_rl_px + distance_ll_px);
                 std::cout << "Capturing laser center values as  x = " << laser_center_x
-                          << " and  y = " << laser_center_y << "\n";
+                          << " and  y = " << laser_center_y <<" for distance "<<calibration_distance<< "\n";
                 //now writing the new calibraiton values to json file
                 rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
                 rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
+                rapidjson::Value &document_calibration_distance = calibration_file["calibration_distance"];
+                rapidjson::Value &document_parallax_constant = calibration_file["parallax_constant"];
                 document_x_value.SetInt(laser_center_x);
                 document_y_value.SetInt(laser_center_y);
+                document_calibration_distance.SetFloat(calibration_distance);
+                document_parallax_constant.SetFloat(parallax_constant);
                 std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
+                          << "  y = " << calibration_file["laser_center_y"].GetInt()<< "\n"
+                          << "  calibration_distance = " << calibration_file["calibration_distance"].GetFloat()
+                          << "  parallax constant = " << calibration_file["parallax_constant"].GetFloat()
+                           << "\n\n";
                 std::ofstream ofs("laser_calibration_values.json");
                 rapidjson::OStreamWrapper osw(ofs);
                 rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
@@ -746,7 +764,7 @@ void LaserRanging::laser_ranging_calibraton(CaptureFrame vid)
     return;
 }
 
-void LaserRanging::image_stream_laser_ranging_calibraton(CaptureFrame vid)
+void LaserRanging::image_stream_laser_ranging_calibration(CaptureFrame vid)
 {
     //opening the calibration json file and reading the existing values
     std::ifstream ifs("laser_calibration_values.json");
@@ -802,7 +820,7 @@ void LaserRanging::image_stream_laser_ranging_calibraton(CaptureFrame vid)
     
     return;
 }
-void LaserRanging::image_stream_laser_ranging_calibraton(CaptureFrame vid, int mode)
+void LaserRanging::image_stream_laser_ranging_calibration(CaptureFrame vid, int mode)
 {
     //opening the calibration json file and reading the existing values
     std::ifstream ifs("laser_calibration_values.json");
@@ -869,6 +887,8 @@ LaserRanging::LaserRanging()
     calibration_file.ParseStream(isw);
     laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
     laser_center_y = calibration_file["laser_center_y"].GetInt();
+    // parallax_constant = calibration_file["parallax_constant"].GetFloat();
+    // calibration_distance = calibration_file["calibration_distance"].GetFloat();
 
     use_dehaze = false;//dehaze is not used by default (used in extreme brown water )
     use_dynamic_control = true;//dynamic control is used by default

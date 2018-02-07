@@ -28,6 +28,8 @@ class LaserRanging : public ImageProcessing
     bool use_dehaze , use_dynamic_control, laser_range_status,calibration_status;//vaiables to set to control program
     //by-products of laser_ranging (used in multiple show)
     CaptureFrame segmented_frame,ROI_frame,dehazed_frame,contour_overlay_frame,line_overlay_frame,original_frame;
+    float parallax_constant,calibration_distance;
+    
     //public functions
     CaptureFrame contour_distance(CaptureFrame input_image); //Contour identification and pixel distance calculation.
     CaptureFrame contour_distance_single_laser(CaptureFrame input_image); //Contour identification and pixel distance calculation.
@@ -66,9 +68,9 @@ class LaserRanging : public ImageProcessing
    
     float scale_L_by_px();
     float angle_of_tilt();
-    void laser_ranging_calibraton(CaptureFrame);
-    void image_stream_laser_ranging_calibraton(CaptureFrame input);
-    void image_stream_laser_ranging_calibraton(CaptureFrame input,int execution_mode);
+    void laser_ranging_calibration(CaptureFrame);
+    void image_stream_laser_ranging_calibration(CaptureFrame input);
+    void image_stream_laser_ranging_calibration(CaptureFrame input,int execution_mode);
     
     LaserRanging();//Constructor
 };
