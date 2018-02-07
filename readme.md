@@ -558,14 +558,14 @@ Program's execution times are very important in terms of scalability and reliabi
     Ubuntu 14.04
 
 
-| Tasks     | Time Taken  (ms)  |
-| -------   | ----------    |
-| ROI selection |   0.89  |
-| Dehazing (optional)    | 19.28 (CLAHE) \| 11.8(Eq Histogram)
-| Image segmentation    |   9.8 |
-|Contour Identification |   1.8 |
-| Data Overlay      |   0.9 |
-| Display       |   12.4|
+| Tasks                 |   Time Taken  (ms)                    |
+| -------               | ----------                            |
+| ROI selection         |   0.89                                |
+| Dehazing (optional)   |   19.28 (CLAHE) \| 11.8(Eq Histogram) |
+| Image segmentation    |   9.8                                 |
+| Contour Identification|   1.8                                 |
+| Data Overlay          |   0.9                                 |
+| Display               |   12.4                                |
 
 _total time in developer mode_ -- 33.76 ms
 
@@ -577,3 +577,16 @@ _total time in execution mode_ -- 13.6 ms   (without display)
      CPU   - Intel i7 5th Generation quad core
      RAM  - 8 GB
     Ubuntu 16.04
+
+| Tasks                 |   Time Taken  (ms)                    |
+| -------               | ----------                            |
+| ROI selection         |   0.89                                |
+| Dehazing (optional)   |   19.28 (CLAHE) \| 11.8(Eq Histogram) |
+| Image segmentation    |   9.8                                 |
+| Contour Identification|   1.8                                 |
+| Data Overlay          |   0.9                                 |
+| Display               |   12.4                                |
+
+_total time in developer mode_ -- 33.76 ms
+
+_total time in execution mode_ -- 13.6 ms   (without display)

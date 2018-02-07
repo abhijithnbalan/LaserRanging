@@ -704,7 +704,7 @@ void LaserRanging::laser_ranging_calibration(CaptureFrame vid)
     rapidjson::Document calibration_file;
     calibration_file.ParseStream(isw);
     std::cout << "The current values : x = " << laser_center_x
-              << "  y = " << laser_center_y << "\n"<<" calibration_distance : "<<calibration_distance;
+              << "  y = " << laser_center_y << "\n"<<" calibration_distance : "<<calibration_distance<<"\n";
 
     ViewFrame viewer;
     std::cout << "Calibration initiated\n";
@@ -775,8 +775,7 @@ void LaserRanging::image_stream_laser_ranging_calibration(CaptureFrame vid)
               << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
 
     ViewFrame viewer;
-    std::cout << "Calibration initiated\n";
-    std::cout << "Press c to record laser center values  Press ESC to exit\n";
+    std::cout << "\rPress c to record laser center values  Press ESC to exit\n";
     
         CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
         if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
