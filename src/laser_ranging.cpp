@@ -886,8 +886,8 @@ LaserRanging::LaserRanging()
     calibration_file.ParseStream(isw);
     laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
     laser_center_y = calibration_file["laser_center_y"].GetInt();
-    // parallax_constant = calibration_file["parallax_constant"].GetFloat();
-    // calibration_distance = calibration_file["calibration_distance"].GetFloat();
+    parallax_constant = calibration_file["parallax_constant"].GetFloat();
+    calibration_distance = calibration_file["calibration_distance"].GetFloat();
 
     use_dehaze = false;//dehaze is not used by default (used in extreme brown water )
     use_dynamic_control = true;//dynamic control is used by default
