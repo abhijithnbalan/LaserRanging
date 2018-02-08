@@ -420,7 +420,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
             if(dev_mode){CaptureFrame outframe = viewer.add_overlay_percent(vid, 20, 20, "LaserRanging : Disengaged", cv::Scalar(0, 0, 255), 0.8, 2);
             viewer.single_view_uninterrupted(outframe, 50);}
             if (cv::waitKey(3) >= 0)
-                exit(0);
+                return;
         }
     }
     return;

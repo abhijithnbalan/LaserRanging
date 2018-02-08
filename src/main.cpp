@@ -134,5 +134,6 @@ int main(int argc, char **argv) //The main Function
         Ranger.image_stream_laser_ranging_single_laser(image_stream, 0);
         cv::waitKey(3);
     }
+    usleep(1000000);
     return 1;
 }
