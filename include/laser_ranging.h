@@ -11,24 +11,24 @@
 class LaserRanging : public ImageProcessing
 {
   private:
-    int centerx[2],centery[2];
-    
     Timer timer;//For time interval and FPS calculation
     //Special for single laser 
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
 
+  protected:
+    int centerx[2],centery[2];
+
   public:
     //public variables
-    bool calib_trigger,calib_cancel,dev_mode;
+    bool dev_mode;
     int laser_ranging_button_value;
-    float distance_between_laser;
+    float parallax_constant,distance_between_laser;
     float distance_ll_px, distance_rl_px, distance_px;//distance from left laser,right laser and in dual laser mode
     int laser_center_x,laser_center_y;//laser centers (used in single laser mode)
     float range_mm,range_ll_mm,range_rl_mm;//range dual mode, left laser and right laser in mm
-    bool use_dehaze , use_dynamic_control, laser_range_status,calibration_status;//vaiables to set to control program
+    bool use_dehaze , use_dynamic_control, laser_range_status;//vaiables to set to control program
     //by-products of laser_ranging (used in multiple show)
     CaptureFrame segmented_frame,ROI_frame,dehazed_frame,contour_overlay_frame,line_overlay_frame,original_frame;
-    float parallax_constant,calibration_distance;
     
     //public functions
     CaptureFrame contour_distance(CaptureFrame input_image); //Contour identification and pixel distance calculation.
@@ -68,10 +68,7 @@ class LaserRanging : public ImageProcessing
    
     float scale_L_by_px();
     float angle_of_tilt();
-    void laser_ranging_calibration(CaptureFrame);
-    void image_stream_laser_ranging_calibration(CaptureFrame input);
-    void image_stream_laser_ranging_calibration(CaptureFrame input,int execution_mode);
-    
+
     LaserRanging();//Constructor
 };
 

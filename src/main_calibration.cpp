@@ -1,19 +1,13 @@
 
-
-//Including the codes for functions
+#include "laser_calibration.h"
 #include "capture_frame.h"
 #include "view_frame.h"
-#include "timer.h"
-#include "image_processing.h"
-#include "algorithm.h"
-#include "laser_ranging.h"
-//standard libraries
 #include <stdio.h>
+#include <unistd.h>//For Directory changing.
 #include <opencv2/highgui.hpp>
-#include <opencv2/opencv.hpp>
-#include <cstdlib> //for integer checking support
-#include <unistd.h>
-int main(int argc, char **argv) //The main Function
+#include <opencv2/opencv.hpp>//opencv support
+
+int main(int argc, char **argv)
 {
     //Changing directory for accessing files. another workaround is giving full path for each files.
     int success = chdir("..");
@@ -22,11 +16,9 @@ int main(int argc, char **argv) //The main Function
         std::cout<<"couldn't change the directory/\n";
         return -1;    
     }
-
-    LaserRanging Ranger; //Laser ranging object
+    LaserCalibration calibrate;
     cv::Mat image_stream;
 
-    int x, y, wt, ht, hue_high, hue_low, sat_high, sat_low, val_high, val_low;//for changing roi in image_stream
     bool dev_mode = false;//developer mode control
     bool exe_mode = false;//execution mode control
 
@@ -37,7 +29,6 @@ int main(int argc, char **argv) //The main Function
             exe_mode = true;
         }
     }
-    
     if (!exe_mode)
     {
 
@@ -50,7 +41,7 @@ int main(int argc, char **argv) //The main Function
             {
 
                 dev_mode = true;
-                Ranger.dev_mode = true;
+                calibrate.dev_mode = true;
                 if(argc>2)
                 {
                     char *end;
@@ -101,7 +92,9 @@ int main(int argc, char **argv) //The main Function
             // Ranger.use_white = true;
             // Ranger.use_dynamic_control = false;
             // Ranger.laser_range_status = false;
-            Ranger.live_laser_ranging_single_laser(vid);
+            calibrate.calibration_distance = 500;
+            std::cout<<"this is what i wanted all checl\n";
+            calibrate.laser_ranging_calibration(vid);
 
             //---------------------------//
         }
@@ -113,9 +106,8 @@ int main(int argc, char **argv) //The main Function
             // Ranger.use_dehaze = true;
             // Ranger.algo.set_CLAHE_clip_limit(2);
             // Ranger.use_white = true;
-            Ranger.use_dynamic_control = false;
             // Ranger.laser_range_status = false;
-            Ranger.image_laser_ranging_single_laser(img);
+            calibrate.image_stream_laser_ranging_calibration(img);
 
             //----------------------------//
         }
@@ -127,9 +119,10 @@ int main(int argc, char **argv) //The main Function
     else
     {
         image_stream = cv::imread("samples/test1.png", 1);
+        calibrate.calibration_status = false;
         // Ranger.set_roi(x,y,wt,ht);
         // Ranger.set_threshold(hue_low,hue_high,sat_low,sat_high,val_low,val_high);
-        Ranger.image_stream_laser_ranging_single_laser(image_stream, 0);
+        calibrate.image_stream_laser_ranging_calibration(image_stream, 0);
         cv::waitKey(3);
     }
     usleep(1000000);
