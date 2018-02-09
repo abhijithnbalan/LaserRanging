@@ -395,11 +395,6 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 
     for (;;)
     {
-        if(calibration_status)//checking for calibration_status for calibration
-        {
-            calibration_status = false;//reset calibration_status and continue
-            laser_ranging_calibration(vid);//laser calibration
-        }
         
         vid.frame_extraction(); //frame extraction from video
         if (laser_range_status)//laser_ranging get executed only when laser_range_status is true.
@@ -600,11 +595,6 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
     CaptureFrame object(input_image,"input"), output_frame;
     for (;;)
     {
-        if(calibration_status)//checking for calibration_status for calibration
-        {
-            calibration_status = false;//reset calibration_status and continue
-            laser_ranging_calibration(object);//laser calibration
-        }
         if(laser_range_status)//laser ranging happens only when laser_ranging_status is true
         {
         output_frame = laser_ranging(object);//laser ranging
@@ -639,18 +629,12 @@ void LaserRanging::image_stream_laser_ranging_single_laser(cv::Mat input_image,i
 {
     // ViewFrame viewer;
     CaptureFrame object(input_image,"input"), output_frame;
-    if(calibration_status)
-    {
-        image_stream_laser_ranging_calibration(object,0);
-        calibration_status = false;
-    }
-    else
-    {
+
         laser_ranging_single_laser(object,0);//laser ranging with single laser enabled and minimal mode for execution
         // viewer.single_view_interrupted(output_frame);
         pixel_distance_to_distance();
         printf("[ Left Range : %f \tRight Range : %f ]\n", range_ll_mm, range_rl_mm);//printing values to console
-    }
+
     return;
 }
 
@@ -696,182 +680,7 @@ float LaserRanging::angle_of_tilt()
     }
 }
 
-void LaserRanging::laser_ranging_calibration(CaptureFrame vid)
-{
-    //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << laser_center_x
-              << "  y = " << laser_center_y << "\n"<<" calibration_distance : "<<calibration_distance<<"\n";
 
-    ViewFrame viewer;
-    std::cout << "Calibration initiated\n";
-    std::cout << "Press c to record laser center values  Press ESC to exit\n";
-    for (;;)
-    {
-        vid.frame_extraction();
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
-        if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
-        char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
-        if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
-        {
-            if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
-            {   
-                //Two laser dots not found so using the existng values in json file.
-                std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
-            }
-            else
-            {
-                //two laser dots are identified
-                laser_center_x = (centerx[0] + centerx[1]) / 2;
-                laser_center_y = (centery[0] + centery[1]) / 2;
-                parallax_constant = calibration_distance*(distance_rl_px + distance_ll_px);
-                std::cout << "Capturing laser center values as  x = " << laser_center_x
-                          << " and  y = " << laser_center_y <<" for distance "<<calibration_distance<< "\n";
-                //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                rapidjson::Value &document_calibration_distance = calibration_file["calibration_distance"];
-                rapidjson::Value &document_parallax_constant = calibration_file["parallax_constant"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                document_calibration_distance.SetFloat(calibration_distance);
-                document_parallax_constant.SetFloat(parallax_constant);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt()<< "\n"
-                          << "  calibration_distance = " << calibration_file["calibration_distance"].GetFloat()
-                          << "  parallax constant = " << calibration_file["parallax_constant"].GetFloat()
-                           << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
-            }
-            calib_trigger = false;
-            if(dev_mode)cv::destroyWindow(outframe.window_name );
-            break;
-        }
-        else if (c == 27 || calib_cancel)//userkey ESC is pressed
-        {
-            //skipping calibration
-            if(dev_mode)cv::destroyWindow(outframe.window_name );
-            calib_cancel = false;
-            break;
-        }
-    }
-    return;
-}
-
-void LaserRanging::image_stream_laser_ranging_calibration(CaptureFrame vid)
-{
-    //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
-              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
-
-    ViewFrame viewer;
-    std::cout << "\rPress c to record laser center values  Press ESC to exit\n";
-    
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
-        if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
-        char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
-        if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
-        {
-            if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
-            {   
-                //Two laser dots not found so using the existng values in json file.
-                std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
-            }
-            else
-            {
-                //two laser dots are identified
-                laser_center_x = (centerx[0] + centerx[1]) / 2;
-                laser_center_y = (centery[0] + centery[1]) / 2;
-                std::cout << "Capturing laser center values as  x = " << laser_center_x
-                          << " and  y = " << laser_center_y << "\n";
-                //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
-            }
-            calib_trigger = false;
-            if(dev_mode)cv::destroyWindow("Resized Image");
-        }
-        else if (c == 27 || calib_cancel)//userkey ESC is pressed
-        {
-            //skipping calibration
-            if(dev_mode)cv::destroyWindow("Resized Image");
-            calib_cancel = false;
-        
-        }
-    
-    return;
-}
-void LaserRanging::image_stream_laser_ranging_calibration(CaptureFrame vid, int mode)
-{
-    //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
-              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
-
-    ViewFrame viewer;
-    std::cout << "Calibration initiated\n";
-    std::cout << "Press c to record laser center values  Press ESC to exit\n";
-    
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
-        char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
-        if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
-        {
-            if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
-            {   
-                //Two laser dots not found so using the existng values in json file.
-                std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
-            }
-            else
-            {
-                //two laser dots are identified
-                laser_center_x = (centerx[0] + centerx[1]) / 2;
-                laser_center_y = (centery[0] + centery[1]) / 2;
-                std::cout << "Capturing laser center values as  x = " << laser_center_x
-                          << " and  y = " << laser_center_y << "\n";
-                //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
-            }
-            calib_trigger = false;
-        }
-        else if (c == 27 || calib_cancel)//userkey ESC is pressed
-        {
-            //skipping calibration
-            calib_cancel = false;
-        
-        }
-    
-    return;
-}
 
 LaserRanging::LaserRanging()
 {
@@ -887,14 +696,11 @@ LaserRanging::LaserRanging()
     laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
     laser_center_y = calibration_file["laser_center_y"].GetInt();
     parallax_constant = calibration_file["parallax_constant"].GetFloat();
-    calibration_distance = calibration_file["calibration_distance"].GetFloat();
+    // calibration_distance = calibration_file["calibration_distance"].GetFloat();
 
     use_dehaze = false;//dehaze is not used by default (used in extreme brown water )
     use_dynamic_control = true;//dynamic control is used by default
     laser_range_status = true;laser_ranging_button_value = 1;//laser ranging is used by default
-    calibration_status = true;//calibration is used by default
-    calib_trigger = false;//calibration trigger set to false by default
-    calib_cancel = false;//calibration cancellation variable set to false by default
     dev_mode = false;//developer mode is disabled unless specified otherwise.
     distance_between_laser = 100;//the distance between laser pointers
     hue_lower = 20, hue_upper = 16, saturation_upper = 95, value_lower = 75, lightness_upper = 40;//A sample set of threshold vlues

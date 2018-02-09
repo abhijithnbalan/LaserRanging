@@ -99,6 +99,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named LaserCalibration
+
+# Build rule for target.
+LaserCalibration: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 LaserCalibration
+.PHONY : LaserCalibration
+
+# fast build rule for target.
+LaserCalibration/fast:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/build
+.PHONY : LaserCalibration/fast
+
+#=============================================================================
 # Target rules for targets named LaserRanging
 
 # Build rule for target.
@@ -116,6 +129,7 @@ src/algorithm.o: src/algorithm.cpp.o
 
 # target to build an object file
 src/algorithm.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o
 .PHONY : src/algorithm.cpp.o
 
@@ -124,6 +138,7 @@ src/algorithm.i: src/algorithm.cpp.i
 
 # target to preprocess a source file
 src/algorithm.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/algorithm.cpp.i
 .PHONY : src/algorithm.cpp.i
 
@@ -132,6 +147,7 @@ src/algorithm.s: src/algorithm.cpp.s
 
 # target to generate assembly for a file
 src/algorithm.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/algorithm.cpp.s
 .PHONY : src/algorithm.cpp.s
 
@@ -140,6 +156,7 @@ src/capture_frame.o: src/capture_frame.cpp.o
 
 # target to build an object file
 src/capture_frame.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o
 .PHONY : src/capture_frame.cpp.o
 
@@ -148,6 +165,7 @@ src/capture_frame.i: src/capture_frame.cpp.i
 
 # target to preprocess a source file
 src/capture_frame.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.i
 .PHONY : src/capture_frame.cpp.i
 
@@ -156,6 +174,7 @@ src/capture_frame.s: src/capture_frame.cpp.s
 
 # target to generate assembly for a file
 src/capture_frame.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.s
 .PHONY : src/capture_frame.cpp.s
 
@@ -164,6 +183,7 @@ src/image_processing.o: src/image_processing.cpp.o
 
 # target to build an object file
 src/image_processing.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o
 .PHONY : src/image_processing.cpp.o
 
@@ -172,6 +192,7 @@ src/image_processing.i: src/image_processing.cpp.i
 
 # target to preprocess a source file
 src/image_processing.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/image_processing.cpp.i
 .PHONY : src/image_processing.cpp.i
 
@@ -180,14 +201,40 @@ src/image_processing.s: src/image_processing.cpp.s
 
 # target to generate assembly for a file
 src/image_processing.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/image_processing.cpp.s
 .PHONY : src/image_processing.cpp.s
+
+src/laser_calibration.o: src/laser_calibration.cpp.o
+.PHONY : src/laser_calibration.o
+
+# target to build an object file
+src/laser_calibration.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o
+.PHONY : src/laser_calibration.cpp.o
+
+src/laser_calibration.i: src/laser_calibration.cpp.i
+.PHONY : src/laser_calibration.i
+
+# target to preprocess a source file
+src/laser_calibration.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.i
+.PHONY : src/laser_calibration.cpp.i
+
+src/laser_calibration.s: src/laser_calibration.cpp.s
+.PHONY : src/laser_calibration.s
+
+# target to generate assembly for a file
+src/laser_calibration.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.s
+.PHONY : src/laser_calibration.cpp.s
 
 src/laser_ranging.o: src/laser_ranging.cpp.o
 .PHONY : src/laser_ranging.o
 
 # target to build an object file
 src/laser_ranging.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o
 .PHONY : src/laser_ranging.cpp.o
 
@@ -196,6 +243,7 @@ src/laser_ranging.i: src/laser_ranging.cpp.i
 
 # target to preprocess a source file
 src/laser_ranging.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.i
 .PHONY : src/laser_ranging.cpp.i
 
@@ -204,6 +252,7 @@ src/laser_ranging.s: src/laser_ranging.cpp.s
 
 # target to generate assembly for a file
 src/laser_ranging.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.s
 .PHONY : src/laser_ranging.cpp.s
 
@@ -231,11 +280,36 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/main_calibration.o: src/main_calibration.cpp.o
+.PHONY : src/main_calibration.o
+
+# target to build an object file
+src/main_calibration.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o
+.PHONY : src/main_calibration.cpp.o
+
+src/main_calibration.i: src/main_calibration.cpp.i
+.PHONY : src/main_calibration.i
+
+# target to preprocess a source file
+src/main_calibration.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.i
+.PHONY : src/main_calibration.cpp.i
+
+src/main_calibration.s: src/main_calibration.cpp.s
+.PHONY : src/main_calibration.s
+
+# target to generate assembly for a file
+src/main_calibration.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.s
+.PHONY : src/main_calibration.cpp.s
+
 src/timer.o: src/timer.cpp.o
 .PHONY : src/timer.o
 
 # target to build an object file
 src/timer.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/timer.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/timer.cpp.o
 .PHONY : src/timer.cpp.o
 
@@ -244,6 +318,7 @@ src/timer.i: src/timer.cpp.i
 
 # target to preprocess a source file
 src/timer.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/timer.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/timer.cpp.i
 .PHONY : src/timer.cpp.i
 
@@ -252,6 +327,7 @@ src/timer.s: src/timer.cpp.s
 
 # target to generate assembly for a file
 src/timer.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/timer.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/timer.cpp.s
 .PHONY : src/timer.cpp.s
 
@@ -260,6 +336,7 @@ src/view_frame.o: src/view_frame.cpp.o
 
 # target to build an object file
 src/view_frame.cpp.o:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o
 .PHONY : src/view_frame.cpp.o
 
@@ -268,6 +345,7 @@ src/view_frame.i: src/view_frame.cpp.i
 
 # target to preprocess a source file
 src/view_frame.cpp.i:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.i
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/view_frame.cpp.i
 .PHONY : src/view_frame.cpp.i
 
@@ -276,6 +354,7 @@ src/view_frame.s: src/view_frame.cpp.s
 
 # target to generate assembly for a file
 src/view_frame.cpp.s:
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.s
 	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/view_frame.cpp.s
 .PHONY : src/view_frame.cpp.s
 
@@ -285,6 +364,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... LaserCalibration"
 	@echo "... LaserRanging"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
@@ -297,12 +377,18 @@ help:
 	@echo "... src/image_processing.o"
 	@echo "... src/image_processing.i"
 	@echo "... src/image_processing.s"
+	@echo "... src/laser_calibration.o"
+	@echo "... src/laser_calibration.i"
+	@echo "... src/laser_calibration.s"
 	@echo "... src/laser_ranging.o"
 	@echo "... src/laser_ranging.i"
 	@echo "... src/laser_ranging.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/main_calibration.o"
+	@echo "... src/main_calibration.i"
+	@echo "... src/main_calibration.s"
 	@echo "... src/timer.o"
 	@echo "... src/timer.i"
 	@echo "... src/timer.s"

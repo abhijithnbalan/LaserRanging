@@ -57,6 +57,18 @@ SET(SOURCES
 
 ADD_EXECUTABLE(LaserRanging ${SOURCES})
 
+SET(SOURCES_CALIB
+ ${CMAKE_CURRENT_LIST_DIR}/src/capture_frame.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/view_frame.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/algorithm.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/timer.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/image_processing.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/laser_ranging.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/laser_calibration.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/main_calibration.cpp)
+
+ADD_EXECUTABLE(LaserCalibration ${SOURCES_CALIB})
+
 #TARGET_LINK_LIBRARIES(vision avdevice avfilter swscale avformat avcodec avutil swresample m va va-x11 pthread vorbis vpx opus z postproc dl fdk-aac mp3lame vorbisenc vorbisfile x264 theora x265 theoraenc theoradec dl rt bz2 asound SDL SDLmain SDL_ttf freetype ass lzma ftgl perl crypto xcb xcb-shm xcb-xfixes ao xcb-shape fftw3 X11 vdpau drm va-drm numa log4cpp)
 #target_link_libraries(vision ${Boost_LIBRARIES} ${OpenCV_LIBS})
 #target_link_libraries(vision ${Boost_LIBRARIES})
@@ -70,6 +82,7 @@ ADD_EXECUTABLE(LaserRanging ${SOURCES})
 #TARGET_LINK_LIBRARIES(exe pthread )
 #target_link_libraries(exe ${Boost_LIBRARIES})
 target_link_libraries( LaserRanging ${OpenCV_LIBS} )
+target_link_libraries( LaserCalibration ${OpenCV_LIBS} )
 
 message( "*************************************" )
 message( "*************************************" )
