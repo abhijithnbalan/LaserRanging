@@ -60,7 +60,7 @@ class LaserRanging : public ImageProcessing
     void image_stream_laser_ranging_single_laser(cv::Mat input_image,int execution_mode);//laser ranging for image stream with single laser enabled
     void image_stream_laser_ranging(cv::Mat input_image,int execution_mode);//laser ranging for image stream.
 
-
+    void read_from_json(std::string filename, std::string all);
 
 //functions used for control panel buttons
     static void laser_ranging_button(int state , void *button_user_pointer);

@@ -12,7 +12,16 @@
         {
             time_end = clock();
             fps =CLOCKS_PER_SEC/((float)time_end - (float)time_start);
-            execution_time =((float)time_end - (float)time_start)/CLOCKS_PER_SEC;
+            try
+            {
+                execution_time =((float)time_end - (float)time_start)/CLOCKS_PER_SEC;
+                if(CLOCKS_PER_SEC <= 0)throw(10);
+            }
+            catch(int b)
+            {
+                std::cout<<"Time and FPS could not be calculated. \n";
+                return;
+            }
             return;
         }
 

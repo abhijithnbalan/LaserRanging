@@ -364,12 +364,8 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
     //calibration file is opened and laser center values are read
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Initialising the laser center for range_mm finding with single laser.
-    laser_center_y = calibration_file["laser_center_y"].GetInt();
+    read_from_json("laser_calibration_values.json","all");
+
     std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
 
     if (use_dynamic_control)//Enabling control panel
@@ -486,13 +482,7 @@ void LaserRanging::pixel_distance_to_distance()//not complete
 //laser ranging for an image
 void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
 {
-    //using laser center value from json file
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Initialising the laser center for range_mm finding with single laser.
-    laser_center_y = calibration_file["laser_center_y"].GetInt();
+    read_from_json("laser_calibration_values.json","all");
     std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
     
     if (use_dynamic_control)//when control panel is needed
@@ -679,6 +669,39 @@ float LaserRanging::angle_of_tilt()
         return 0;
     }
 }
+void LaserRanging::read_from_json(std::string filename, std::string all)
+{
+    if(all != "all")
+    {
+        std::cout<<"unknown writing mode\n";
+        std::cout<<"Error occured in writing to json file\n";
+        return;
+    }
+
+    std::string extension = filename.substr(filename.find_last_of(".") + 1);
+    if(extension !="json")
+    {
+        std::cout<<"Given file is not a json file. Please provide a json file\n";
+        exit(0);
+    }
+
+    try{
+    std::ifstream ifs("laser_calibration_values.json");
+    if(ifs.fail())throw(20);
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
+    laser_center_y = calibration_file["laser_center_y"].GetInt();
+    parallax_constant = calibration_file["parallax_constant"].GetFloat();
+    }
+    catch(...)
+    {
+        std::cout<<"Error in file opening or reading \"laser_calibration_values.json\" file\n";
+        exit(0);
+    }
+    return;
+}
 
 
 
@@ -688,15 +711,7 @@ LaserRanging::LaserRanging()
     centery[0] = centery[1] = 0; 
     range_mm = range_ll_mm = range_rl_mm = 0;
 
-    //For initializing the laser center point, the json file is opended and the recorded data is read.
-    std::ifstream ifs("laser_calibration_values.json");//calibration filename
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
-    laser_center_y = calibration_file["laser_center_y"].GetInt();
-    parallax_constant = calibration_file["parallax_constant"].GetFloat();
-    // calibration_distance = calibration_file["calibration_distance"].GetFloat();
+    read_from_json("laser_calibration_values.json","all");
 
     use_dehaze = false;//dehaze is not used by default (used in extreme brown water )
     use_dynamic_control = true;//dynamic control is used by default

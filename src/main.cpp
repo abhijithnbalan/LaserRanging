@@ -22,8 +22,15 @@ int main(int argc, char **argv) //The main Function
         std::cout<<"couldn't change the directory/\n";
         return -1;    
     }
-
-    LaserRanging Ranger; //Laser ranging object
+    try{LaserRanging Ranger_test; //Laser ranging object
+    }
+    catch(...)
+    {
+        std::cout<<"haha found you\n";
+        return -1;
+    }
+    std::cout<<"haha found you\n";
+    LaserRanging Ranger;
     cv::Mat image_stream;
 
     int x, y, wt, ht, hue_high, hue_low, sat_high, sat_low, val_high, val_low;//for changing roi in image_stream

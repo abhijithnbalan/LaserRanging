@@ -10,10 +10,7 @@
 void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
 {
     //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
+    read_from_json("laser_calibration_values.json","all");
     std::cout << "The current values : x = " << laser_center_x
               << "  y = " << laser_center_y << "\n"<<" calibration_distance : "<<calibration_distance<<"\n";
 
@@ -42,23 +39,8 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
                 std::cout << "Capturing laser center values as  x = " << laser_center_x
                           << " and  y = " << laser_center_y <<" for distance "<<calibration_distance<< "\n";
                 //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                rapidjson::Value &document_calibration_distance = calibration_file["calibration_distance"];
-                rapidjson::Value &document_parallax_constant = calibration_file["parallax_constant"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                document_calibration_distance.SetFloat(calibration_distance);
-                document_parallax_constant.SetFloat(parallax_constant);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt()<< "\n"
-                          << "  calibration_distance = " << calibration_file["calibration_distance"].GetFloat()
-                          << "  parallax constant = " << calibration_file["parallax_constant"].GetFloat()
-                           << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
+                write_to_json("laser_calibration_values.json","all");
+
             }
             calib_trigger = false;
             if(dev_mode)cv::destroyWindow(outframe.window_name );
@@ -78,13 +60,7 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
 void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
 {
     //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
-              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
-
+    read_from_json("laser_calibration_values.json","all");
     ViewFrame viewer;
     std::cout << "\rPress c to record laser center values  Press ESC to exit\n";
     
@@ -106,16 +82,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
                 std::cout << "Capturing laser center values as  x = " << laser_center_x
                           << " and  y = " << laser_center_y << "\n";
                 //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
+                write_to_json("laser_calibration_values.json","all");
             }
             calib_trigger = false;
             if(dev_mode)cv::destroyWindow("Resized Image");
@@ -134,13 +101,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
 void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, int mode)
 {
     //opening the calibration json file and reading the existing values
-    std::ifstream ifs("laser_calibration_values.json");
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    std::cout << "The current values : x = " << calibration_file["laser_center_x"].GetInt()
-              << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n";
-
+    read_from_json("laser_calibration_values.json","all");
     ViewFrame viewer;
     std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
@@ -162,16 +123,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, 
                 std::cout << "Capturing laser center values as  x = " << laser_center_x
                           << " and  y = " << laser_center_y << "\n";
                 //now writing the new calibraiton values to json file
-                rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
-                rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
-                document_x_value.SetInt(laser_center_x);
-                document_y_value.SetInt(laser_center_y);
-                std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
-                          << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
-                std::ofstream ofs("laser_calibration_values.json");
-                rapidjson::OStreamWrapper osw(ofs);
-                rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
-                calibration_file.Accept(writer);
+                write_to_json("laser_calibration_values.json","all");
             }
             calib_trigger = false;
         }
@@ -192,21 +144,54 @@ void LaserCalibration::image_stream_laser_ranging_calibration(cv::Mat image_stre
     return;
 }
 
+void LaserCalibration::write_to_json(std::string filename, std::string all)
+{
+    if(all != "all")
+    {
+        std::cout<<"unknown writing mode\n";
+        std::cout<<"Error occured in writing to json file\n";
+        return;
+    }
+    std::string extension = filename.substr(filename.find_last_of(".") + 1);
+    std::cout<<extension<<"  "<<filename<<"\n";
+    if(extension !="json")
+    {
+        std::cout<<"Given file is not a json file. Please provide a json file\n";
+        exit(0);
+    }
+    try{
+    std::ifstream ifs("laser_calibration_values.json");
+    if(ifs.fail())throw(20);
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document calibration_file;
+    calibration_file.ParseStream(isw);
+    rapidjson::Value &document_x_value = calibration_file["laser_center_x"];std::cout<<"lskfn\n";
+    rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
+    document_x_value.SetInt(laser_center_x);
+    document_y_value.SetInt(laser_center_y);
+    std::cout << "The calibrted values : x = " << calibration_file["laser_center_x"].GetInt()
+        << "  y = " << calibration_file["laser_center_y"].GetInt() << "\n\n";
+    std::ofstream ofs(filename);
+    rapidjson::OStreamWrapper osw(ofs);
+    rapidjson::Writer<rapidjson::OStreamWrapper> writer(osw);
+    calibration_file.Accept(writer);
+    }
+    catch(...)
+    {
+        std::cout<<"writing to json file unsuccessful\n";
+        return;
+    }
+    return;
+}
+
+
 LaserCalibration::LaserCalibration()
 {
     centerx[0] = centerx[1] = 0; //Initialising all centers and ranges to be zeros
     centery[0] = centery[1] = 0; 
 
     //For initializing the laser center point, the json file is opended and the recorded data is read.
-    std::ifstream ifs("laser_calibration_values.json");//calibration filename
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document calibration_file;
-    calibration_file.ParseStream(isw);
-    laser_center_x = calibration_file["laser_center_x"].GetInt(); //Reading data from json
-    laser_center_y = calibration_file["laser_center_y"].GetInt();
-    parallax_constant = calibration_file["parallax_constant"].GetFloat();
-    calibration_distance = calibration_file["calibration_distance"].GetFloat();
-
+    read_from_json("laser_calibration_values.json","all");
     dev_mode = false;//developer mode is disabled unless specified otherwise.
     distance_between_laser = 100;//the distance between laser pointers
     calibration_status = true;//calibration is used by default
