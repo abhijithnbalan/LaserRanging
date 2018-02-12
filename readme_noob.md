@@ -54,7 +54,7 @@ Dual laser mode requires two laser dots to be identified simultaneously for dist
 Dual laser mode does not need calibration.
 
 ### 3. Laser calibration mode
-Laser calibration is only needed for single laser mode for getting the center of lasers and also the parallax constant for finding the distance.
+Laser calibration is only needed for single laser mode for getting the center of lasers and also the parallax constant for finding the distance. There is a seperate executable given for calibration.
 
 **Calibration process** : Bring a plate infront of ROV at a specific distance from the camera and position it such a way that the plate is normal to camera. The colour of the plate should be choosen such that laser detection is easier. The distance chosen has to be recorded in the program. Not doing so will make the program re use the distance fixed last time. Execute laser ranging and when two laser dots are identified, the corresponding centers are captured and also the parallax constant. Laser center will be the mid-point of the line connecting centers of individual laser dots.
 The mid-point is found out and written to a local file.
@@ -74,7 +74,7 @@ According to parallax method, the actual distance is inversely proportional to t
 --------------
 ![File-system_image](documentation/filesystem.png)
 
-### Modes of execution
+### Modes of running the program
 
 1. Execution mode
 
@@ -96,3 +96,18 @@ Allows control and preview. Loop is present
 ```
 
 Detailed readme file can be accessed [here](readme.md)
+
+### Laser Ranging
+
+```
+cd bin
+./LaserRanging <mode>
+```
+
+### Laser Calibration
+
+
+```
+cd bin
+./LaserCalibration <mode>
+```
