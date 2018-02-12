@@ -7,11 +7,12 @@
 
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>//opencv support
+#include "logger.h"
 
 class LaserCalibration : public LaserRanging
 {
     private:
-
+        Logger logger;
     protected:
 
     public:

@@ -10,20 +10,27 @@
 ## SETIING UP
 Make sure you have the following files in your system
 1. main.cpp
-2. laser_ranging.cpp
-3. laser_ranging.h
-4. image_processing.cpp
-5. image_processing.h
-6. view_frame.cpp
-7. view_frame.h
-8. capture_frame.cpp
-9. capture_frame.h
-10. timer.cpp
-11. timer.h
-12. algorithm.cpp
-13. algorithm.h
-14. laser\_calibration_values.json
-15. CMakeLists.txt
+2. main_calibration.cpp
+3. laser_ranging.cpp
+4. laser_ranging.h
+5. laser_calibration.cpp
+6. laser_calibration.h
+7. image_processing.cpp
+8. image_processing.h
+9. view_frame.cpp
+10. view_frame.h
+11. capture_frame.cpp
+12. capture_frame.h
+13. timer.cpp
+14. timer.h
+15. algorithm.cpp
+16. algorithm.h
+17. logger.cpp
+18. logger.h
+19. laser\_calibration_values.json
+20. log4cpp.properties
+21. Laser_Ranging.log (will be automatically created if not)
+22. CMakeLists.txt
 
 Dependencies
 
@@ -64,7 +71,7 @@ The code offers multiple modes of execution
     ```
 
 
-To run the code, first move to bin directory by
+To run the Laser Ranging code, first move to bin directory by
 
 ```
 cd bin
@@ -99,11 +106,43 @@ The code loads a default video file "rendered.mp4"
 ```
 This mode, a shared image will be updated and the code run once showing only the range values as output on the console.
 
+To run the Laser Calibration code, first move to bin directory
+
+
+1. Laser Ranging with Video file.
+```
+./LaserCalibration dev <path to video>
+```
+
+2. Laser Ranging with Image file.
+```
+./LaserCalibration dev <path to image>
+```
+
+3. Laser Ranging with camera input
+```
+./LaserCalibration dev <camera device number>
+```
+
+4. Laser Ranging without arguments
+```
+./LaserCalibration dev
+```
+The code loads a default video file "rendered.mp4"
+
+*without the argument 'dev', a mode without preview will be executed.*
+
+5. Laser Ranging execution mode
+```
+./LaserCalibration exe 
+```
+This mode, a shared image will be updated and the code run once showing only the range values as output on the console.
+
 ## RUNNING THE CODE
 
-*(for the following section, Ranger is used as an object to the class LaserRanging)
+*(for the following section, Ranger is used as an object to the class LaserRanging and calibrate is used as an object to the class LaserCalibration)
 
-### Public Variables that can be set manually
+### Public Variables that can be set manually for Laser Ranging
 
 1. Ranger.laser\_range\_status
 
@@ -130,39 +169,21 @@ This mode, a shared image will be updated and the code run once showing only the
 
     `false` : Process images without dehazing
 
-5. Ranger.calibration_status
 
-    `true` : Calibration for laser get executed and the main program resumes after calibration.
-
-    `false` : Skips calibration.
-
-6. Ranger.calib_trigger
-
-    `true` : Trigger for capturing laser center values from Calibraiton process. Gets set back to false automatically.
-
-    `false` : Calibration continues 
-
-7. Ranger.calib_cancel
-
-    `true` : Cancels Calibration and resumes the main program.
-
-    `false` : Calibration continues
-
-8. Ranger.distance\_between_laser
+5. Ranger.distance\_between_laser
 
     ```int```: Stores Actual distance between laser pointers
 
 
-9. Ranger.laser_center\_x
+6. Ranger.laser_center\_x
     
     ```int```: Manually sets x coordinate of laser point's center. 
 
-10. Ranger.laser_center\_y
+7. Ranger.laser_center\_y
 
     ```int```: Manually sets y coordinate of laser point's center. 
 
-
-### Public functions that can be used set parameters
+### Public functions that can be used set parameters for Laser Ranging
 
 1. Ranger.set_roi()
 
@@ -179,14 +200,81 @@ This mode, a shared image will be updated and the code run once showing only the
     Ranger.set_threshold(int hue_lower_limit, int hue_upper_limit, int saturation_lower_limit, int saturation_upper_limit, int value_lower_limit, int value_upper_limit);
     ```
 
-3. Ranger.algo.set\_CLAHE\_clip\_limit()
+
+### Public Variables that can be set manually for Laser Calibration
+
+
+2. calibrate.use\_dynamic\_control
+
+    `true` : Control Panel GUI will be available for dynamic parameter changeing.
+
+    `false` : Control Panel become unavailable.
+
+
+3. calibrate.use_white
+
+    `true` : Filters white colors also for color segmentation (useful when laser dots become white instead of a color)
+
+    `false` : Only filters set color.
+
+4. calibrate.use_dehaze
+
+    `true` : The frames(Region of interset only) will be dehazed using basic dehazing algorithms before processing. Gives better results but computationally expensive.
+
+    `false` : Process images without dehazing
+
+5. calibrate.calibration_status
+
+    `true` : Calibration for laser get executed and the main program resumes after calibration.
+
+    `false` : Skips calibration.
+
+6. calibrate.calib_trigger
+
+    `true` : Trigger for capturing laser center values from Calibraiton process. Gets set back to false automatically.
+
+    `false` : Calibration continues 
+
+7. calibrate.calib_cancel
+
+    `true` : Cancels Calibration and resumes the main program.
+
+    `false` : Calibration continues
+
+9. calibrate.laser_center\_x
+    
+    ```int```: Manually sets x coordinate of laser point's center. 
+
+10. calibrate.laser_center\_y
+
+    ```int```: Manually sets y coordinate of laser point's center. 
+
+
+### Public functions that can be used set parameters for Laser Calibration
+
+1. calibrate.set_roi()
+
+    Set region of interst passing x and y coordinate of center point and width and height of the needed region of interst
+
+    ```c++
+    calibrate.set_roi(int x, int y, int width, int height);
+    ```
+
+2. calibrate.set_threshold()
+
+    Set threshold values for color based image segmentation passing hue,saturation and value limits
+     ```c++
+    calibrate.set_threshold(int hue_lower_limit, int hue_upper_limit, int saturation_lower_limit, int saturation_upper_limit, int value_lower_limit, int value_upper_limit);
+    ```
+
+3. calibrate.algo.set\_CLAHE\_clip\_limit()
 
     Set clip limit(parameter for CLAHE based dehazing) 
     ```c++
-    Ranger.algo.set_CLAHE_clip_limit(int clip_limit)
+    calibrate.algo.set_CLAHE_clip_limit(int clip_limit)
     ```
 
-### Publically accessible variables
+### Publically accessible variables for Laser Ranging
 
 1. Ranger.range_mm
 
@@ -224,7 +312,7 @@ This mode, a shared image will be updated and the code run once showing only the
 
     ```CaptureFrame``` : Returns CaptureFrame object containing the line drawn connecting laser points. This will be a single channel image.
 
-### Publically accessible functions to get data
+### Publically accessible functions to get data for Laser Ranging
 
 1. Ranger.get_laser\_disatance\_px()
 
@@ -387,9 +475,52 @@ This mode, a shared image will be updated and the code run once showing only the
      *the proportionality constant for prallax method. This is found out using calibration and is written to a local file*
 
 
+## 2. **laser_calibration.cpp**    
+
+### Class LaserCalibration
+
+Timer class is used for measuring the execution time and maximum fps. It calculates the time between timer initialising and timer ending.
 
 
-## 2. image_processing.cpp
+ ***Functions***
+
+ * void laser_ranging_calibration(CaptureFrame)                   : 
+        
+     *starts laser ranging calibration and stores values to local json file*
+ *  void image_stream_laser_ranging_calibration              (CaptureFrame)       : 
+        
+     *Laser calibration for image stream*
+ * void image_stream_laser_ranging_calibration(CaptureFrame, mode)                       :    
+       
+     *Laser ranging for image stream in given mode*
+ * void image_frame_laser_ranging_calibration (cv::Mat,mode)                    : 
+    
+     *Image stream laser calibration in given mode when a mat object is given*
+ * void write_to_json(message ,mode)
+        :   
+
+    *write calibration data into the local json file*
+
+ ***Public Variables***
+
+ *    calib_trigger                 : 
+    
+         *to trigger data capture in laser calibration*
+
+ * calib_cancel  :
+
+     *to exit calibration without changin the values*
+
+*    calibration_status                 : 
+    
+         *variable to disable or enable laser_ranging*
+
+ * calibration_distance  :
+
+     *the distace used in calibration. This will be used for finding prallax constant*
+
+
+## 3. image_processing.cpp
 
 ### Class ImageProcessing
 
@@ -429,7 +560,7 @@ Class Imageprocessing will have the basic image processing functionalities. This
        
     *to set required region of interest percentage*
 
-## 3. algorithm.cpp
+## 4. algorithm.cpp
 
 ### Class Algorithm
 
@@ -444,7 +575,7 @@ Algorithm class will contain all the algorithms needed for image processing. one
        
     *Dehaze using normal histogram equalization.*
 
-## 4. view_frame.cpp
+## 5. view_frame.cpp
 
 ### Class ViewFrame
 
@@ -479,7 +610,7 @@ ViewFrame class is used for displaying the images. This class offers multiple mo
         
     *Takes two images and join them vertically to one single bigger image. Used in every multiple output functions*
         
-## 5. capture_frame.cpp
+## 6. capture_frame.cpp
 
 ### Class CaptureFrame
 
@@ -494,11 +625,11 @@ CaptureFrame class is used as a substitute for image and video files. It holds o
     
     *load video*
 
- * reload_image        (image,window_name)             : 
+ * void reload_image        (image,window_name)             : 
     
     *rewrite existing image*
 
- * reload_video       (video,window_name)             : 
+ * void reload_video       (video,window_name)             : 
     
     *rewrite existing video*
 
@@ -508,14 +639,14 @@ CaptureFrame class is used as a substitute for image and video files. It holds o
  *  CaptureFrame retrieve_video                  : 
     
      *extract stored video*
- * frame_extraction                : 
+ * void frame_extraction                : 
     
    *extract frame from video and store it in  image*
     . clear                           : 
     
     *clear all the data in the object
         
-## 6. **timer.cpp**    
+## 7. **timer.cpp**    
 
 ### Class Timer
 
@@ -535,7 +666,7 @@ Timer class is used for measuring the execution time and maximum fps. It calcula
      *add execution timer as overlay to image*
  * CaptureFrame add_fps   ()                      : 
     
-     *add maximum fps as overlay to imgae*
+     *add maximum fps as overlay to image*
 
  ***Public Variables***
 
@@ -548,11 +679,41 @@ Timer class is used for measuring the execution time and maximum fps. It calcula
      *to extract the maximum fps data*
         
 
+## 7. **logger.cpp**    
+
+### Class Logger
+
+Logger class is used for logging the state of the program during execution. A local log file named "Laser_Ranging.log" will be updated during the execution with time stamp and messages. Only logs which have equal and higher priority than WARN will shown in console. Every logs(all priorities) are written in log file.
+
+
+ ***Functions***
+
+ * void log_error (message)                     : 
+        
+     *record a log in error priority.*
+
+ * void log_warn (message)      : 
+        
+     *record a log in warning priority.*
+
+ * void log_info (message)                         :    
+       
+     *record a log in info priority.*
+
+ * void log_debug (message)                        : 
+    
+     *record a log in debug priority.*
+
+ * void logger_initialize()                        : 
+    
+     *initialize logger and link it to the local file. A file called log4cpp.properties are used for this purpose. it also determins the layout of recording log*
+
+
 ## Program Execution Time
 
 Program's execution times are very important in terms of scalability and reliability. The program is tested with 2 computers with the following configuration
 
-### Computer - 1
+### System - 1
      CPU   - Intel i5 5th Generation quad core
      RAM  - 4 GB
     Ubuntu 14.04
@@ -560,33 +721,48 @@ Program's execution times are very important in terms of scalability and reliabi
 
 | Tasks                 |   Time Taken  (ms)                    |
 | -------               | ----------                            |
-| ROI selection         |   0.89                                |
-| Dehazing (optional)   |   19.28 (CLAHE) \| 11.8(Eq Histogram) |
-| Image segmentation    |   9.8                                 |
-| Contour Identification|   1.8                                 |
-| Data Overlay          |   0.9                                 |
-| Display               |   12.4                                |
+| ROI selection         |       1.56                           |
+| Dehazing (optional)   |   21.76 (CLAHE) \| 11.75(Eq Histogram) |
+| Image segmentation    |   11.25                                 |
+| Contour Identification|   2.24                                |
+| Data Overlay          |   1.03                                |
+| Display               |   37.9                               |
 
-_total time in developer mode_ -- 33.76 ms
+#### --With Dehaze (CLAHE)--
 
-_total time in execution mode_ -- 13.6 ms   (without display)
+_total time in developer mode_ -- 78.9 ms
+
+_total time in execution mode_ -- 40.33 ms   (without display)
+
+#### --Without Dehaze--
+
+_total time in developer mode_ -- 56.78 ms
+
+_total time in execution mode_ -- 18.67 ms   (without display)
 
 
-
-### Computer - 2
-     CPU   - Intel i7 5th Generation quad core
+### System - 2
+     CPU   - Intel i7 5th Generation octa core
      RAM  - 8 GB
     Ubuntu 16.04
 
 | Tasks                 |   Time Taken  (ms)                    |
 | -------               | ----------                            |
-| ROI selection         |   0.89                                |
-| Dehazing (optional)   |   19.28 (CLAHE) \| 11.8(Eq Histogram) |
-| Image segmentation    |   9.8                                 |
-| Contour Identification|   1.8                                 |
-| Data Overlay          |   0.9                                 |
-| Display               |   12.4                                |
+| ROI selection         |   0.55                                |
+| Dehazing (optional)   |   14.7 (CLAHE) \| 11.8(Eq Histogram) |
+| Image segmentation    |   7.72                                 |
+| Contour Identification|   1.32                               |
+| Data Overlay          |   0.52                                |
+| Display               |   21.31                               |
 
-_total time in developer mode_ -- 33.76 ms
+#### --With Dehaze (CLAHE)--
 
-_total time in execution mode_ -- 13.6 ms   (without display)
+_total time in developer mode_ -- 46.73 ms
+
+_total time in execution mode_ -- 24.91 ms   (without display)
+
+#### --Without Dehaze--
+
+_total time in developer mode_ -- 32.66 ms
+
+_total time in execution mode_ -- 11.55 ms   (without display)

@@ -6,16 +6,22 @@
 #include <unistd.h>//For Directory changing.
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>//opencv support
+#include "logger.h"
 
 int main(int argc, char **argv)
 {
     //Changing directory for accessing files. another workaround is giving full path for each files.
     int success = chdir("..");
+    Logger logger;
+    // logger.log_info("Calibration starts");
     if(success != 0)
     {
+        logger.log_error("Unable to change the working directory");
         std::cout<<"couldn't change the directory/\n";
         return -1;    
     }
+    logger.log_info("Working directory changed to one directory back");
+     
     LaserCalibration calibrate;
     cv::Mat image_stream;
 
@@ -31,6 +37,7 @@ int main(int argc, char **argv)
     }
     if (!exe_mode)
     {
+        logger.log_info("DEV mode enabled");
 
         std::string filename; // checking the extension if argument passed is string
         bool camera = false;  //for camera the argument passed will be integer
@@ -84,16 +91,22 @@ int main(int argc, char **argv)
             //----------VIDEO------------//
             CaptureFrame vid;
             if (camera)
+            {
+                logger.log_info("Camera initiated");
                 vid.capture_video(atoi(argv[argc - 1]), "Input"); //In case of camera
+            }
             else
+            {
+                logger.log_info("Initiating with video");
                 vid.capture_video(filename, "Input"); //In case of video filename
+            }
             // Ranger.use_dehaze = true;
             // Ranger.algo.set_CLAHE_clip_limit(2);
             // Ranger.use_white = true;
             // Ranger.use_dynamic_control = false;
             // Ranger.laser_range_status = false;
             calibrate.calibration_distance = 500;
-            std::cout<<"this is what i wanted all checl\n";
+            logger.log_info("Entering to Laser Ranging");
             calibrate.laser_ranging_calibration(vid);
 
             //---------------------------//
@@ -107,12 +120,14 @@ int main(int argc, char **argv)
             // Ranger.algo.set_CLAHE_clip_limit(2);
             // Ranger.use_white = true;
             // Ranger.laser_range_status = false;
+            logger.log_info("Entering to image stream laser Ranging");
             calibrate.image_stream_laser_ranging_calibration(img);
 
             //----------------------------//
         }
         else
         {
+            logger.log_error("Unknown file type entered");
             std::cout << "\n>>The file type is unknown. Please use the standard types\n {mp4,avi,mpeg,flv,jpg,jpeg,png or camera port}<<\n\n";
         }
     }

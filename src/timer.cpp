@@ -2,6 +2,7 @@
 #include "capture_frame.h"
 #include "view_frame.h"
 #include <time.h>
+#include "logger.h"
 
         void Timer::timer_init()//Function which starts the timer
         {
@@ -19,6 +20,7 @@
             }
             catch(int b)
             {
+                logger.log_error("Problem in fetching system clock frequency");
                 std::cout<<"Time and FPS could not be calculated. \n";
                 return;
             }

@@ -8,6 +8,7 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/plankton/CodeMax/LaserRangingV2/src/capture_frame.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/image_processing.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/laser_ranging.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o"
+  "/home/plankton/CodeMax/LaserRangingV2/src/logger.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/logger.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/main.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/main.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/timer.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/timer.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/view_frame.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o"

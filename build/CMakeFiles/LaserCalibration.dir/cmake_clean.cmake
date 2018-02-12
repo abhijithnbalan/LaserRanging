@@ -1,5 +1,6 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o"
+  "CMakeFiles/LaserCalibration.dir/src/logger.cpp.o"
   "CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o"
   "CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o"
   "CMakeFiles/LaserCalibration.dir/src/timer.cpp.o"

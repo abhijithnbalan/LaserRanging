@@ -9,6 +9,7 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/plankton/CodeMax/LaserRangingV2/src/image_processing.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/laser_calibration.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/laser_ranging.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o"
+  "/home/plankton/CodeMax/LaserRangingV2/src/logger.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/logger.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/main_calibration.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/timer.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/timer.cpp.o"
   "/home/plankton/CodeMax/LaserRangingV2/src/view_frame.cpp" "/home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o"

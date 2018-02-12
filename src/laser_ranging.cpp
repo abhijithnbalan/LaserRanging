@@ -12,6 +12,7 @@
 #include "rapidjson/ostreamwrapper.h"
 #include "rapidjson/writer.h"
 #include <fstream>
+#include "logger.h"
 
 #define PI 3.14159265
 
@@ -309,8 +310,10 @@ void LaserRanging::laser_ranging(CaptureFrame object1, int mode) //Calling every
 //laser ranging for video input
 void LaserRanging::live_laser_ranging(CaptureFrame vid)
 {
+    logger.log_info("Dual Laser ranging is enabled");
     if (use_dynamic_control)//Enabling control panel
     {
+        logger.log_debug("dynamic control is enabled");
         //creating control panel window where all the controllers will be present
         cv::namedWindow("Control Panel", CV_WINDOW_AUTOSIZE);
         //checking for laser_ranger_status for creating laser_ranging_button 
@@ -330,6 +333,7 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
     ViewFrame viewer;
     std::cout << "Press any key to exit "
               << "\n";
+    logger.log_debug("Entering Laser Ranging loop");
     for (;;)
     {
 
@@ -358,11 +362,13 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
                 break;
         }
     }
+    logger.log_debug("Exited from Laser Ranging Loop");
     return;
 }
 //video laser range_mm detection with single laser ranging enabled
 void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 {
+    logger.log_debug("Single Laser mode is enabled");
     //calibration file is opened and laser center values are read
     read_from_json("laser_calibration_values.json","all");
 
@@ -370,6 +376,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
 
     if (use_dynamic_control)//Enabling control panel
     {
+        logger.log_debug("dynamic control is enabled");
         cv::namedWindow("Control Panel", CV_WINDOW_AUTOSIZE);
         //creating this button only when laser_ranging_status is true
         if(laser_range_status)cv::createTrackbar("Use LaserRanging?", "Control Panel",&laser_ranging_button_value,1,laser_ranging_button, this);
@@ -388,7 +395,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
     ViewFrame viewer;
     std::cout << "Press any key to exit "
               << "\n";
-
+    logger.log_debug("Entering Loop for single laser enabled Laser Ranging");
     for (;;)
     {
         
@@ -414,6 +421,7 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
                 return;
         }
     }
+    logger.log_debug("Exited from loop");
     return;
 }
 
@@ -482,11 +490,13 @@ void LaserRanging::pixel_distance_to_distance()//not complete
 //laser ranging for an image
 void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
 {
+    logger.log_debug("Single laser enabled Laser Ranging for Image initiated");
     read_from_json("laser_calibration_values.json","all");
     std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
     
     if (use_dynamic_control)//when control panel is needed
     {
+        logger.log_debug("dynamic control is enabled");
         cv::namedWindow("Multiple Outputs", CV_WINDOW_AUTOSIZE);
         //laser_ranging button is available only when laser_rainging status is false
         if(laser_range_status)cv::createTrackbar("Use LaserRanging?", "Control Panel",&laser_ranging_button_value,1,laser_ranging_button, this);
@@ -502,6 +512,7 @@ void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
 
     ViewFrame viewer;
     CaptureFrame in, output_frame;
+    logger.log_debug("Laser Ranging Loop initiated");
     for (;;)
     {
         if(laser_range_status) //only executes when laser ranging status is true
@@ -523,13 +534,16 @@ void LaserRanging::image_laser_ranging_single_laser(CaptureFrame object)
                 break;
         }
     }
+    logger.log_debug("Exited from loop");
     return;
 }
 //laser ranging for image with single laser ranging disabled
 void LaserRanging::image_laser_ranging(CaptureFrame object)
 {
+    logger.log_info("Laser Ranging for laser initiated");
     if (use_dynamic_control)
     {
+        logger.log_debug("dynamic control is enabled");
         cv::namedWindow("Multiple Outputs", CV_WINDOW_AUTOSIZE);
 
         cv::createTrackbar("Use LaserRanging?", "Control Panel",&laser_ranging_button_value,1,laser_ranging_button, this);
@@ -544,6 +558,7 @@ void LaserRanging::image_laser_ranging(CaptureFrame object)
 
     ViewFrame viewer;
     CaptureFrame in, output_frame;
+    logger.log_debug("Entering Loop");
     for (;;)
     {
         if(laser_range_status)//laser ranging happens only when laser_ranging_status is true
@@ -563,12 +578,15 @@ void LaserRanging::image_laser_ranging(CaptureFrame object)
                 break;
         }
     }
+    logger.log_debug("Exited from loop");
     return;
 }
 void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
 {
+    logger.log_debug("Laser Ranging for image initiated");
     if (use_dynamic_control)
     {
+        logger.log_debug("dynamic control is enabled");
         cv::namedWindow("Multiple Outputs", CV_WINDOW_AUTOSIZE);
 
         cv::createTrackbar("Use LaserRanging?", "Control Panel",&laser_ranging_button_value,1,laser_ranging_button, this);
@@ -583,6 +601,7 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
 
     ViewFrame viewer;
     CaptureFrame object(input_image,"input"), output_frame;
+    logger.log_debug("Entering Laser Ranging loop");
     for (;;)
     {
         if(laser_range_status)//laser ranging happens only when laser_ranging_status is true
@@ -602,12 +621,13 @@ void LaserRanging::image_stream_laser_ranging(cv::Mat input_image)
                 break;
         }
     }
+    logger.log_debug("Exited from Loop");
     return;
 }
 
 void LaserRanging::image_stream_laser_ranging(cv::Mat input_image,int mode)
 {
-
+    
     CaptureFrame object(input_image,"input"), output_frame;
 
     laser_ranging(object,0);//laser ranging minimal mode for execution
@@ -673,6 +693,7 @@ void LaserRanging::read_from_json(std::string filename, std::string all)
 {
     if(all != "all")
     {
+        logger.log_error("Unknown writing mode used");
         std::cout<<"unknown writing mode\n";
         std::cout<<"Error occured in writing to json file\n";
         return;
@@ -681,6 +702,7 @@ void LaserRanging::read_from_json(std::string filename, std::string all)
     std::string extension = filename.substr(filename.find_last_of(".") + 1);
     if(extension !="json")
     {
+        logger.log_error("Unable to write to json file");
         std::cout<<"Given file is not a json file. Please provide a json file\n";
         exit(0);
     }
@@ -697,6 +719,7 @@ void LaserRanging::read_from_json(std::string filename, std::string all)
     }
     catch(...)
     {
+        logger.log_error("Unable to open or read json file");
         std::cout<<"Error in file opening or reading \"laser_calibration_values.json\" file\n";
         exit(0);
     }
@@ -707,6 +730,7 @@ void LaserRanging::read_from_json(std::string filename, std::string all)
 
 LaserRanging::LaserRanging()
 {
+    logger.log_debug("Laser Ranging Constructor");
     centerx[0] = centerx[1] = 0; //Initialising all centers and ranges to be zeros
     centery[0] = centery[1] = 0; 
     range_mm = range_ll_mm = range_rl_mm = 0;

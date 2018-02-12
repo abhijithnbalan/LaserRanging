@@ -9,6 +9,7 @@
 
 void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
 {
+    logger.log_info("Calibration initiated");
     //opening the calibration json file and reading the existing values
     read_from_json("laser_calibration_values.json","all");
     std::cout << "The current values : x = " << laser_center_x
@@ -17,6 +18,7 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
     ViewFrame viewer;
     std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
+    logger.log_debug("Entering into calibration loop");
     for (;;)
     {
         vid.frame_extraction();
@@ -54,11 +56,13 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
             break;
         }
     }
+    logger.log_debug("Exited from calibration loop");
     return;
 }
 
 void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
 {
+    
     //opening the calibration json file and reading the existing values
     read_from_json("laser_calibration_values.json","all");
     ViewFrame viewer;
@@ -69,13 +73,16 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
+            logger.log_debug("Calibration triggered");
             if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
             {   
+                logger.log_info("Calibration completed unsuccessfully");
                 //Two laser dots not found so using the existng values in json file.
                 std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
             }
             else
             {
+                logger.log_info("Calibration completed successfully.");
                 //two laser dots are identified
                 laser_center_x = (centerx[0] + centerx[1]) / 2;
                 laser_center_y = (centery[0] + centery[1]) / 2;
@@ -90,6 +97,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
         else if (c == 27 || calib_cancel)//userkey ESC is pressed
         {
             //skipping calibration
+            logger.log_info("Skipping calibration");
             if(dev_mode)cv::destroyWindow("Resized Image");
             calib_cancel = false;
         
@@ -100,6 +108,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
 
 void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, int mode)
 {
+    logger.log_info("Minimal calibration for image stream initiated");
     //opening the calibration json file and reading the existing values
     read_from_json("laser_calibration_values.json","all");
     ViewFrame viewer;
@@ -110,13 +119,16 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, 
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
+            logger.log_debug("dCalibration triggered");
             if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
             {   
+                logger.log_info("Calibration completed unsuccessfully");
                 //Two laser dots not found so using the existng values in json file.
                 std::cout << "Could not find two laser points successfully\nCalibration failed\nExiting";
             }
             else
             {
+                logger.log_info("Calibration completed successfully");
                 //two laser dots are identified
                 laser_center_x = (centerx[0] + centerx[1]) / 2;
                 laser_center_y = (centery[0] + centery[1]) / 2;
@@ -139,6 +151,7 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, 
 
 void LaserCalibration::image_stream_laser_ranging_calibration(cv::Mat image_stream, int mode)
 {
+    logger.log_info("Minimal calibration for image stream initiated");
     CaptureFrame input(image_stream,"image stream input");
     image_stream_laser_ranging_calibration(input,mode);
     return;
@@ -148,6 +161,7 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
 {
     if(all != "all")
     {
+        logger.log_error("Unknown Writing mode for json");
         std::cout<<"unknown writing mode\n";
         std::cout<<"Error occured in writing to json file\n";
         return;
@@ -156,6 +170,7 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
     std::cout<<extension<<"  "<<filename<<"\n";
     if(extension !="json")
     {
+        logger.log_error("Incorrect file type for json file");
         std::cout<<"Given file is not a json file. Please provide a json file\n";
         exit(0);
     }
@@ -178,6 +193,7 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
     }
     catch(...)
     {
+        logger.log_error("Unable to write to json file");
         std::cout<<"writing to json file unsuccessful\n";
         return;
     }
@@ -187,6 +203,7 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
 
 LaserCalibration::LaserCalibration()
 {
+    logger.log_debug("Laser Calibration constructor");
     centerx[0] = centerx[1] = 0; //Initialising all centers and ranges to be zeros
     centery[0] = centery[1] = 0; 
 

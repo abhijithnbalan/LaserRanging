@@ -10,6 +10,7 @@
 class Timer
 {
     private:
+        Logger logger;
         clock_t time_start,time_end;//Variables for time interval calculation
     public:
         float execution_time;//Output is public so that it can be accessed.

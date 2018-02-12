@@ -72,9 +72,32 @@ CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o.provides: CMakeFiles/LaserRa
 
 CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o.provides.build: CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o
 
+CMakeFiles/LaserRanging.dir/src/logger.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
+CMakeFiles/LaserRanging.dir/src/logger.cpp.o: ../src/logger.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/logger.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/logger.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp
+
+CMakeFiles/LaserRanging.dir/src/logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LaserRanging.dir/src/logger.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp > CMakeFiles/LaserRanging.dir/src/logger.cpp.i
+
+CMakeFiles/LaserRanging.dir/src/logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LaserRanging.dir/src/logger.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp -o CMakeFiles/LaserRanging.dir/src/logger.cpp.s
+
+CMakeFiles/LaserRanging.dir/src/logger.cpp.o.requires:
+.PHONY : CMakeFiles/LaserRanging.dir/src/logger.cpp.o.requires
+
+CMakeFiles/LaserRanging.dir/src/logger.cpp.o.provides: CMakeFiles/LaserRanging.dir/src/logger.cpp.o.requires
+	$(MAKE) -f CMakeFiles/LaserRanging.dir/build.make CMakeFiles/LaserRanging.dir/src/logger.cpp.o.provides.build
+.PHONY : CMakeFiles/LaserRanging.dir/src/logger.cpp.o.provides
+
+CMakeFiles/LaserRanging.dir/src/logger.cpp.o.provides.build: CMakeFiles/LaserRanging.dir/src/logger.cpp.o
+
 CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o: ../src/view_frame.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/view_frame.cpp
 
@@ -97,7 +120,7 @@ CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o.provides.build: CMakeFiles/Lase
 
 CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o: ../src/algorithm.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/algorithm.cpp
 
@@ -120,7 +143,7 @@ CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o.provides.build: CMakeFiles/Laser
 
 CMakeFiles/LaserRanging.dir/src/timer.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/timer.cpp.o: ../src/timer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/timer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/timer.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/timer.cpp
 
@@ -143,7 +166,7 @@ CMakeFiles/LaserRanging.dir/src/timer.cpp.o.provides.build: CMakeFiles/LaserRang
 
 CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o: ../src/image_processing.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/image_processing.cpp
 
@@ -166,7 +189,7 @@ CMakeFiles/LaserRanging.dir/src/image_processing.cpp.o.provides.build: CMakeFile
 
 CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o: ../src/laser_ranging.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/laser_ranging.cpp
 
@@ -189,7 +212,7 @@ CMakeFiles/LaserRanging.dir/src/laser_ranging.cpp.o.provides.build: CMakeFiles/L
 
 CMakeFiles/LaserRanging.dir/src/main.cpp.o: CMakeFiles/LaserRanging.dir/flags.make
 CMakeFiles/LaserRanging.dir/src/main.cpp.o: ../src/main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserRanging.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserRanging.dir/src/main.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/main.cpp
 
@@ -213,6 +236,7 @@ CMakeFiles/LaserRanging.dir/src/main.cpp.o.provides.build: CMakeFiles/LaserRangi
 # Object files for target LaserRanging
 LaserRanging_OBJECTS = \
 "CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o" \
+"CMakeFiles/LaserRanging.dir/src/logger.cpp.o" \
 "CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o" \
 "CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o" \
 "CMakeFiles/LaserRanging.dir/src/timer.cpp.o" \
@@ -224,6 +248,7 @@ LaserRanging_OBJECTS = \
 LaserRanging_EXTERNAL_OBJECTS =
 
 ../bin/LaserRanging: CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o
+../bin/LaserRanging: CMakeFiles/LaserRanging.dir/src/logger.cpp.o
 ../bin/LaserRanging: CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o
 ../bin/LaserRanging: CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o
 ../bin/LaserRanging: CMakeFiles/LaserRanging.dir/src/timer.cpp.o
@@ -277,6 +302,7 @@ LaserRanging_EXTERNAL_OBJECTS =
 ../bin/LaserRanging: /usr/local/lib/libopencv_ximgproc.so.3.3.1
 ../bin/LaserRanging: /usr/local/lib/libopencv_xobjdetect.so.3.3.1
 ../bin/LaserRanging: /usr/local/lib/libopencv_xphoto.so.3.3.1
+../bin/LaserRanging: /usr/local/lib/liblog4cpp.so
 ../bin/LaserRanging: /usr/local/lib/libopencv_photo.so.3.3.1
 ../bin/LaserRanging: /usr/local/lib/libopencv_shape.so.3.3.1
 ../bin/LaserRanging: /usr/local/lib/libopencv_calib3d.so.3.3.1
@@ -304,6 +330,7 @@ CMakeFiles/LaserRanging.dir/build: ../bin/LaserRanging
 .PHONY : CMakeFiles/LaserRanging.dir/build
 
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/src/capture_frame.cpp.o.requires
+CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/src/logger.cpp.o.requires
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/src/view_frame.cpp.o.requires
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/src/algorithm.cpp.o.requires
 CMakeFiles/LaserRanging.dir/requires: CMakeFiles/LaserRanging.dir/src/timer.cpp.o.requires

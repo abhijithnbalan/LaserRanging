@@ -4,7 +4,29 @@
 CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o
  ../include/algorithm.h
  ../include/capture_frame.h
+ ../include/logger.h
  /home/plankton/CodeMax/LaserRangingV2/src/algorithm.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -60,7 +82,6 @@ CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -133,7 +154,29 @@ CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o
  /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o
  ../include/capture_frame.h
+ ../include/logger.h
  /home/plankton/CodeMax/LaserRangingV2/src/capture_frame.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -189,7 +232,6 @@ CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -264,9 +306,31 @@ CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o
  ../include/algorithm.h
  ../include/capture_frame.h
  ../include/image_processing.h
+ ../include/logger.h
  ../include/timer.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/image_processing.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -322,7 +386,6 @@ CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -398,6 +461,7 @@ CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o
  ../include/image_processing.h
  ../include/laser_calibration.h
  ../include/laser_ranging.h
+ ../include/logger.h
  ../include/rapidjson/allocators.h
  ../include/rapidjson/document.h
  ../include/rapidjson/encodedstream.h
@@ -427,6 +491,27 @@ CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o
  ../include/timer.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/laser_calibration.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -482,7 +567,6 @@ CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -557,6 +641,7 @@ CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o
  ../include/capture_frame.h
  ../include/image_processing.h
  ../include/laser_ranging.h
+ ../include/logger.h
  ../include/rapidjson/allocators.h
  ../include/rapidjson/document.h
  ../include/rapidjson/encodedstream.h
@@ -586,6 +671,27 @@ CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o
  ../include/timer.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/laser_ranging.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -641,7 +747,6 @@ CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -711,15 +816,69 @@ CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o
  /usr/local/include/opencv2/xfeatures2d.hpp
  /usr/local/include/opencv2/xfeatures2d/cuda.hpp
  /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o
+ ../include/logger.h
+ /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/AppenderSkeleton.hh
+ /usr/local/include/log4cpp/BasicLayout.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Configurator.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/FileAppender.hh
+ /usr/local/include/log4cpp/Filter.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LayoutAppender.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/OstreamAppender.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/PropertyConfigurator.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
 CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o
  ../include/algorithm.h
  ../include/capture_frame.h
  ../include/image_processing.h
  ../include/laser_calibration.h
  ../include/laser_ranging.h
+ ../include/logger.h
  ../include/timer.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/main_calibration.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -775,7 +934,6 @@ CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -847,9 +1005,31 @@ CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o
  /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 CMakeFiles/LaserCalibration.dir/src/timer.cpp.o
  ../include/capture_frame.h
+ ../include/logger.h
  ../include/timer.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/timer.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -905,7 +1085,6 @@ CMakeFiles/LaserCalibration.dir/src/timer.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h
@@ -977,8 +1156,30 @@ CMakeFiles/LaserCalibration.dir/src/timer.cpp.o
  /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o
  ../include/capture_frame.h
+ ../include/logger.h
  ../include/view_frame.h
  /home/plankton/CodeMax/LaserRangingV2/src/view_frame.cpp
+ /usr/local/include/log4cpp/Appender.hh
+ /usr/local/include/log4cpp/Category.hh
+ /usr/local/include/log4cpp/CategoryStream.hh
+ /usr/local/include/log4cpp/Export.hh
+ /usr/local/include/log4cpp/Layout.hh
+ /usr/local/include/log4cpp/LoggingEvent.hh
+ /usr/local/include/log4cpp/Manipulator.hh
+ /usr/local/include/log4cpp/Portability.hh
+ /usr/local/include/log4cpp/Priority.hh
+ /usr/local/include/log4cpp/TimeStamp.hh
+ /usr/local/include/log4cpp/config-MinGW32.h
+ /usr/local/include/log4cpp/config-openvms.h
+ /usr/local/include/log4cpp/config-win32.h
+ /usr/local/include/log4cpp/config.h
+ /usr/local/include/log4cpp/convenience.h
+ /usr/local/include/log4cpp/threading/BoostThreads.hh
+ /usr/local/include/log4cpp/threading/DummyThreads.hh
+ /usr/local/include/log4cpp/threading/MSThreads.hh
+ /usr/local/include/log4cpp/threading/OmniThreads.hh
+ /usr/local/include/log4cpp/threading/PThreads.hh
+ /usr/local/include/log4cpp/threading/Threading.hh
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -1034,7 +1235,6 @@ CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o
  /usr/local/include/opencv2/flann/kdtree_single_index.h
  /usr/local/include/opencv2/flann/kmeans_index.h
  /usr/local/include/opencv2/flann/linear_index.h
- /usr/local/include/opencv2/flann/logger.h
  /usr/local/include/opencv2/flann/lsh_index.h
  /usr/local/include/opencv2/flann/lsh_table.h
  /usr/local/include/opencv2/flann/matrix.h

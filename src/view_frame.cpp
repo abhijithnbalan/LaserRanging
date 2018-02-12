@@ -311,6 +311,7 @@ CaptureFrame ViewFrame::join_image_horizontal(CaptureFrame object1,CaptureFrame 
 
     if (image1.channels() != 3)
     {
+        
         if (image1.channels() == 1)
         {
             cvtColor(image1, image1, CV_GRAY2BGR);
@@ -323,6 +324,7 @@ CaptureFrame ViewFrame::join_image_horizontal(CaptureFrame object1,CaptureFrame 
     }
     if (image2.channels() != 3)
     {
+        
         if (image2.channels() == 1)
         {
             cvtColor(image2, image2, CV_GRAY2BGR);
@@ -359,6 +361,7 @@ CaptureFrame ViewFrame::join_image_vertical(CaptureFrame object1,CaptureFrame ob
 
     if (image1.channels() != 3)
     {
+        
         if (image1.channels() == 1)
         {
             cvtColor(image1, image1, CV_GRAY2BGR);
@@ -371,6 +374,7 @@ CaptureFrame ViewFrame::join_image_vertical(CaptureFrame object1,CaptureFrame ob
     }
     if (image2.channels() != 3)
     {
+        
         if (image2.channels() == 1)
         {
             cvtColor(image2, image2, CV_GRAY2BGR);

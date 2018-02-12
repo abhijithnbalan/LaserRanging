@@ -13,6 +13,7 @@ class LaserRanging : public ImageProcessing
   private:
     Timer timer;//For time interval and FPS calculation
     //Special for single laser 
+    Logger logger;
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
 
   protected:

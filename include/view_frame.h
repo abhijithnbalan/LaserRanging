@@ -3,6 +3,7 @@
 #define _view_frame_h
 //Including necessary header files
 #include "capture_frame.h"
+#include "logger.h"
 #include <opencv2/opencv.hpp> 
 #include <stdio.h>
 #include <string.h>
@@ -14,7 +15,7 @@
 class ViewFrame
 {  
     private://These variables will only be used internally.
-        cv::Mat image1,image2,image3,image4;
+        cv::Mat image1,image2,image3,image4;Logger logger;
 
     public:
         //Single Input

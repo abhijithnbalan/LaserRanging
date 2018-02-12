@@ -38,7 +38,14 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 #LINK_DIRECTORIES(/$ENV{HOME}/ffmpeg_build/lib/)
 #LINK_DIRECTORIES(/usr/lib/x86_64-linux-gnu/)
+#LINK_DIRECTORIES(/usr/lib/)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+FIND_PACKAGE(log4cpp REQUIRED)
+INCLUDE_DIRECTORIES(${LOG4CPP_INCLUDE_DIR})
+SET(LIBS ${LOG4CPP_LIBRARIES} ${LIBS})
 
+MESSAGE("############################# ${LOG4CPP_LIBRARIES}")
+MESSAGE("############################# ${LOG4CPP_INCLUDE_DIR}")
 #SET(FFMPEG_INCLUDE_DIR /$ENV{HOME}/ffmpeg_build/include/)
 
 ## PROJCET INCLUDES DIRECTORIES
@@ -48,6 +55,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 INCLUDE_DIRECTORIES(include)
 SET(SOURCES
  ${CMAKE_CURRENT_LIST_DIR}/src/capture_frame.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/logger.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/view_frame.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/algorithm.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/timer.cpp
@@ -59,6 +67,7 @@ ADD_EXECUTABLE(LaserRanging ${SOURCES})
 
 SET(SOURCES_CALIB
  ${CMAKE_CURRENT_LIST_DIR}/src/capture_frame.cpp
+ ${CMAKE_CURRENT_LIST_DIR}/src/logger.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/view_frame.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/algorithm.cpp
  ${CMAKE_CURRENT_LIST_DIR}/src/timer.cpp
@@ -81,8 +90,8 @@ ADD_EXECUTABLE(LaserCalibration ${SOURCES_CALIB})
 #add_executable(exe ${SOURCES})
 #TARGET_LINK_LIBRARIES(exe pthread )
 #target_link_libraries(exe ${Boost_LIBRARIES})
-target_link_libraries( LaserRanging ${OpenCV_LIBS} )
-target_link_libraries( LaserCalibration ${OpenCV_LIBS} )
+target_link_libraries( LaserRanging ${OpenCV_LIBS} ${LOG4CPP_LIBRARIES})
+target_link_libraries( LaserCalibration ${OpenCV_LIBS} ${LOG4CPP_LIBRARIES})
 
 message( "*************************************" )
 message( "*************************************" )

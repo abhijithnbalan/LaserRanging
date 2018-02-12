@@ -29,6 +29,7 @@
         "utility": "cpp",
         "cstdarg": "cpp",
         "atomic": "cpp",
-        "slist": "cpp"
+        "slist": "cpp",
+        "csignal": "cpp"
     }
 }

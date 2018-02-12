@@ -72,9 +72,32 @@ CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o.provides: CMakeFiles/Las
 
 CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o.provides.build: CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o
 
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o: ../src/logger.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/logger.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/logger.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp
+
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LaserCalibration.dir/src/logger.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp > CMakeFiles/LaserCalibration.dir/src/logger.cpp.i
+
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LaserCalibration.dir/src/logger.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/plankton/CodeMax/LaserRangingV2/src/logger.cpp -o CMakeFiles/LaserCalibration.dir/src/logger.cpp.s
+
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.requires:
+.PHONY : CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.requires
+
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.provides: CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.requires
+	$(MAKE) -f CMakeFiles/LaserCalibration.dir/build.make CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.provides.build
+.PHONY : CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.provides
+
+CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.provides.build: CMakeFiles/LaserCalibration.dir/src/logger.cpp.o
+
 CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o: ../src/view_frame.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/view_frame.cpp
 
@@ -97,7 +120,7 @@ CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o.provides.build: CMakeFiles/
 
 CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o: ../src/algorithm.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/algorithm.cpp
 
@@ -120,7 +143,7 @@ CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o.provides.build: CMakeFiles/L
 
 CMakeFiles/LaserCalibration.dir/src/timer.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/timer.cpp.o: ../src/timer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/timer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/timer.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/timer.cpp
 
@@ -143,7 +166,7 @@ CMakeFiles/LaserCalibration.dir/src/timer.cpp.o.provides.build: CMakeFiles/Laser
 
 CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o: ../src/image_processing.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/image_processing.cpp
 
@@ -166,7 +189,7 @@ CMakeFiles/LaserCalibration.dir/src/image_processing.cpp.o.provides.build: CMake
 
 CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o: ../src/laser_ranging.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/laser_ranging.cpp
 
@@ -189,7 +212,7 @@ CMakeFiles/LaserCalibration.dir/src/laser_ranging.cpp.o.provides.build: CMakeFil
 
 CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o: ../src/laser_calibration.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/laser_calibration.cpp
 
@@ -212,7 +235,7 @@ CMakeFiles/LaserCalibration.dir/src/laser_calibration.cpp.o.provides.build: CMak
 
 CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o: CMakeFiles/LaserCalibration.dir/flags.make
 CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o: ../src/main_calibration.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/plankton/CodeMax/LaserRangingV2/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o -c /home/plankton/CodeMax/LaserRangingV2/src/main_calibration.cpp
 
@@ -236,6 +259,7 @@ CMakeFiles/LaserCalibration.dir/src/main_calibration.cpp.o.provides.build: CMake
 # Object files for target LaserCalibration
 LaserCalibration_OBJECTS = \
 "CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o" \
+"CMakeFiles/LaserCalibration.dir/src/logger.cpp.o" \
 "CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o" \
 "CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o" \
 "CMakeFiles/LaserCalibration.dir/src/timer.cpp.o" \
@@ -248,6 +272,7 @@ LaserCalibration_OBJECTS = \
 LaserCalibration_EXTERNAL_OBJECTS =
 
 ../bin/LaserCalibration: CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o
+../bin/LaserCalibration: CMakeFiles/LaserCalibration.dir/src/logger.cpp.o
 ../bin/LaserCalibration: CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o
 ../bin/LaserCalibration: CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o
 ../bin/LaserCalibration: CMakeFiles/LaserCalibration.dir/src/timer.cpp.o
@@ -302,6 +327,7 @@ LaserCalibration_EXTERNAL_OBJECTS =
 ../bin/LaserCalibration: /usr/local/lib/libopencv_ximgproc.so.3.3.1
 ../bin/LaserCalibration: /usr/local/lib/libopencv_xobjdetect.so.3.3.1
 ../bin/LaserCalibration: /usr/local/lib/libopencv_xphoto.so.3.3.1
+../bin/LaserCalibration: /usr/local/lib/liblog4cpp.so
 ../bin/LaserCalibration: /usr/local/lib/libopencv_photo.so.3.3.1
 ../bin/LaserCalibration: /usr/local/lib/libopencv_shape.so.3.3.1
 ../bin/LaserCalibration: /usr/local/lib/libopencv_calib3d.so.3.3.1
@@ -329,6 +355,7 @@ CMakeFiles/LaserCalibration.dir/build: ../bin/LaserCalibration
 .PHONY : CMakeFiles/LaserCalibration.dir/build
 
 CMakeFiles/LaserCalibration.dir/requires: CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o.requires
+CMakeFiles/LaserCalibration.dir/requires: CMakeFiles/LaserCalibration.dir/src/logger.cpp.o.requires
 CMakeFiles/LaserCalibration.dir/requires: CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o.requires
 CMakeFiles/LaserCalibration.dir/requires: CMakeFiles/LaserCalibration.dir/src/algorithm.cpp.o.requires
 CMakeFiles/LaserCalibration.dir/requires: CMakeFiles/LaserCalibration.dir/src/timer.cpp.o.requires
