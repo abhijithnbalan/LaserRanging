@@ -95,7 +95,6 @@ Allows control and preview. Loop is present
 ./LaserRanging  dev <video/image file path / camer device number>
 ```
 
-Detailed readme file can be accessed [here](readme.md)
 
 ### Laser Ranging
 
@@ -111,3 +110,6 @@ cd bin
 cd bin
 ./LaserCalibration <mode>
 ```
+
+
+Detailed readme file can be accessed [here](readme.md)
