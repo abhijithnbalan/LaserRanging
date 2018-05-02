@@ -105,7 +105,7 @@ void CaptureFrame::clear()
         image.release();
         window_name.clear();
         cap.release();
-        std::cout<<"Capture Frame cleared"<<"\n";
+        logger.log_info("CaptureFrame Cleared");
         return;
     }
 
@@ -118,3 +118,10 @@ CaptureFrame::CaptureFrame(cv::Mat input,std::string window)
     }
 CaptureFrame::CaptureFrame()
 {}
+
+CaptureFrame::~CaptureFrame()
+{
+    image.release();
+    window_name.clear();
+    cap.release();
+}

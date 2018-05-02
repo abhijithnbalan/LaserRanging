@@ -1,4 +1,4 @@
-FILE(REMOVE_RECURSE
+file(REMOVE_RECURSE
   "CMakeFiles/LaserCalibration.dir/src/capture_frame.cpp.o"
   "CMakeFiles/LaserCalibration.dir/src/logger.cpp.o"
   "CMakeFiles/LaserCalibration.dir/src/view_frame.cpp.o"
@@ -13,6 +13,6 @@ FILE(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-FOREACH(lang CXX)
-  INCLUDE(CMakeFiles/LaserCalibration.dir/cmake_clean_${lang}.cmake OPTIONAL)
-ENDFOREACH(lang)
+foreach(lang CXX)
+  include(CMakeFiles/LaserCalibration.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

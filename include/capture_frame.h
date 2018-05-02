@@ -46,6 +46,7 @@ class CaptureFrame
         CaptureFrame(cv::Mat input_image,std::string Window_name);
         //Constructor that will initialise every varibles to be empty.
         CaptureFrame();
+        ~CaptureFrame();
 };
 
 #endif

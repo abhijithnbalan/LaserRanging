@@ -30,6 +30,7 @@
         "cstdarg": "cpp",
         "atomic": "cpp",
         "slist": "cpp",
-        "csignal": "cpp"
+        "csignal": "cpp",
+        "system_error": "cpp"
     }
 }

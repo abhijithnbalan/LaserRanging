@@ -153,5 +153,7 @@ int main(int argc, char **argv) //The main Function
     }
     usleep(1000000);
     logger.log_info("Program ended");
+    
     return 1;
+
 }

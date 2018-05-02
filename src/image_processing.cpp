@@ -11,8 +11,8 @@ CaptureFrame ImageProcessing::roi_selection(CaptureFrame object1) //Selecting th
 {
     cv::Mat image1 = object1.retrieve_image().clone();
     cv::Mat temp = roi_selection(image1);
-    CaptureFrame roi_image(temp, "region_of_interest");
-    return roi_image;
+    object1.reload_image(temp,"Resized image");
+    return object1;
 }
 
 //roi selection with image input
@@ -32,8 +32,8 @@ CaptureFrame ImageProcessing::image_segmentation(CaptureFrame object1) //Color s
 {
     cv::Mat segmented;
     segmented = image_segmentation(object1.retrieve_image());
-    CaptureFrame hsv_threshold(segmented, "Segmented Image");
-    return hsv_threshold;
+    object1.reload_image(segmented, "Segmented Image");
+    return object1;
 }
 
 cv::Mat ImageProcessing::image_segmentation(cv::Mat object1) //Color segmentation. according to threshold set.
@@ -55,6 +55,7 @@ cv::Mat ImageProcessing::image_segmentation(cv::Mat object1) //Color segmentatio
     //Morphological Transformations for noise reduction.
     morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1), 2);
     dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);//dilating 3 times
+    image_hls.release();
     return image_hsv_threshold;
 }
 void ImageProcessing::set_threshold(CaptureFrame object1) //Function to set the threshold value according to water type.
