@@ -18,14 +18,23 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
         }
         else
         {
-            cv::Mat temporary;
+            // cv::Mat temporary;
             for (;;)
             {
                 //Video file showing
-                object.retrieve_video() >> temporary;//frame extraction
-                cv::imshow(object.window_name, temporary);
-                if (!temporary.data)
+                try
                 {
+                    object.frame_extraction();//frame extraction
+                }
+                catch(...)
+                {
+                    logger.log_error("Cound not extract frame");
+                    return;
+                }
+                cv::imshow(object.window_name, object.retrieve_image().clone());
+                if (!object.retrieve_image().data)
+                {
+                    logger.log_info("End of Video");
                     return;//end of video
                 }
                 if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue.
@@ -35,13 +44,14 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
                     break;
                 }
             }
+            //object.clear();
             return;
         }
     }
     else
     {
         //showing image
-        cv::imshow(object.window_name, object.retrieve_image());
+        cv::imshow(object.window_name, object.retrieve_image().clone());
         if (cv::waitKey(0) >= 0) //Waits for a key press from user to continue
         {
             //destroyWindow that was just created
@@ -49,14 +59,19 @@ void ViewFrame::single_view_interrupted(CaptureFrame object) //Shows a single ou
             return;
         }
     }
+    // object.clear();
+    return;
 }
 
 void ViewFrame::single_view_interrupted(CaptureFrame object, int percent) //Overloaded function which also resizes the output
 {
     cv::Mat temporary;
-    resize(object.retrieve_image(), temporary, cv::Size(object.retrieve_image().cols * percent / 100, object.retrieve_image().rows * percent / 100));
+    resize(object.retrieve_image().clone(), temporary, cv::Size(object.retrieve_image().cols * percent / 100, object.retrieve_image().rows * percent / 100));
     CaptureFrame output(temporary, object.window_name );
     single_view_interrupted(output);
+    temporary.release();
+    // output.clear();
+    // object.clear();
     return;
 }
 
@@ -64,7 +79,8 @@ void ViewFrame::single_view_interrupted(CaptureFrame object, int percent) //Over
 
 void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output and continues. Used inside loops.
 {
-    if (!object.retrieve_image().data)
+    cv::Mat image = object.retrieve_image().clone();
+    if (!image.data)
     {
         if (!object.retrieve_video().isOpened())
         {
@@ -74,11 +90,19 @@ void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output an
         }
         else
         {
-            cv::Mat temporary;
+            // cv::Mat temporary;
             for (;;)
             {   //show the video 
-                object.retrieve_video() >> temporary;
-                cv::imshow(object.window_name, temporary);
+                try
+                {
+                    object.frame_extraction();
+                }
+                catch(...)
+                {
+                    logger.log_error("Could not extract frame");
+                    return;
+                }
+                cv::imshow(object.window_name, object.retrieve_image().clone());
                 if(cv::waitKey(1)>=0)return;
                 
             }
@@ -87,17 +111,25 @@ void ViewFrame::single_view_uninterrupted(CaptureFrame object) //Shows output an
     }
     else
     {   //showing image
-        cv::imshow(object.window_name, object.retrieve_image());
+        cv::imshow(object.window_name, image);
         return;
     }
+    image.release();
+    // object.~CaptureFrame();
+    return;
 }
 
 void ViewFrame::single_view_uninterrupted(CaptureFrame object, int percent) //Overloaded function which also resizes the output
 {
     cv::Mat temporary;
-    resize(object.retrieve_image(), temporary, cv::Size(object.retrieve_image().cols * percent / 100, object.retrieve_image().rows * percent / 100));
+    resize(object.retrieve_image().clone(), temporary, cv::Size(object.retrieve_image().cols * percent / 100, object.retrieve_image().rows * percent / 100));
     CaptureFrame output(temporary, object.window_name );
     single_view_uninterrupted(output);
+    temporary.release();
+    // object.~CaptureFrame();
+    // output.~CaptureFrame();
+    // object.clear();
+    // output.clear();
     return;
 }
 
@@ -106,6 +138,7 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
 {
     CaptureFrame full_image = join_image_horizontal(object1,object2,1);
     single_view_interrupted(full_image,75);
+    // full_image.~CaptureFrame();
     return;
 }
 
@@ -117,6 +150,12 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     CaptureFrame output1(temporary1, object1.window_name +" Resized");
     CaptureFrame output2(temporary2, object2.window_name +" Resized");
     ViewFrame::multiple_view_interrupted(output1, output2);
+    temporary1.release();
+    temporary2.release();
+    // output1.~CaptureFrame();
+    // output2.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
     return;
 }
 
@@ -125,6 +164,14 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     CaptureFrame horizontal = join_image_horizontal(object1,object2,1);
     CaptureFrame full_image = join_image_vertical(horizontal,object3,0);
     single_view_interrupted(full_image,75);
+    // horizontal.clear();
+    // full_image.clear();
+    // object1.clear();
+    // object2.clear();
+    // horizontal.~CaptureFrame();
+    // full_image.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, int percent) //Overloaded function which also resizes the output
@@ -137,6 +184,21 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     CaptureFrame output2(temporary2, object2.window_name +" Resized");
     CaptureFrame output3(temporary3, object3.window_name +" Resized");
     ViewFrame::multiple_view_interrupted(output1, output2, output3);
+    temporary1.release();
+    temporary2.release();
+    temporary3.release();
+    // output1.clear();
+    // output2.clear();
+    // output3.clear();
+    // object1.clear();
+    // object3.clear();
+    // object2.clear();
+    // output1.~CaptureFrame();
+    // output2.~CaptureFrame();
+    // output3.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
+    //object3.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, CaptureFrame object4) //Overloaded function to show four outputs.
@@ -145,6 +207,13 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     CaptureFrame horizontal2 = join_image_horizontal(object3,object4,1);                                     //Converting all single channel images to 3 channel image.
     CaptureFrame full_image = join_image_vertical(horizontal1,horizontal2,0);
     single_view_interrupted(full_image,75);
+    // horizontal1.~CaptureFrame();
+    // horizontal2.~CaptureFrame();
+    // full_image.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
+    //object3.~CaptureFrame();
+    //object4.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, CaptureFrame object4, int percent) //Overloaded function which also resizes the output
@@ -159,6 +228,14 @@ void ViewFrame::multiple_view_interrupted(CaptureFrame object1, CaptureFrame obj
     CaptureFrame output3(temporary3,object3.window_name );
     CaptureFrame output4(temporary4,object4.window_name );
     ViewFrame::multiple_view_interrupted(output1, output2, output3, output4);
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
+    //object3.~CaptureFrame();
+    //object4.~CaptureFrame();
+    temporary1.release();
+    temporary2.release();
+    temporary3.release();
+    temporary4.release();
     return;
 }
 
@@ -168,6 +245,9 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
 {
     CaptureFrame full_image = join_image_horizontal(object1,object2,1);
     single_view_uninterrupted(full_image,75);
+    // full_image.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame object2, int percent) //Overloaded function which also resizes the output
@@ -178,6 +258,12 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame output1(temporary1,object1.window_name );
     CaptureFrame output2(temporary2,object2.window_name );
     ViewFrame::multiple_view_uninterrupted(output1, output2);
+    temporary1.release();
+    temporary2.release();
+    // output1.~CaptureFrame();
+    // output2.~CaptureFrame();
+    //object1.~CaptureFrame();
+    //object2.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3) //3 Images
@@ -185,6 +271,10 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame horizontal = join_image_horizontal(object1,object2,1);
     CaptureFrame full_image = join_image_vertical(horizontal,object3,0);
     single_view_uninterrupted(full_image,75);
+    // horizontal.~CaptureFrame();
+    // full_image.~CaptureFrame();
+    // object1.~CaptureFrame();
+    // object2.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, int percent) //Overloaded function which also resizes the output
@@ -197,6 +287,15 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame output2(temporary2, object2.window_name );
     CaptureFrame output3(temporary3, object3.window_name );
     ViewFrame::multiple_view_uninterrupted(output1, output2, output3);
+    temporary1.release();
+    temporary2.release();
+    temporary3.release();
+    // output1.~CaptureFrame();
+    // output2.~CaptureFrame();
+    // output3.~CaptureFrame();
+    // object1.~CaptureFrame();
+    // object2.~CaptureFrame();
+    // object3.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, CaptureFrame object4) //4 Images
@@ -205,6 +304,15 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame horizontal2 = join_image_horizontal(object3,object4,1);
     CaptureFrame full_image = join_image_vertical(horizontal1,horizontal2,0);
     single_view_uninterrupted(full_image,75);
+    // horizontal1.~CaptureFrame();
+    // horizontal2.~CaptureFrame();
+    // horizontal1.clear();
+    // horizontal2.clear();
+    // full_image.clear();
+    // object1.~CaptureFrame();
+    // object2.~CaptureFrame();
+    // object3.~CaptureFrame();
+    // object4.~CaptureFrame();
     return;
 }
 void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame object2, CaptureFrame object3, CaptureFrame object4, int percent) //Overloaded function which also resizes the output
@@ -219,35 +327,48 @@ void ViewFrame::multiple_view_uninterrupted(CaptureFrame object1, CaptureFrame o
     CaptureFrame output3(temporary3, object3.window_name );
     CaptureFrame output4(temporary4, object4.window_name );
     ViewFrame::multiple_view_uninterrupted(output1, output2, output3, output4);
+    temporary1.release();
+    temporary2.release();
+    temporary3.release();
+    temporary4.release();
+    // output1.~CaptureFrame();
+    // output2.~CaptureFrame();
+    // output3.~CaptureFrame();
+    // output4.~CaptureFrame();
+    // object1.~CaptureFrame();
+    // object2.~CaptureFrame();
+    // object3.~CaptureFrame();
+    // object4.~CaptureFrame();
     return;
 }
 // Overloaded Functions to overlay data onto the image
 CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, std::string data)//For String when point is known
 {
-    cv::Mat image = object.retrieve_image();
+    cv::Mat image = object.retrieve_image().clone();
 
     putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.2, cvScalar(100,50,250), 1, CV_AA);//Adding time into frame
-            
-    CaptureFrame output(image,"overlayed output");
-    return output;
+    //object.clear();
+    object.reload_image(image,"overlayed output");
+    image.release();
+    return object;
 }
 CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, int data)//for integer on required position
 {
-    cv::Mat image = object.retrieve_image();
+    cv::Mat image = object.retrieve_image().clone();
     int x = x_percent*image.cols/100;
     int y = y_percent*image.rows/100;
 
     std::ostringstream sst;
     sst << data;
     std::string s(sst.str());
-
-    CaptureFrame output = add_overlay(object,x,y,s);
-    return output;
+    image.release();
+    object = add_overlay(object,x,y,s);
+    return object;
 }
 //String with font size and thickness
 CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, std::string data,cv::Scalar color,float size,int thick)
 {
-    cv::Mat image = object.retrieve_image();
+    cv::Mat image = object.retrieve_image().clone();
     int x = x_percent*image.cols/100;
     int y = y_percent*image.rows/100;
 
@@ -256,52 +377,64 @@ CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, i
     std::string s(sst.str());
     putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, double(size), color, thick, CV_AA);//Adding time into frame
       
+    
+    //object.clear();
     CaptureFrame output(image,"overlayed image");
+    image.release();
     return output;
 }
 //String with font size and thickness for Image
 cv::Mat ViewFrame::add_overlay_percent(cv::Mat input,int x_percent, int y_percent, std::string data,cv::Scalar color,float size,int thick)
 {
-    cv::Mat image = input;
+    cv::Mat image = input.clone();
     int x = x_percent*image.cols/100;
     int y = y_percent*image.rows/100;
 
     std::ostringstream sst;
     sst << data;
     std::string s(sst.str());
+    // image.release();
+    input.release();
     putText(image,data, cvPoint(x,y), cv::FONT_HERSHEY_COMPLEX_SMALL, double(size), color, thick, CV_AA);//Adding time into frame
     return image;
 }
 CaptureFrame ViewFrame::add_overlay(CaptureFrame object,int x, int y, int data)//for integer when point is known
 {
-    cv::Mat image = object.retrieve_image();
+    // cv::Mat image = object.retrieve_image();
 
     std::ostringstream sst;
     sst << data;
     std::string s(sst.str());
+    // image.release();
     
     CaptureFrame output = add_overlay(object,x,y,s);
+    //object.clear();
     return output;
 }
 CaptureFrame ViewFrame::add_overlay(CaptureFrame object,cv::Rect box, cv::Mat data)//Overlay image through a known rectange
 {
-    cv::Mat image = object.retrieve_image();
+    cv::Mat image = object.retrieve_image().clone();
 
     image(box) = image(box).clone() + data;
     CaptureFrame output(image,"overlayed image");
+    //object.clear();
+    image.release();
     return output;
 }
 CaptureFrame ViewFrame::add_overlay_percent(CaptureFrame object,int x_percent, int y_percent, float data)//for floating point numbers with required position
 {
-    cv::Mat image = object.retrieve_image();
+    cv::Mat image = object.retrieve_image().clone();
     int x = x_percent*image.cols/100;
     int y = y_percent*image.rows/100;
+
+    image.release();
 
     std::ostringstream sst;
     sst << data;
     std::string s(sst.str());
 
     CaptureFrame output = add_overlay(object,x,y,s);
+    //object.clear();
     return output;
 }
 CaptureFrame ViewFrame::join_image_horizontal(CaptureFrame object1,CaptureFrame object2,int mode)
@@ -351,6 +484,10 @@ CaptureFrame ViewFrame::join_image_horizontal(CaptureFrame object1,CaptureFrame 
     if(mode == 1) full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),15,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     // resize(full_image, full_image, cv::Size(full_image.cols * 0.5, full_image.rows * 0.5));
     CaptureFrame output(full_image,"Multiple Outputs");
+    image1.release();
+    image2.release();
+    // object1.clear();
+    // object2.clear();
     return output;
 }
 
@@ -400,5 +537,9 @@ CaptureFrame ViewFrame::join_image_vertical(CaptureFrame object1,CaptureFrame ob
     image2.copyTo(full_image(sub_roi));
     if(mode == 1) full_image(sub_roi) = add_overlay_percent(full_image(sub_roi),15,10,object2.window_name,cv::Scalar(200,200,250),1.5,2);
     CaptureFrame output(full_image,"Multiple Outputs");
+    image1.release();
+    image2.release();
+    // object1.clear();
+    // object2.clear();
     return output;
 }

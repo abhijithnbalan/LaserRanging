@@ -12,6 +12,7 @@ class Timer
     private:
         Logger logger;
         clock_t time_start,time_end;//Variables for time interval calculation
+        ViewFrame viewer;
     public:
         float execution_time;//Output is public so that it can be accessed.
 

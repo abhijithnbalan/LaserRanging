@@ -15,6 +15,7 @@ class LaserRanging : public ImageProcessing
     //Special for single laser 
     Logger logger;
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
+    ViewFrame viewer;
 
   protected:
     int centerx[2],centery[2];
@@ -33,7 +34,7 @@ class LaserRanging : public ImageProcessing
     
     //public functions
     CaptureFrame contour_distance(CaptureFrame input_image); //Contour identification and pixel distance calculation.
-    CaptureFrame contour_distance_single_laser(CaptureFrame input_image); //Contour identification and pixel distance calculation.
+    void contour_distance_single_laser(CaptureFrame input_image); //Contour identification and pixel distance calculation.
    
     float get_laser_distance_px(); //Funtion to retrieve the distance data.
     float get_left_laser_distance_px(); //Funtion to retrieve the distance data.

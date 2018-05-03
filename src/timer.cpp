@@ -29,13 +29,13 @@
 
         CaptureFrame Timer::add_time(CaptureFrame object)//Function to print the execution time on image
         {
-            ViewFrame viewer;
+            
             CaptureFrame output = viewer.add_overlay_percent(object,10,5,execution_time);
             return output;
         }
         CaptureFrame Timer::add_fps(CaptureFrame object)//Function to print the execution time on image
         {
-            ViewFrame viewer;
+            
             CaptureFrame output = viewer.add_overlay_percent(object,10,10,fps);
             return output;
         }

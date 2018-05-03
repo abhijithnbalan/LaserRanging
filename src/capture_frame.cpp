@@ -13,7 +13,7 @@ void CaptureFrame::capture_image(std::string filename,std::string image_window_n
         image = cv::imread(filename,1);
         if ( !image.data )
         {
-            logger.log_error("No image data loaded");
+            //logger.log_error("No image data loaded");
             std::cout<<"No image data found for "<<filename<<"\n";// no input image found.exiting.
             exit(0);
         }
@@ -28,7 +28,7 @@ void CaptureFrame::capture_video(std::string filename,std::string video_window_n
         cap.open(filename);
         if(!cap.isOpened())  // check if we succeeded
         {
-            logger.log_error("No video data loaded");
+            //logger.log_error("No video data loaded");
             printf("Video is not opened..:(");//The video couldn't be opened. exiting.
             exit(0);
         }
@@ -42,7 +42,7 @@ void CaptureFrame::capture_video(int camera,std::string video_window_name)
         cap.open(camera);
         if(!cap.isOpened())  // check if we succeeded
         {
-            logger.log_error("No video data loaded");
+            //logger.log_error("No video data loaded");
             printf("Video is not opened..:(");//The video couldn't be opened. exiting.
             exit(0);
         }
@@ -55,26 +55,29 @@ void CaptureFrame::reload_image(cv::Mat image_input,std::string str)
     {
         if ( !image_input.data )
         {
-            logger.log_error("No image data loaded");
+            //logger.log_error("No image data loaded");
             std::cout<<"No image data found for loading for "<<str<<"\n";// no input image found
             exit(0);
         }
         //Assignes new value to image and window name.
-        image = image_input;
+        image = image_input.clone();
+        image_input.release();
         window_name = str;
     }
 
 void CaptureFrame::reload_video(cv::VideoCapture video_input,std::string str)
     {
         cap = video_input;
+        video_input.release();
         window_name = str;
+        return;
     }
 
 //retrieve the image stored in object
 cv::Mat CaptureFrame::retrieve_image()
     {
         //returns image file 
-        return image;
+        return image.clone();
     }
 
 //retrieve the video file stored in object
@@ -91,7 +94,7 @@ void CaptureFrame::frame_extraction()
         cap>>image;
         if ( !image.data )
         {
-            logger.log_error("No image data found to extract");
+            //logger.log_error("No image data found to extract");
             std::cout<<"No image data found for "<<window_name<<"\n";// no input image found
             exit(0);
         }//After this function call the current frame is saved in the image file of the same object.
@@ -105,7 +108,7 @@ void CaptureFrame::clear()
         image.release();
         window_name.clear();
         cap.release();
-        logger.log_info("CaptureFrame Cleared");
+        //logger.log_info("CaptureFrame Cleared");
         return;
     }
 
@@ -113,7 +116,8 @@ void CaptureFrame::clear()
 CaptureFrame::CaptureFrame(cv::Mat input,std::string window)
     {
         //Assignes the parameters
-        image = input;
+        image = input.clone();
+        input.release();
         window_name = window;
     }
 CaptureFrame::CaptureFrame()

@@ -15,7 +15,8 @@
 class ViewFrame
 {  
     private://These variables will only be used internally.
-        cv::Mat image1,image2,image3,image4;Logger logger;
+        // cv::Mat image1,image2,image3,image4;
+        Logger logger;
 
     public:
         //Single Input

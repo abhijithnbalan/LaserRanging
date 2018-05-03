@@ -19,10 +19,16 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
     std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
     logger.log_debug("Entering into calibration loop");
+    CaptureFrame outframe;
+    cv::Mat temporary;
     for (;;)
     {
         vid.frame_extraction();
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+        // temporary.release();
+        outframe.clear();
+        outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+        // outframe.reload_image(temporary,"laser raning");
+        
         if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
@@ -67,8 +73,11 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid)
     read_from_json("laser_calibration_values.json","all");
     ViewFrame viewer;
     std::cout << "\rPress c to record laser center values  Press ESC to exit\n";
-    
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+    CaptureFrame outframe;
+    // cv::Mat temporary;
+        outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+        // outframe.reload_image(temporary,"laser raning");
+        //laser ranging with single laser
         if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
@@ -114,8 +123,11 @@ void LaserCalibration::image_stream_laser_ranging_calibration(CaptureFrame vid, 
     ViewFrame viewer;
     std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
-    
-        CaptureFrame outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+    // cv::Mat temporary;
+    CaptureFrame outframe;
+        outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+        // outframe.reload_image(temporary,"laser raning");
+        //laser ranging with single laser
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
