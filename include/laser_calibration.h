@@ -18,6 +18,7 @@ class LaserCalibration : public LaserRanging
     public:
         bool calib_trigger,calib_cancel,calibration_status;
         float calibration_distance;
+        cv::Rect region_of_interes;
 
         void laser_ranging_calibration(CaptureFrame);
         void image_stream_laser_ranging_calibration(CaptureFrame input);
@@ -25,6 +26,7 @@ class LaserCalibration : public LaserRanging
         void image_stream_laser_ranging_calibration(cv::Mat input,int execution_mode);
         void write_to_json(std::string filename, std::string key, std::string value);
         void write_to_json(std::string filename, std::string all);
+        CaptureFrame calibration_overlay(CaptureFrame input);
         LaserCalibration();
 };
 #endif

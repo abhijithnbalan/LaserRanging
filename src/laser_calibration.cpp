@@ -19,17 +19,18 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
     std::cout << "Calibration initiated\n";
     std::cout << "Press c to record laser center values  Press ESC to exit\n";
     logger.log_debug("Entering into calibration loop");
-    CaptureFrame outframe;
+    CaptureFrame outframe,final_output;
     cv::Mat temporary;
     for (;;)
     {
         vid.frame_extraction();
         // temporary.release();
         outframe.clear();
-        outframe = laser_ranging_single_laser(vid);//laser ranging with single laser
+        outframe = image_segmentation(vid);
+        outframe = contour_distance(outframe);
         // outframe.reload_image(temporary,"laser raning");
-        
-        if(dev_mode)viewer.single_view_uninterrupted(outframe,50);
+        final_output = calibration_overlay(vid);
+        if(dev_mode)viewer.multiple_view_uninterrupted(final_output,outframe);
         char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
@@ -192,7 +193,7 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
     rapidjson::IStreamWrapper isw(ifs);
     rapidjson::Document calibration_file;
     calibration_file.ParseStream(isw);
-    rapidjson::Value &document_x_value = calibration_file["laser_center_x"];std::cout<<"lskfn\n";
+    rapidjson::Value &document_x_value = calibration_file["laser_center_x"];
     rapidjson::Value &document_y_value = calibration_file["laser_center_y"];
     document_x_value.SetInt(laser_center_x);
     document_y_value.SetInt(laser_center_y);
@@ -206,7 +207,6 @@ void LaserCalibration::write_to_json(std::string filename, std::string all)
     catch(...)
     {
         logger.log_error("Unable to write to json file");
-        std::cout<<"writing to json file unsuccessful\n";
         return;
     }
     return;
@@ -229,3 +229,21 @@ LaserCalibration::LaserCalibration()
 }
 
 
+CaptureFrame LaserCalibration::calibration_overlay(CaptureFrame input)
+{
+    cv::Mat img = input.retrieve_image().clone();
+    if(centerx[0] + centerx[1] + centery[0] + centery[1] != 0)
+    {
+        // logger.log_warn("line done");
+        cv::line(img,cv::Point2d(0,(centery[0] + centery[1])/2),cv::Point2d(img.cols - 1,(centery[0] + centery[1])/2),cv::Scalar(0,255,0));
+        cv::line(img,cv::Point((centerx[0] + centerx[1])/2,0),cv::Point((centerx[0] + centerx[1])/2,img.rows - 1),cv::Scalar(0,255,0));
+        
+        input.clear();
+        input.reload_image(img.clone(),"Calibration Overlay");
+        img.release();
+        cv::waitKey(150);
+
+    }
+    return input;
+
+}

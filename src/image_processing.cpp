@@ -47,14 +47,15 @@ cv::Mat ImageProcessing::image_segmentation(cv::Mat object1) //Color segmentatio
     inRange(image_hsv, thresh_low_180, thresh_high_180, image_hsv_threshold_high);
     image_hsv_threshold = image_hsv_threshold_low + image_hsv_threshold_high;
     
+    //Morphological Transformations for noise reduction.
+    morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1), 2);
+    dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);//dilating 3 times
+
     if (use_white)//white is filtered in hsl image format and filter using lightness value
     {
         inRange(image_hls, thresh_white, cv::Scalar(255, 255, 255, 0), image_hsv_threshold_white);
         image_hsv_threshold = image_hsv_threshold + image_hsv_threshold_white;
     }
-    //Morphological Transformations for noise reduction.
-    morphologyEx(image_hsv_threshold, image_hsv_threshold, cv::MORPH_OPEN, element, cv::Point(-1, -1), 2);
-    dilate(image_hsv_threshold, image_hsv_threshold, element, cv::Point(-1, -1), 3);//dilating 3 times
     image_hls.release();
     return image_hsv_threshold;
 }
@@ -167,8 +168,8 @@ void ImageProcessing::myhandlerbutton(int state)
 ImageProcessing::ImageProcessing() //Constructor definition The values are preset in this constructor.
 {
      //Threshold values preset for red color identification.
-    thresh_low_0 = cv::Scalar(0, 140, 180, 0), thresh_high_0 = cv::Scalar(16, 255, 255, 0),
-    thresh_low_180 = cv::Scalar(160, 160, 180, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0);
+    thresh_low_0 = cv::Scalar(0, 115, 240, 0), thresh_high_0 = cv::Scalar(5, 255, 255, 0),
+    thresh_low_180 = cv::Scalar(170, 115, 160, 0), thresh_high_180 = cv::Scalar(180, 255, 255, 0);
     thresh_white = cv::Scalar(0, 215, 0, 0);
     use_white = false; white_use_value = 0;
     //Region of interest preset for 30 percentage from center in height and full width.
