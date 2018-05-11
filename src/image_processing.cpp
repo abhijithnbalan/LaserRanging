@@ -173,6 +173,6 @@ ImageProcessing::ImageProcessing() //Constructor definition The values are prese
     thresh_white = cv::Scalar(0, 240, 0, 0);
     use_white = false; white_use_value = 0;
     //Region of interest preset for 30 percentage from center in height and full width.
-    x = 50; y = 50; width = 100; height = 30;
+    x = 50; y = 30; width = 100; height = 30;
     element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(0, 0)); //Structuring element for dilation and erosion
 }

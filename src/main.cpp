@@ -113,7 +113,7 @@ int main(int argc, char **argv) //The main Function
 
             // Ranger.use_dehaze = true;
             // Ranger.algo.set_CLAHE_clip_limit(2);
-            // Ranger.use_white = true;
+            Ranger.use_white = true;
             // Ranger.use_dynamic_control = false;
             // Ranger.laser_range_status = false;
             logger.log_info("Initiated Laser Ranging");

@@ -102,7 +102,7 @@ int main(int argc, char **argv)
             }
             // Ranger.use_dehaze = true;
             // Ranger.algo.set_CLAHE_clip_limit(2);
-            // calibrate.use_white = true;
+            calibrate.use_white = true;
             // Ranger.use_dynamic_control = false;
             // Ranger.laser_range_status = false;
             calibrate.calibration_distance = 500;
