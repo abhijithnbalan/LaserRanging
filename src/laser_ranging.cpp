@@ -164,7 +164,7 @@ void LaserRanging::contour_distance_single_laser(CaptureFrame object1) //Contour
         contour_draw_right.copyTo(contour_draw(cv::Rect(laser_center_x, 0, contour_draw_right.cols, contour_draw_right.rows)));
         //line is drawn connecting two centers.
         //Drawing line connecting center and laser center
-        line(line_draw_right, cv::Point(0, laser_center_y - (original_frame.retrieve_image().rows / 2 - roi.height / 2)), cv::Point(centerx[0], centery[0]), cv::Scalar(255, 255, 255), 2, 8);
+        line(line_draw_right, cv::Point(0, laser_center_y), cv::Point(centerx[0], centery[0]), cv::Scalar(255, 255, 255), 2, 8);
         line_overlay_right.reload_image(line_draw_right, "overlayed line");
         //copying half line to line-ovelray
         line_draw_right.copyTo(line_draw(cv::Rect(laser_center_x, 0, line_draw_right.cols, line_draw_right.rows)));
@@ -191,7 +191,7 @@ void LaserRanging::contour_distance_single_laser(CaptureFrame object1) //Contour
         contour_draw_left.copyTo(contour_draw(cv::Rect(0, 0, contour_draw_left.cols, contour_draw_left.rows)));
 
         //line is drawn connecting center and laser center.
-        line(line_draw_left, cv::Point(laser_center_x, laser_center_y - (original_frame.retrieve_image().rows / 2 - roi.height / 2)), cv::Point(centerx[1], centery[1]), cv::Scalar(255, 255, 255), 2, 8);
+        line(line_draw_left, cv::Point(laser_center_x, laser_center_y), cv::Point(centerx[1], centery[1]), cv::Scalar(255, 255, 255), 2, 8);
         line_overlay_left.reload_image(line_draw, "overlayed line");
         //copying to actual line_draw
         line_draw_left.copyTo(line_draw(cv::Rect(0, 0, line_draw_left.cols, line_draw_left.rows)));
@@ -365,6 +365,7 @@ void LaserRanging::live_laser_ranging(CaptureFrame vid)
             // pixel_distance_to_distance();
 
             if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame,ROI_frame, contour_overlay_frame,70); //showing the steps as mutliple input
+            pixel_distance_to_distance();
             printf("\r Range : %f\n",range_mm);//writing range to console
             if (cv::waitKey(3) >= 0)
                 break;
@@ -391,6 +392,8 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
     logger.log_debug("Single Laser mode is enabled");
     //calibration file is opened and laser center values are read
     read_from_json("laser_calibration_values.json","all");
+    vid.frame_extraction();
+    original_frame.reload_image(vid.retrieve_image().clone(),"reference");
 
     std::cout<<"Laser center values :  x = "<<laser_center_x<<"  y = "<<laser_center_y<<"\n";
 
@@ -428,7 +431,8 @@ void LaserRanging::live_laser_ranging_single_laser(CaptureFrame vid)
             output_frame = laser_ranging_single_laser(vid); //single frame laser ranging
             // output_frame.reload_image(temporary,"laser ranging");
             pixel_distance_to_distance();
-            printf("[ Left Range : %f \tRight Range : %f ]\n", range_ll_mm, range_rl_mm);//printing values to console
+            relative_yaw = angle_of_tilt();
+            printf("[ Left Range : %f \tRight Range : %f ]  Relative Yaw : %f \n", range_ll_mm, range_rl_mm,relative_yaw);//printing values to console
             if(dev_mode)viewer.multiple_view_uninterrupted(output_frame, segmented_frame,ROI_frame,contour_overlay_frame,70); //showing the steps as multiple inputs
             // viewer.single_view_uninterrupted(output_frame, 50); //show output with resizing by 50 percent
             if (cv::waitKey(2) >= 0)
@@ -457,7 +461,7 @@ CaptureFrame LaserRanging::LR_data_overlay(CaptureFrame object)
     if (centerx[1] + centerx[0] + centery[0] + centery[1] != 0)
     {
        
-        tempo = viewer.add_overlay(tempo,roi.x + (centerx[0] + centerx[1]) / 2, roi.y + (centery[0] + centery[1])/2, distance_px);
+        tempo = viewer.add_overlay(tempo,roi.x + (centerx[0] + centerx[1]) / 2, roi.y + (centery[0] + centery[1])/2, range_mm);
     }
 
     //shwing line connecting centers and contours
@@ -476,11 +480,11 @@ CaptureFrame LaserRanging::LR_data_overlay_single_laser(CaptureFrame object)
     // CaptureFrame tempo = CaptureFrame(object.retrieve_image().clone(),"Overlay's copy of input");
     if ((centerx[0] + centery[0]) != 0) //when left contour is identified
     {
-        object = viewer.add_overlay(object, centerx[0], centery[0], distance_rl_px);
+        object = viewer.add_overlay(object, centerx[0], centery[0], range_rl_mm);
     }
     if ((centerx[1] + centery[1]) != 0) //when right contour is identified
     {
-        object = viewer.add_overlay(object, centerx[1], centery[1], distance_ll_px);
+        object = viewer.add_overlay(object, centerx[1], centery[1], range_ll_mm);
     }
 
     // //showing line and contour
@@ -494,13 +498,13 @@ CaptureFrame LaserRanging::LR_data_overlay_single_laser(CaptureFrame object)
 }
 void LaserRanging::pixel_distance_to_distance()//not complete
 {
-    if(distance_ll_px != 0 || distance_rl_px != 0)
+    if(distance_ll_px > 1 || distance_rl_px > 1)
     {
         range_rl_mm = parallax_constant/(2 * distance_rl_px);
         range_ll_mm = parallax_constant/(2 * distance_ll_px);
         range_mm = (range_rl_mm + range_ll_mm)/2;
     }
-    else if(distance_px != 0)
+    else if(distance_px > 1)
     {
         range_mm = parallax_constant/(2 * distance_px);
     }
@@ -696,7 +700,8 @@ void LaserRanging::laser_ranging_handler(int state)
 //Funcion to output the constant length per pixel
 float LaserRanging::scale_L_by_px()
 {
-    return float(distance_between_laser)/float(distance_px);
+    if(distance_px > 1)return float(distance_between_laser)/float(distance_px);
+    else return 1;
 }
 
 //Function to output the angle of tilt

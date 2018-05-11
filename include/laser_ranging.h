@@ -27,7 +27,7 @@ class LaserRanging : public ImageProcessing
     float parallax_constant,distance_between_laser;
     float distance_ll_px, distance_rl_px, distance_px;//distance from left laser,right laser and in dual laser mode
     int laser_center_x,laser_center_y;//laser centers (used in single laser mode)
-    float range_mm,range_ll_mm,range_rl_mm;//range dual mode, left laser and right laser in mm
+    float range_mm,range_ll_mm,range_rl_mm,relative_yaw;//range dual mode, left laser and right laser in mm
     bool use_dehaze , use_dynamic_control, laser_range_status;//vaiables to set to control program
     //by-products of laser_ranging (used in multiple show)
     CaptureFrame segmented_frame,ROI_frame,dehazed_frame,contour_overlay_frame,line_overlay_frame,original_frame;

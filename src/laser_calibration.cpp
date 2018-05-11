@@ -26,12 +26,13 @@ void LaserCalibration::laser_ranging_calibration(CaptureFrame vid)
         vid.frame_extraction();
         // temporary.release();
         outframe.clear();
-        outframe = image_segmentation(vid);
+        outframe = roi_selection(vid);
+        outframe = image_segmentation(outframe);
         outframe = contour_distance(outframe);
         // outframe.reload_image(temporary,"laser raning");
         final_output = calibration_overlay(vid);
         if(dev_mode)viewer.multiple_view_uninterrupted(final_output,outframe);
-        char c = (char)cv::waitKey(100);//delay is longer for the ease of capturing.
+        char c = (char)cv::waitKey(20);//delay is longer for the ease of capturing.
         if (c == 99 || calib_trigger)//Recording user key press 'c' or the trigger becomes true
         {
             if ((centerx[1] + centery[1]) == 0 || (centerx[0] + centery[0]) == 0)
@@ -235,7 +236,7 @@ CaptureFrame LaserCalibration::calibration_overlay(CaptureFrame input)
     if(centerx[0] + centerx[1] + centery[0] + centery[1] != 0)
     {
         // logger.log_warn("line done");
-        cv::line(img,cv::Point2d(0,(centery[0] + centery[1])/2),cv::Point2d(img.cols - 1,(centery[0] + centery[1])/2),cv::Scalar(0,255,0));
+        cv::line(img,cv::Point2d(0,roi.y + (centery[0] + centery[1])/2),cv::Point2d(img.cols - 1,roi.y + (centery[0] + centery[1])/2),cv::Scalar(0,255,0));
         cv::line(img,cv::Point((centerx[0] + centerx[1])/2,0),cv::Point((centerx[0] + centerx[1])/2,img.rows - 1),cv::Scalar(0,255,0));
         
         input.clear();
