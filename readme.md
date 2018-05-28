@@ -350,8 +350,15 @@ This mode, a shared image will be updated and the code run once showing only the
     ```
 
 ## Program Flow
-![Optional Text](documentation/LaserRanging.png)
 
+### Laser Ranging
+
+![Optional Text](documentation/LaserRanging_functionflow.png)
+
+
+### Laser Calibration
+
+![Optional Text](documentation/LaserCalibration_functionflow.png)
 
 ## INCLUDED FILES
 
