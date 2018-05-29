@@ -21,7 +21,7 @@
     {
         "SingleLaser"                   :true,
         "UseWhite"                      :true,
-        "UseDehaze"                     :true,
+        "UseDehaze"                     :false,
         "DynamicControl"                :true,
         "HueHighLimit"                  :170,
         "HueLowLimit"                   :5,
@@ -30,7 +30,7 @@
         "ValueHighLimit"                :255,
         "ValueLowLimit"                 :100
     },
-    
+
     "Laser Calibration Settings" :
     {
         "CalibrationDistance"           :500

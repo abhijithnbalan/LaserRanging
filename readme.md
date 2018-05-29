@@ -49,26 +49,101 @@ cd build
 cmake ..
 make
 ```
+### Configuration File
+
+#### Program Execution
+1. DebugMode : 
+
+    "true" : Log file will be written to disk, Debug logs will be recorded.
+
+    "false" : Log file will not be written. All logs above Debug flag will be shown in console.
+
+2. RunnningMode : 
+
+    "commandline" : run with arguments list in terminal.
+
+    "GUI" : Run with information flow from GUI layer.
+
+    "automated" : Run with Directory for enhancing every file in it.
+
+3. ExeMode : 
+
+    "DEV" : Developer mode. This will display every windows during execution.
+
+    "EXE" Execution mode. This will suppress every windows displays. Output files will be written
+
+#### General Settings
+1. DefaultInput : 
+
+    "PathToFile" : This file will be used when no file are supplied by the user.
+
+
+3. RegionOfInterest_x
+
+    integer(0,100) : Distance to the left side of Region of interest in percentage of width.
+
+4. RegionOfInterest_y
+
+    integer(0,100) :  Distance to the top side of Region of interest in percentage of height.
+
+5. RegionOfInterest_width
+
+    integer(0,100) :  Width of Region of interest in percentage of width.
+
+6. RegionOfInterest_height
+
+    integer(0,100) : Height of Region of interest in percentage of height.
+
+
+#### Laser Ranging Settings
+
+1. SingleLaser : 
+
+    true : Laser Ranging with single laser mode 
+    false : Conventional Laser Ranging mode with two lasers. 
+
+2. UseWhite : 
+
+    true : White color also get filtered along with set color. (for filtering the white dot inside lasers)
+
+    false : White color will not be filtered in . 
+
+3. UseDehaze : 
+
+    true : frames will be dehazed using CLAHE before Laser Ranging.
+    false : No dehazing will be applied.
+    
+4. DynamicControl : 
+
+    true : Control panel with dynamic control parameters will be available
+    false : Dynamic control is unavailable
+
+5. Hue,Saturation,Value Limits :
+
+    integer(0,255) : Setting these values appropriately will let the user filter the desired color in. Changed when changing the laser color. Automatically set to values corresponding to Red.
+
+#### Laser Calibration Settings
+
+1. CalibrationDistance :
+
+    int(>0) : The chosen distance for calibration. Used to calculate parallax constant during calibration.
+ 
+
+
+### Commandline execution
+
+
 The code offers multiple modes of execution
 
 1. devoloper mode:
 
     This is the complete model. every outout will be shown and all the functionalities will be avalilable.
     disabling this mode will disable every displays functions.
-        
-    ```c++
-    Ranger.dev_mode = true or false;
-    or
-    dev_mode = true or false;//on main
-    ```
 
 2. execution mode:
 
         This mode is the minimal version and right now only working with image an image stream directly obtained from vision.
 
-    ```c++
-    exe_mode = true or false;//on main
-    ```
 
 
 To run the Laser Ranging code, first move to bin directory by
@@ -79,66 +154,51 @@ cd bin
 
 1. Laser Ranging with Video file.
 ```
-./LaserRanging dev <path to video>
+./LaserRanging <path to video>
 ```
 
 2. Laser Ranging with Image file.
 ```
-./LaserRanging dev <path to image>
+./LaserRanging <path to image>
 ```
 
 3. Laser Ranging with camera input
 ```
-./LaserRanging dev <camera device number>
+./LaserRanging <camera device number>
 ```
 
 4. Laser Ranging without arguments
 ```
-./LaserRanging dev
+./LaserRanging
 ```
 The code loads a default video file "rendered.mp4"
 
-*without the argument 'dev', a mode without preview will be executed.*
-
-5. Laser Ranging execution mode
-```
-./LaserRanging exe 
-```
-This mode, a shared image will be updated and the code run once showing only the range values as output on the console.
-
-To run the Laser Calibration code, first move to bin directory
 
 
-1. Laser Ranging with Video file.
+
+1. Laser Calibration with Video file.
 ```
-./LaserCalibration dev <path to video>
+./LaserCalibration <path to video>
 ```
 
-2. Laser Ranging with Image file.
+2. Laser Calibration with Image file.
 ```
-./LaserCalibration dev <path to image>
-```
-
-3. Laser Ranging with camera input
-```
-./LaserCalibration dev <camera device number>
+./LaserCalibration <path to image>
 ```
 
-4. Laser Ranging without arguments
+3. Laser Calibration with camera input
 ```
-./LaserCalibration dev
+./LaserCalibration <camera device number>
 ```
-The code loads a default video file "rendered.mp4"
 
-*without the argument 'dev', a mode without preview will be executed.*
-
-5. Laser Ranging execution mode
+4. Laser Calibration without arguments
 ```
-./LaserCalibration exe 
+./LaserCalibration
 ```
-This mode, a shared image will be updated and the code run once showing only the range values as output on the console.
+The code loads a default file 
 
-## RUNNING THE CODE
+
+## PUBLICALLY ACCESSIBLE PARAMETERS
 
 *(for the following section, Ranger is used as an object to the class LaserRanging and calibrate is used as an object to the class LaserCalibration)
 
