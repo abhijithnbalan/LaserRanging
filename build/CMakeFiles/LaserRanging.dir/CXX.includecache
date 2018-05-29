@@ -405,6 +405,16 @@ cstdlib
 -
 unistd.h
 -
+rapidjson/document.h
+/home/rd/Vision_Opencv/LaserRanging/src/rapidjson/document.h
+rapidjson/istreamwrapper.h
+/home/rd/Vision_Opencv/LaserRanging/src/rapidjson/istreamwrapper.h
+rapidjson/ostreamwrapper.h
+/home/rd/Vision_Opencv/LaserRanging/src/rapidjson/ostreamwrapper.h
+rapidjson/writer.h
+/home/rd/Vision_Opencv/LaserRanging/src/rapidjson/writer.h
+fstream
+-
 
 /home/rd/Vision_Opencv/LaserRanging/src/timer.cpp
 timer.h

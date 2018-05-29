@@ -16,13 +16,14 @@ class LaserRanging : public ImageProcessing
     Logger logger;
     CaptureFrame contour_overlay_right,line_overlay_left,contour_overlay_left,line_overlay_right;
     ViewFrame viewer;
+    
 
   protected:
     int centerx[2],centery[2];
 
   public:
     //public variables
-    bool dev_mode;
+    bool dev_mode,debug_mode;
     int laser_ranging_button_value;
     float parallax_constant,distance_between_laser;
     float distance_ll_px, distance_rl_px, distance_px;//distance from left laser,right laser and in dual laser mode

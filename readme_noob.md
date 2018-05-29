@@ -10,7 +10,7 @@ LASER RANGING
 
 ## Program Flow
 --------------------------
-![Optional Text](documentation/LaserRanging.png)
+![Optional Text](documentation/LaserRanging_flowchart.png)
 
 
 1. Region of Interest selection
@@ -70,9 +70,7 @@ According to parallax method, the actual distance is inversely proportional to t
 ## Using the Program
 -------------------------
 
-### Program file structure
---------------
-![File-system_image](documentation/filesystem.png)
+
 
 ### Modes of running the program
 

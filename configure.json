@@ -1,0 +1,39 @@
+{
+    "Program Execution" :
+    {
+        "DebugMode"                     : true,
+        "RunningMode"                   :"commandline",
+        "ExeMode"                       :"DEV"
+    },
+
+
+    "General Settings"  :
+    {
+        "DefaultInput"                  :"samples/rendered.mp4",
+
+        "RegionOfInterest_x"            :50,
+        "RegionOfInterest_y"            :50,
+        "RegionOfInterest_width"        :100,
+        "RegionOfInterest_height"       :30
+    },
+
+    "Laser Ranging Settings":
+    {
+        "SingleLaser"                   :true,
+        "UseWhite"                      :true,
+        "UseDehaze"                     :true,
+        "DynamicControl"                :true,
+        "HueHighLimit"                  :170,
+        "HueLowLimit"                   :5,
+        "SaturationHighLimit"           :255,
+        "SaturationLowLimit"            :115,
+        "ValueHighLimit"                :255,
+        "ValueLowLimit"                 :100
+    },
+    
+    "Laser Calibration Settings" :
+    {
+        "CalibrationDistance"           :500
+    }
+    
+}

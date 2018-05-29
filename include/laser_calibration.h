@@ -16,7 +16,7 @@ class LaserCalibration : public LaserRanging
     protected:
 
     public:
-        bool calib_trigger,calib_cancel,calibration_status;
+        bool calib_trigger,calib_cancel,calibration_status,debug_mode;
         float calibration_distance;
         cv::Rect region_of_interes;
 

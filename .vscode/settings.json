@@ -32,6 +32,17 @@
         "slist": "cpp",
         "csignal": "cpp",
         "system_error": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "strstream": "cpp",
+        "complex": "cpp",
+        "cwctype": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "memory": "cpp",
+        "mutex": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp"
     }
 }
