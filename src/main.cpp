@@ -23,13 +23,14 @@
 
 int main(int argc, char **argv) //The main Function
 {
-    bool debug_mode, single_laser_status;
+    bool debug_mode, single_laser_status,image_stream_mode;
     std::string running_mode, execution_mode, default_input;
     int roi_x, roi_y, roi_height, roi_width;
     int hue_high, hue_low, sat_high, sat_low, val_high, val_low; //for changing roi in image_stream
     bool dev_mode = false;                                       //developer mode control
     bool exe_mode = false;                                       //execution mode control
     bool use_white, use_dehaze, dynamic_control;
+    int distance_between_lasers;
 
     int success = chdir("..");
     Logger logger;
@@ -65,6 +66,7 @@ int main(int argc, char **argv) //The main Function
         roi_height = configuration_file["General Settings"]["RegionOfInterest_height"].GetInt();
         default_input = configuration_file["General Settings"]["DefaultInput"].GetString();
 
+        image_stream_mode = configuration_file["Laser Ranging Settings"]["ImageStreamMode"].GetBool();
         single_laser_status = configuration_file["Laser Ranging Settings"]["SingleLaser"].GetBool();
         use_white = configuration_file["Laser Ranging Settings"]["UseWhite"].GetBool();
         use_dehaze = configuration_file["Laser Ranging Settings"]["UseDehaze"].GetBool();
@@ -75,6 +77,8 @@ int main(int argc, char **argv) //The main Function
         sat_low = configuration_file["Laser Ranging Settings"]["SaturationLowLimit"].GetInt();
         val_high = configuration_file["Laser Ranging Settings"]["ValueHighLimit"].GetInt();
         val_low = configuration_file["Laser Ranging Settings"]["ValueLowLimit"].GetInt();
+        distance_between_lasers = configuration_file["Laser Ranging Settings"]["DistanceBetweenLasers"].GetInt();
+
     }
     catch (...)
     {
@@ -88,16 +92,18 @@ int main(int argc, char **argv) //The main Function
            "Running the Program in %s in %s with Debug status : %d \n\n"
            "General Settings\n"
            "The Region of Interset is selected as (%d,%d,%d,%d)\n\n"
-           "The Default input file is %s\n"
+           "The Default input file is %s\n\n"
            "Laser Ranging Settings\n"
+           "Image Stream Mode status is %d\n"
            "Single Laser status is %d\n"
            "White use status is %d\n"
            "Dehaze use status is %d\n"
            "Dynamic Control status is %d\n"
            "Hue high limit is %d and low limit is %d\n"
            "Saturarion high limit is %d and low limit is %d\n"
-           "Value high limit is %d and low limit is %d\n\n",
-           running_mode.c_str(), execution_mode.c_str(), debug_mode, roi_x, roi_y, roi_width, roi_height, default_input.c_str(), single_laser_status, use_white, use_dehaze, dynamic_control, hue_high, hue_low, sat_high, sat_low, val_high, val_low);
+           "Value high limit is %d and low limit is %d\n"
+           "The distance between laser pointers are taken as %d\n\n",
+           running_mode.c_str(), execution_mode.c_str(), debug_mode, roi_x, roi_y, roi_width, roi_height, default_input.c_str(),image_stream_mode, single_laser_status, use_white, use_dehaze, dynamic_control, hue_high, hue_low, sat_high, sat_low, val_high, val_low,distance_between_lasers);
 
     LaserRanging Ranger;
     cv::Mat image_stream;
@@ -108,6 +114,7 @@ int main(int argc, char **argv) //The main Function
     Ranger.use_dynamic_control = dynamic_control;
     Ranger.set_roi(roi_x, roi_y, roi_width, roi_height);
     Ranger.set_threshold(hue_low, hue_high, sat_low, sat_high, val_low, val_high);
+    Ranger.distance_between_laser = distance_between_lasers;
 
     logger.debug_mode = debug_mode;
 
@@ -117,7 +124,7 @@ int main(int argc, char **argv) //The main Function
     }
     else if (execution_mode == "EXE")
     {
-        exe_mode = true;
+        dev_mode = false;
     }
     else
         logger.log_warn("Undefined execution mode");
@@ -125,7 +132,7 @@ int main(int argc, char **argv) //The main Function
     if (running_mode == "commandline")
     {
 
-        if (!exe_mode)
+        if (!image_stream_mode)
         {
             logger.log_debug("Developer mode selected");
             std::string filename; // checking the extension if argument passed is string

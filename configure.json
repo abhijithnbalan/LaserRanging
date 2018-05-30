@@ -28,7 +28,8 @@
         "SaturationHighLimit"           :255,
         "SaturationLowLimit"            :115,
         "ValueHighLimit"                :255,
-        "ValueLowLimit"                 :100
+        "ValueLowLimit"                 :100,
+        "DistanceBetweenLasers"         :100
     },
 
     "Laser Calibration Settings" :
